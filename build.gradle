@@ -37,9 +37,9 @@ dependencies {
     compile ctre()
     compile navx()
     compile openrio.powerup.matchData()
-    compile "org.team5940.pantry:Logging:0.0.0"
-    compile "org.team5940.pantry:Processing_Network:0.0.0"
-    compile "org.team5940.pantry.processing_network:WPILib_Integration:0.0.0"
+    compile "org.team5940:Pantry-Logging:0.0.0"
+    compile "org.team5940:Pantry-Processing_Network:0.0.0"
+    compile "org.team5940:Pantry-Processing_Network-WPILib_Integration:0.0.0"
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
