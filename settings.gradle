@@ -1,2 +1,3 @@
 includeBuild '../Pantry-Logging/'
 includeBuild '../Pantry-Processing_Network/'
+includeBuild '../Pantry-Processing_Network-WPILib_Integration/'
