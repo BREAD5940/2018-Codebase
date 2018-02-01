@@ -29,6 +29,7 @@ import org.team5940.pantry.processing_network.wpilib.systems.controller_layouts.
 import org.team5940.pantry.processing_network.wpilib.systems.encoder_conversion.EncoderToMeasurementNodeGroup;
 import org.team5940.pantry.processing_network.wpilib.systems.encoder_conversion.MeasurementToEncoderValueNode;
 import org.team5940.pantry.processing_network.functional.MultiplicationValueNode;
+import org.team5940.pantry.processing_network.functional.TimerValueNode;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -159,7 +160,14 @@ public class Robot extends IterativeRobot {
 		
 		ConstantValueNode<AutonomousAction[]> autoPlan = new ConstantValueNode<AutonomousAction[]>(network, logger, "Auto Plan", autoPlanActions);
 		
-		AutoPlanFollower currentActionNode = new AutoPlanFollower(network, logger, "Auto Plan Follower", autoPlan);
+		
+		TalonSRXEncoderPositionValueNode encoderPosition = new TalonSRXEncoderPositionValueNode(network, logger, "Right Position", masterRight);
+		
+		EncoderToMeasurementNodeGroup rightEncoderMeasurement = new EncoderToMeasurementNodeGroup(network, logger, "Right Encoder to Position", encoderPosition, distancePulsesPerRotation, wheelDiameter);
+		
+		
+		
+		AutoPlanFollower currentActionNode = new AutoPlanFollower(network, logger, "Auto Plan Follower", autoPlan, new TimerValueNode(network, logger, "Auton Controller Timer"), rightEncoderMeasurement.getMeasurementValueNode(), );
 		
 		TalonSRXControlModeValueNode controlMode = new TalonSRXControlModeValueNode(network, logger, "Drive Train Control Mode", robotState, currentActionNode);
 		
