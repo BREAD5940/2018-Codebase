@@ -15,7 +15,6 @@ public class TurnAction implements AutonomousAction {
 		return this.angle;
 	}
 
-	@Override
 	public double getElevatorHeight() {
 		return this.elevatorHeight;
 	}
