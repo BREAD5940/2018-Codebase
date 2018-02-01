@@ -1,6 +1,5 @@
 package frc.team5940.codebase2018.robot.autonomous;
 
-import java.util.List;
 
 import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.processing_network.Network;
@@ -8,14 +7,14 @@ import org.team5940.pantry.processing_network.ValueNode;
 
 public class AutoPlanFollower extends ValueNode<AutonomousAction> {
 
-	ValueNode<? extends List<AutonomousAction>> autoPlanValueNode;
+	ValueNode<? extends AutonomousAction[]> autoPlanValueNode;
 
-	List<AutonomousAction> currentList;
+	AutonomousAction[] currentArray;
 
 	int currentActionIndex = 0;
 
 	public AutoPlanFollower(Network network, Logger logger, String label,
-			ValueNode<? extends List<AutonomousAction>> autoPlanValueNode)
+			ValueNode<? extends AutonomousAction[]> autoPlanValueNode)
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label, autoPlanValueNode);
 
@@ -24,12 +23,13 @@ public class AutoPlanFollower extends ValueNode<AutonomousAction> {
 
 	@Override
 	protected AutonomousAction updateValue() {
-		if (!autoPlanValueNode.getValue().equals(this.currentList)) {
-			this.currentList = autoPlanValueNode.getValue();
+		if (!autoPlanValueNode.getValue().equals(this.currentArray)) {
+			this.currentArray = autoPlanValueNode.getValue();
 			this.currentActionIndex = 0;
 		}
-		AutonomousAction currentAction = this.currentList.get(currentActionIndex);
+		AutonomousAction currentAction = this.currentArray[currentActionIndex];
 
+		// TODO
 		if (currentAction instanceof DeliverCubeAction) {
 
 		} else if (currentAction instanceof MoveForwardAction) {
@@ -38,7 +38,7 @@ public class AutoPlanFollower extends ValueNode<AutonomousAction> {
 
 		}
 
-		return null;
+		return currentAction;
 	}
 
 }
