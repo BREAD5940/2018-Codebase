@@ -4,4 +4,6 @@ public interface AutonomousAction {
 	
 	public double getValue();
 	
+	public double getElevatorHeight();
+	
 }
