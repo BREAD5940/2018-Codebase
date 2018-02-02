@@ -2,7 +2,6 @@ package frc.team5940.codebase2018.robot.autonomous;
 
 public class MoveForwardAction implements AutonomousAction {
 	
-	double distanceMove; 
 	double distance;
 	double elevatorHeight;
 	
@@ -10,12 +9,16 @@ public class MoveForwardAction implements AutonomousAction {
 		this.distance = distance;
 		this.elevatorHeight = elevatorHeight;
 	}
+<<<<<<< HEAD
 	
 	public MoveForwardAction(double distance) {
 		this.distance = distance; 
 	}
 	
 	
+=======
+
+>>>>>>> 257abb5794c34cd532d72896c45d9eb465b74de6
 	@Override
 	public double getValue() {
 		return this.distance;

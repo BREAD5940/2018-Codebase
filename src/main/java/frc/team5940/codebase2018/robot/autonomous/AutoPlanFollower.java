@@ -1,24 +1,25 @@
 package frc.team5940.codebase2018.robot.autonomous;
 
 
-import java.util.List;
-
 import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 
 public class AutoPlanFollower extends ValueNode<AutonomousAction> {
 
-	ValueNode<? extends List<AutonomousAction>> autoPlanValueNode;
+	ValueNode<? extends AutonomousAction[]> autoPlanValueNode;
 
-	List<AutonomousAction> autonomousPath;
+	AutonomousAction[] currentArray;
 
 	int currentActionIndex = 0;
 
+<<<<<<< HEAD
 	MoveForwardAction driveForward = new MoveForwardAction(11); 
 	
+=======
+>>>>>>> 257abb5794c34cd532d72896c45d9eb465b74de6
 	public AutoPlanFollower(Network network, Logger logger, String label,
-			ValueNode<? extends List<AutonomousAction>> autoPlanValueNode)
+			ValueNode<? extends AutonomousAction[]> autoPlanValueNode)
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label, autoPlanValueNode);
 
@@ -27,11 +28,11 @@ public class AutoPlanFollower extends ValueNode<AutonomousAction> {
 
 	@Override
 	protected AutonomousAction updateValue() {
-		if (!autoPlanValueNode.getValue().equals(this.autonomousPath)) {
-			this.autonomousPath = autoPlanValueNode.getValue();
+		if (!autoPlanValueNode.getValue().equals(this.currentArray)) {
+			this.currentArray = autoPlanValueNode.getValue();
 			this.currentActionIndex = 0;
 		}
-		AutonomousAction currentAction = this.autonomousPath.get(currentActionIndex);
+		AutonomousAction currentAction = this.currentArray[currentActionIndex];
 
 		// TODO
 		if (currentAction instanceof DeliverCubeAction) {
@@ -44,6 +45,7 @@ public class AutoPlanFollower extends ValueNode<AutonomousAction> {
 
 		return currentAction;
 	}
+<<<<<<< HEAD
 	
 	public enum AutoPathsLeft{
 		AUTO_LINE(new MoveForwardAction(11)), 
@@ -68,4 +70,7 @@ public class AutoPlanFollower extends ValueNode<AutonomousAction> {
 	
 	}
 			
+=======
+
+>>>>>>> 257abb5794c34cd532d72896c45d9eb465b74de6
 }
