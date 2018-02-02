@@ -16,6 +16,7 @@ public class AutoPlanFollower extends ValueNode<AutonomousAction> {
 	int currentActionIndex = 0;
 
 	MoveForwardAction driveForward = new MoveForwardAction(11); 
+	
 	public AutoPlanFollower(Network network, Logger logger, String label,
 			ValueNode<? extends List<AutonomousAction>> autoPlanValueNode)
 			throws IllegalArgumentException, IllegalStateException {
@@ -44,8 +45,27 @@ public class AutoPlanFollower extends ValueNode<AutonomousAction> {
 		return currentAction;
 	}
 	
-	public void autoLinePath1(){
-		autonomousPath.add(driveForward); 
-	}
+	public enum AutoPathsLeft{
+		AUTO_LINE(new MoveForwardAction(11)), 
+		PLACE_SWITCH(new MoveForwardAction(14), new TurnAction(90), new MoveForwardAction(1), new DeliverCubeAction(1)), 
+		PLACE_SCALE(new MoveForwardAction(27), new TurnAction(90), new MoveForwardAction(1), new DeliverCubeAction(7));
 
+		AutoPathsLeft(AutonomousAction... actions) {
+			
+		}  
+	}
+	//TODO differentiate between 90 l and r 
+	public enum AutoPathsCenter{
+		AUTO_LINE(new MoveForwardAction(11)), 
+		PLACE_SWITCH_LEFT(new MoveForwardAction(4),/*left*/ new TurnAction(90), new MoveForwardAction(4.5),/*right*/ new TurnAction(6), new DeliverCubeAction(1)), 
+		PLACE_SWITCH_RIGHT(new MoveForwardAction(4),/*right*/ new TurnAction(90), new MoveForwardAction(4.5),/*left*/ new TurnAction(6), new DeliverCubeAction(1));  
+		;
+
+		AutoPathsCenter(AutonomousAction... actions) {
+			
+		}  
+	//TODO MAKE AUTOPATHSRIGHT MY DUDE	
+	
+	}
+			
 }

@@ -11,13 +11,11 @@ public class MoveForwardAction implements AutonomousAction {
 		this.elevatorHeight = elevatorHeight;
 	}
 	
-	public MoveForwardAction(double distanceToMove) {
-		distanceMove = distanceToMove; 
+	public MoveForwardAction(double distance) {
+		this.distance = distance; 
 	}
 	
-	public void move(double distanceToMove) {
-		distanceMove = distanceToMove; 
-	}
+	
 	@Override
 	public double getValue() {
 		return this.distance;

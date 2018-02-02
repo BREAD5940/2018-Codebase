@@ -10,6 +10,9 @@ public class TurnAction implements AutonomousAction {
 		this.elevatorHeight = elevatorHeight;
 	}
 
+	public TurnAction(int angle) {
+		this.angle = angle;
+	}
 	@Override
 	public double getValue() {
 		return this.angle;
