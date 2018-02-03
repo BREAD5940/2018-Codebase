@@ -5,14 +5,14 @@ package frc.team5940.codebase2018.robot.autonomous;
  */
 public class SetElevatorAutoAction {
 
-    ElevatorDependentAutoAction.ElevatorHeights height;
+    ElevatorDependentAutoAction.ElevatorHeight height;
 
     /**
      * Initializes this action.
      * @param height The height to set the elevator to.
      * @throws IllegalArgumentException height is null.
      */
-    public SetElevatorAutoAction(ElevatorDependentAutoAction.ElevatorHeights height) throws IllegalArgumentException {
+    public SetElevatorAutoAction(ElevatorDependentAutoAction.ElevatorHeight height) throws IllegalArgumentException {
         if(height == null) {
             throw new IllegalArgumentException("height is null");
         }
@@ -23,7 +23,7 @@ public class SetElevatorAutoAction {
      * Returns the height the the elevator should be set to.
      * @return Some value from ElevatorDependentAutoAction's ElevatorHeights enum.
      */
-    public ElevatorDependentAutoAction.ElevatorHeights getElevatorSetHeight() {
+    public ElevatorDependentAutoAction.ElevatorHeight getElevatorSetHeight() {
         return this.height;
     }
 }
