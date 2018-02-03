@@ -147,7 +147,7 @@ public class Robot extends IterativeRobot {
 
 		ConstantValueNode<ControlMode> elevatorControlMode = new ConstantValueNode<ControlMode>(network, logger,
 				"Elevator Control Mode", ControlMode.Position);
-
+		//TODO Bounds need to be put on the inputs to the motor node to that it doesn't try to go past endstops...
 		new TalonSRXNode(network, logger, "Elevator Talon", true, elevatorControlMode,
 				encoderElevatorNodeGroup.getEncoderPulsesValueNode(), masterElevatorTalon);
 
