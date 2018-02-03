@@ -1,4 +1,4 @@
-package frc.team5940.codebase2018.robot.autonomous;
+package frc.team5940.codebase2018.robot.autonomous.actions;
 
 /**
  * This action causes the robot to outtake the cube, after the elevator reaches

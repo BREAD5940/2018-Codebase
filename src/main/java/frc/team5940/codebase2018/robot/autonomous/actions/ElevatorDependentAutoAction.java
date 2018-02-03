@@ -1,6 +1,7 @@
-package frc.team5940.codebase2018.robot.autonomous;
+package frc.team5940.codebase2018.robot.autonomous.actions;
 
 import frc.team5940.codebase2018.robot.RobotConfig;
+import frc.team5940.codebase2018.robot.autonomous.AutoPlanFollower;
 
 /**
  * An interface to represent an auto action that requires the elevator to be in

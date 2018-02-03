@@ -1,4 +1,4 @@
-package frc.team5940.codebase2018.robot.autonomous;
+package frc.team5940.codebase2018.robot.autonomous.actions;
 
 /**
  * An {@link AutoAction} for turning some number of pre-defined degrees.

@@ -1,4 +1,4 @@
-package frc.team5940.codebase2018.robot.autonomous;
+package frc.team5940.codebase2018.robot.autonomous.actions;
 
 /**
  * An {@link AutoAction} for driving some number of pre-defined feet forward or backward.
