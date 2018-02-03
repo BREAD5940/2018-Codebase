@@ -8,9 +8,9 @@ import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode.R
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-import frc.team5940.codebase2018.robot.autonomous.AutonomousAction;
-import frc.team5940.codebase2018.robot.autonomous.MoveForwardAction;
-import frc.team5940.codebase2018.robot.autonomous.TurnAction;
+import frc.team5940.codebase2018.robot.autonomous.actions.AutoAction;
+import frc.team5940.codebase2018.robot.autonomous.actions.DriveAutoAction;
+import frc.team5940.codebase2018.robot.autonomous.actions.TurnAutoAction;
 
 /**
  * This ValueNode will return the current ControlMode of the drivetrain talons
@@ -23,7 +23,7 @@ import frc.team5940.codebase2018.robot.autonomous.TurnAction;
  * @author Michael Bentley
  *
  */
-public class TalonSRXControlModeValueNode extends ValueNode<ControlMode> {
+public class DrivetrainTalonSRXControlModeValueNode extends ValueNode<ControlMode> {
 
 	/**
 	 * The current state of the robot.
@@ -33,7 +33,7 @@ public class TalonSRXControlModeValueNode extends ValueNode<ControlMode> {
 	/**
 	 * The current action of the robot for autonomous.
 	 */
-	ValueNode<? extends AutonomousAction> currentActionValueNode;
+	ValueNode<? extends AutoAction> currentActionValueNode;
 
 	/**
 	 * Creates a new TalonSRXModeValueNode.
@@ -49,8 +49,8 @@ public class TalonSRXControlModeValueNode extends ValueNode<ControlMode> {
 	 * @param currentActionValueNode
 	 *            The current autonomous action.
 	 */
-	public TalonSRXControlModeValueNode(Network network, Logger logger, String label, RobotStateValueNode robotState,
-			ValueNode<? extends AutonomousAction> currentActionValueNode)
+	public DrivetrainTalonSRXControlModeValueNode(Network network, Logger logger, String label,
+			RobotStateValueNode robotState, ValueNode<? extends AutoAction> currentActionValueNode)
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label, robotState, currentActionValueNode);
 		this.robotState = robotState;
@@ -60,9 +60,9 @@ public class TalonSRXControlModeValueNode extends ValueNode<ControlMode> {
 	@Override
 	protected ControlMode updateValue() {
 		if (robotState.getValue() == RobotState.AUTONOMOUS) {
-			if (currentActionValueNode.getValue() instanceof MoveForwardAction) {
+			if (currentActionValueNode.getValue() instanceof DriveAutoAction) {
 				return ControlMode.Position;
-			} else if (currentActionValueNode.getValue() instanceof TurnAction) {
+			} else if (currentActionValueNode.getValue() instanceof TurnAutoAction) {
 				return ControlMode.PercentOutput;
 			}
 		}
