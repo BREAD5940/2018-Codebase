@@ -1,4 +1,8 @@
 includeBuild '../Pantry-Logging/'
 includeBuild '../Pantry-Processing_Network/'
 includeBuild '../Pantry-Processing_Network-WPILib_Integration/'
+
 includeBuild '../Pantry-Processing_Network-CTRE_Integration/'
+
+includeBuild '../Pantry-Processing_Network-CTRE_Integration/'
+
