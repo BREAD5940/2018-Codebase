@@ -6,10 +6,9 @@ import org.team5940.pantry.processing_network.ValueNode;
 
 import frc.team5940.codebase2018.robot.autonomous.actions.AutoAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.DriveAutoAction;
+import frc.team5940.codebase2018.robot.autonomous.actions.ElevatorAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.EmptyAutonomousAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.OuttakeCubeAutoAction;
-import frc.team5940.codebase2018.robot.autonomous.actions.SetInstantElevatorAutoAction;
-import frc.team5940.codebase2018.robot.autonomous.actions.SetWaitElevatorHeightAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.TurnAutoAction;
 
 /**
@@ -140,13 +139,15 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 			if (withinMargin(robotAngleValueNode.getValue(), targetAngle, 2)) {
 				currentAction = nextAction();
 			}
-		} else if (currentAction instanceof SetInstantElevatorAutoAction) {
-			// Immediately jumps to the next action so the robot can do other things while
-			// adjusting the height.
-			currentAction = nextAction();
-		} else if (currentAction instanceof SetWaitElevatorHeightAutoAction) {
-			if (withinMargin(this.elevatorHeightValueNode.getValue(),
-					((SetWaitElevatorHeightAutoAction) currentAction).getSetElevatorHeight().getHeight(), 0.05)) {
+		} else if (currentAction instanceof ElevatorAutoAction) {
+			if (((ElevatorAutoAction) currentAction).getWait()) {
+				if (withinMargin(this.elevatorHeightValueNode.getValue(),
+						((ElevatorAutoAction) currentAction).getSetElevatorHeight().getHeight(), 0.05)) {
+					currentAction = nextAction();
+				}
+			} else {
+				// Immediately jumps to the next action so the robot can do other things while
+				// adjusting the height.
 				currentAction = nextAction();
 			}
 		}

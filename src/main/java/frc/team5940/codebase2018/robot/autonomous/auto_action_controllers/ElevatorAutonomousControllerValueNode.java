@@ -5,7 +5,7 @@ import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 
 import frc.team5940.codebase2018.robot.autonomous.actions.AutoAction;
-import frc.team5940.codebase2018.robot.autonomous.actions.ElevatorAction;
+import frc.team5940.codebase2018.robot.autonomous.actions.ElevatorAutoAction;
 
 /**
  * This will return the set height of the elevator during autonomous. This will
@@ -48,8 +48,8 @@ public class ElevatorAutonomousControllerValueNode extends ValueNode<Double> {
 	@Override
 	protected Double updateValue() {
 		AutoAction currentAction = this.currentActionValueNode.getValue();
-		if (currentAction instanceof ElevatorAction) {
-			this.setElevatorHeight = ((ElevatorAction) currentAction).getSetElevatorHeight().getHeight();
+		if (currentAction instanceof ElevatorAutoAction) {
+			this.setElevatorHeight = ((ElevatorAutoAction) currentAction).getSetElevatorHeight().getHeight();
 		}
 		return this.setElevatorHeight;
 	}
