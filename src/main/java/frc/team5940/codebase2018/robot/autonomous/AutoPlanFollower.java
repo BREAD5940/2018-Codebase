@@ -8,7 +8,8 @@ import frc.team5940.codebase2018.robot.autonomous.actions.AutoAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.DriveAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.EmptyAutonomousAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.OuttakeCubeAutoAction;
-import frc.team5940.codebase2018.robot.autonomous.actions.SetElevatorAutoAction;
+import frc.team5940.codebase2018.robot.autonomous.actions.SetInstantElevatorAutoAction;
+import frc.team5940.codebase2018.robot.autonomous.actions.SetWaitElevatorHeightAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.TurnAutoAction;
 
 /**
@@ -72,6 +73,11 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 	long previousTime;
 
 	/**
+	 * The current height of the elevator.
+	 */
+	ValueNode<? extends Double> elevatorHeightValueNode;
+
+	/**
 	 * Creates an AutoPlanFollower.
 	 * 
 	 * @param network
@@ -86,15 +92,20 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 	 *            The ValueNode that returns the distance the robot has traveled.
 	 * @param robotAngleValueNode
 	 *            The angle the robot is currently facing.
+	 * @param elevatorHeightValueNode
+	 *            The current height of the elevator.
 	 */
 	public AutoPlanFollower(Network network, Logger logger, String label,
 			ValueNode<? extends AutoAction[]> autoPlanValueNode, ValueNode<? extends Double> robotDistanceValueNode,
-			ValueNode<? extends Double> robotAngleValueNode) throws IllegalArgumentException, IllegalStateException {
-		super(network, logger, label, autoPlanValueNode, robotDistanceValueNode, robotAngleValueNode);
+			ValueNode<? extends Double> robotAngleValueNode, ValueNode<? extends Double> elevatorHeightValueNode)
+			throws IllegalArgumentException, IllegalStateException {
+		super(network, logger, label, autoPlanValueNode, robotDistanceValueNode, robotAngleValueNode,
+				elevatorHeightValueNode);
 
 		this.robotAngleValueNode = robotAngleValueNode;
 		this.robotDistanceValueNode = robotDistanceValueNode;
 		this.autoPlanValueNode = autoPlanValueNode;
+		this.elevatorHeightValueNode = elevatorHeightValueNode;
 	}
 
 	@Override
@@ -113,6 +124,7 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 
 		// Checks if the current action is complete. If it is then this returns the next
 		// action.
+
 		if (currentAction instanceof OuttakeCubeAutoAction) {
 			// Updates the current time for the built in timer.
 			this.timerTime = this.timerTime - (System.currentTimeMillis() - this.previousTime);
@@ -128,10 +140,15 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 			if (withinMargin(robotAngleValueNode.getValue(), targetAngle, 2)) {
 				currentAction = nextAction();
 			}
-		} else if (currentAction instanceof SetElevatorAutoAction) {
+		} else if (currentAction instanceof SetInstantElevatorAutoAction) {
 			// Immediately jumps to the next action so the robot can do other things while
 			// adjusting the height.
 			currentAction = nextAction();
+		} else if (currentAction instanceof SetWaitElevatorHeightAutoAction) {
+			if (withinMargin(this.elevatorHeightValueNode.getValue(),
+					((SetWaitElevatorHeightAutoAction) currentAction).getSetElevatorHeight().getHeight(), 0.05)) {
+				currentAction = nextAction();
+			}
 		}
 		return currentAction;
 	}
