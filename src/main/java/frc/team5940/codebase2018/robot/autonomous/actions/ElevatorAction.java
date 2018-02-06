@@ -10,12 +10,14 @@ import frc.team5940.codebase2018.robot.autonomous.AutoPlanFollower;
  * position before accomplishing an action that implements this. This interface
  * also includes the enum used to specify what elevator height is desired.
  */
-public interface ElevatorDependentAutoAction extends AutoAction {
+public abstract class ElevatorAction implements AutoAction {
+
+	ElevatorHeight setElevatorHeight;
 
 	/**
 	 * The available heights that the elevator can be set to.
 	 */
-	enum ElevatorHeight {
+	public enum ElevatorHeight {
 		DOWN(0), SWITCH(2), SCALE(RobotConfig.MAX_ELEVATOR_HEIGHT);
 
 		double height;
@@ -29,11 +31,20 @@ public interface ElevatorDependentAutoAction extends AutoAction {
 		}
 	}
 
+	public ElevatorAction(ElevatorHeight setElevatorHeight) {
+		if (setElevatorHeight == null) {
+			throw new IllegalArgumentException("height is null");
+		}
+		this.setElevatorHeight = setElevatorHeight;
+	}
+
 	/**
 	 * Returns the height that the elevator must be set to and have reached before
 	 * this action is executed.
 	 * 
 	 * @return A value from {@link ElevatorHeight}.
 	 */
-	public ElevatorHeight getRequiredElevatorHeight();
+	public ElevatorHeight getSetElevatorHeight() {
+		return setElevatorHeight;
+	}
 }
