@@ -20,6 +20,8 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 
 	SendableChooser<RobotLocation> robotLoc;
 	RobotLocation prevRobotLoc = null;
+	ArrayList<AutoPath> autoPaths = new ArrayList<AutoPath>(); 
+	public static final boolean ROBOT_AUTONOMOUS_WORKS = false;  
 	
 	public AutoPathSelect(Network network, Logger logger, ValueNode<Enum<? extends AutoPath>>[] sourcesArray, String fmsReturn)
 			throws IllegalArgumentException, IllegalStateException {
@@ -39,22 +41,26 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 	}
 	
 	public enum AutoPath {
-		AUTO_LINE("Left AutoLine", RobotLocation.LEFT, new DriveAutoAction(11)), 
-		LEFT_PLACE_SWITCH("Place Switch From Left", RobotLocation.LEFT,new DriveAutoAction(14), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
-		LEFT_PLACE_SCALE("Place Scale From Left",RobotLocation.LEFT, new DriveAutoAction(27), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SCALE)),
-		CENTER_PLACE_SWITCH_LEFT("Place Left Switch From Center", RobotLocation.CENTER, new DriveAutoAction(4),/*left*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*right*/ new TurnAutoAction(6), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
-		CENTER_PLACE_SWITCH_RIGHT("Place Right Switch From Center", RobotLocation.CENTER, new DriveAutoAction(4),/*right*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*left*/ new TurnAutoAction(6), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH));
-		
+		AUTO_LINE("Left AutoLine", "XXX", RobotLocation.LEFT, new DriveAutoAction(11)), 
+		LEFT_PLACE_SWITCH("Place Switch From Left","LXX", RobotLocation.LEFT,new DriveAutoAction(14), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
+		LEFT_PLACE_SCALE("Place Scale From Left","XLX", RobotLocation.LEFT, new DriveAutoAction(27), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SCALE)),
+		CENTER_PLACE_SWITCH_LEFT("Place Left Switch From Center","LXX", RobotLocation.CENTER, new DriveAutoAction(4),/*left*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*right*/ new TurnAutoAction(6), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
+		CENTER_PLACE_SWITCH_RIGHT("Place Right Switch From Center","RXX", RobotLocation.CENTER, new DriveAutoAction(4),/*right*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*left*/ new TurnAutoAction(6), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH));
+		//TODO add right side auto pathz 
 		AutoAction[] actions;
 		String key; 
 		RobotLocation roboLoc; 
-		AutoPath( String key, RobotLocation roboLoc, AutoAction... actions) {
+		String fieldRex;
+		AutoPath( String key, String fieldRex, RobotLocation roboLoc, AutoAction... actions) {
 			this.actions = actions; 
 			this.key = key; 
 			this.roboLoc = roboLoc; 
-			
+			this.fieldRex = fieldRex; 
 		}	
 		
+		public String getFieldRex() {
+			return fieldRex;
+		}
 		public String getKey() {
 			return key;
 		
@@ -68,6 +74,39 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 		}
 		//TODO make the right side auto paths
 	}
+	
+	public boolean pathWorks(String fms, String path) {
+		for(int i  = 0; i < fms.length(); i++) {
+			if(fms.charAt(i) != path.charAt(i) && path.charAt(i) != 'X'){
+				return false; 
+			}
+		}
+		return true; 
+	}
+	
+	
+	public AutoPath[] prioritySort(ArrayList<AutoPath> paths) {
+		AutoPath[] auto = new AutoPath[paths.size()]; 
+		int largestPriorIndex = 0; 
+		
+		for(int i = 0; i < auto.length; i++) {
+			
+			for(int j = 0; j < paths.size(); j++) {
+				
+				if(Integer.parseInt(SmartDashboard.getString(paths.get(j).getKey(), "0")) > Integer.parseInt(SmartDashboard.getString(paths.get(largestPriorIndex).getKey(), "0")) ) {
+					
+					largestPriorIndex = j; 
+				}
+				
+				
+			}
+			auto[i] = paths.get(largestPriorIndex); 
+			paths.remove(largestPriorIndex); 
+			largestPriorIndex = 0; 
+		}
+		return auto; 
+	}
+	
 	
 	@Override
 	public boolean requiresUpdate() {
@@ -90,7 +129,7 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 			}
 		}
 		
-		ArrayList<AutoPath> autoPaths = new ArrayList<AutoPath>(); 
+		
 		
 		for(AutoPath path : AutoPath.values()) {
 			try {
@@ -104,6 +143,7 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 
 		
 		if(robotLoc.getSelected() == RobotLocation.CENTER) {
+			
 			
 		}else if(robotLoc.getSelected() == RobotLocation.LEFT) {
 			

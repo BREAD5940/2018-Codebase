@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 	Joystick primaryJoystick = new Joystick(0);
 	Joystick secondaryJoystick = new Joystick(1);
 
+	public static final boolean ROBOT_WORKS = false; 
 	Network network;
 
 	// Logger logger = new PrintStreamLogger(System.out);
