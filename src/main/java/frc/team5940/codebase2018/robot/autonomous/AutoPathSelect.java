@@ -7,6 +7,8 @@ import org.team5940.pantry.logging.messages.events.WarningEventMessage;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 
+import com.google.gson.JsonArray;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.AutoPathSelect.AutoPath;
@@ -21,9 +23,9 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 	SendableChooser<RobotLocation> robotLoc;
 	RobotLocation prevRobotLoc = null;
 	
-	public AutoPathSelect(Network network, Logger logger, ValueNode<Enum<? extends AutoPath>>[] sourcesArray, String fmsReturn)
+	public AutoPathSelect(Network network, Logger logger, JsonArray label, ValueNode<Enum<? extends AutoPath>>[] sourcesArray, String fmsReturn)
 			throws IllegalArgumentException, IllegalStateException {
-		super(network, logger, sourcesArray);
+		super(network, logger, label, sourcesArray);
 		
 		robotLoc = new SendableChooser<RobotLocation>(); 
 		robotLoc.addDefault("Center", RobotLocation.CENTER);
