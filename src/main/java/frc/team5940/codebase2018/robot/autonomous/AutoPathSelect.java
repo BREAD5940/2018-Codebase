@@ -44,7 +44,9 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 		AUTO_LINE("Left AutoLine", RobotLocation.LEFT, new DriveAutoAction(11)), 
 		LEFT_PLACE_SWITCH("Place Switch From Left", RobotLocation.LEFT,new DriveAutoAction(14), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
 		LEFT_PLACE_SCALE("Place Scale From Left",RobotLocation.LEFT, new DriveAutoAction(27), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SCALE)),
-		CENTER_PLACE_SWITCH_LEFT("Place Left Switch From Center", RobotLocation.CENTER, new DriveAutoAction(4),/*left*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*right*/ new TurnAutoAction(6), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
+		RIGHT_PLACE_SWITCH("Place Switch From Right", RobotLocation.RIGHT,new DriveAutoAction(14), new TurnAutoAction(-90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
+		RIGHT_PLACE_SCALE("Place Scale From Right",RobotLocation.RIGHT, new DriveAutoAction(27), new TurnAutoAction(-90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SCALE)),
+		CENTER_PLACE_SWITCH_LEFT("Place Left Switch From Center", RobotLocation.CENTER, new DriveAutoAction(4),/*left*/ new TurnAutoAction(-90), new DriveAutoAction(4.5),/*right*/ new TurnAutoAction(6), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
 		CENTER_PLACE_SWITCH_RIGHT("Place Right Switch From Center", RobotLocation.CENTER, new DriveAutoAction(4),/*right*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*left*/ new TurnAutoAction(6), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH));
 		
 		AutoAction[] actions;
