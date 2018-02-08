@@ -42,10 +42,10 @@ public interface RobotConfig {
 	public static final int DRIVETRAIN_SOLENOID_SHIFTING_REVERSE_CHANNEL = 7;
 
 	// TODO
-	public static final int INTAKE_SOLENOID_FORWARD_CHANNEL = 8;
+	public static final int INTAKE_SOLENOID_FORWARD_CHANNEL = 4;
 
 	// TODO
-	public static final int INTAKE_SOLENOID_REVERSE_CHANNEL = 9;
+	public static final int INTAKE_SOLENOID_REVERSE_CHANNEL = 5;
 
 	// TODO
 	public static final int LEFT_INTAKE_TALON_DEVICE_NUMBER = 5;
@@ -76,4 +76,7 @@ public interface RobotConfig {
 
 	// TODO
 	public static final float CIABATTA_LOW_GEAR_VELOCITY_F = 0.15f;
+
+	// TODO
+	public static final float WHEEL_DIAMETER = 3.5f / 12;
 }
