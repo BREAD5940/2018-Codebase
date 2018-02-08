@@ -7,12 +7,13 @@ import org.team5940.pantry.logging.messages.events.WarningEventMessage;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 
+import com.google.gson.JsonArray;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.AutoPathSelect.AutoPath;
 import frc.team5940.codebase2018.robot.autonomous.actions.AutoAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.DriveAutoAction;
-import frc.team5940.codebase2018.robot.autonomous.actions.ElevatorDependentAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.OuttakeCubeAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.actions.TurnAutoAction;
 
@@ -23,9 +24,9 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 	ArrayList<AutoPath> autoPaths = new ArrayList<AutoPath>(); 
 	public static final boolean ROBOT_AUTONOMOUS_WORKS = false;  
 	
-	public AutoPathSelect(Network network, Logger logger, ValueNode<Enum<? extends AutoPath>>[] sourcesArray, String fmsReturn)
+	public AutoPathSelect(Network network, Logger logger, JsonArray label, ValueNode<Enum<? extends AutoPath>>[] sourcesArray, String fmsReturn)
 			throws IllegalArgumentException, IllegalStateException {
-		super(network, logger, sourcesArray);
+		super(network, logger, label, sourcesArray);
 		
 		robotLoc = new SendableChooser<RobotLocation>(); 
 		robotLoc.addDefault("Center", RobotLocation.CENTER);
@@ -41,12 +42,25 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 	}
 	
 	public enum AutoPath {
+<<<<<<< HEAD
 		AUTO_LINE("Left AutoLine", "XXX", RobotLocation.LEFT, new DriveAutoAction(11)), 
 		LEFT_PLACE_SWITCH("Place Switch From Left","LXX", RobotLocation.LEFT,new DriveAutoAction(14), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
 		LEFT_PLACE_SCALE("Place Scale From Left","XLX", RobotLocation.LEFT, new DriveAutoAction(27), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SCALE)),
 		CENTER_PLACE_SWITCH_LEFT("Place Left Switch From Center","LXX", RobotLocation.CENTER, new DriveAutoAction(4),/*left*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*right*/ new TurnAutoAction(6), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH)), 
 		CENTER_PLACE_SWITCH_RIGHT("Place Right Switch From Center","RXX", RobotLocation.CENTER, new DriveAutoAction(4),/*right*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*left*/ new TurnAutoAction(6), new OuttakeCubeAutoAction(ElevatorDependentAutoAction.ElevatorHeight.SWITCH));
 		//TODO add right side auto pathz 
+=======
+		AUTO_LINE("Left AutoLine", RobotLocation.LEFT, new DriveAutoAction(11)), 
+		LEFT_PLACE_SWITCH("Place Switch From Left", RobotLocation.LEFT,new DriveAutoAction(14), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction()), 
+		LEFT_PLACE_SCALE("Place Scale From Left",RobotLocation.LEFT, new DriveAutoAction(27), new TurnAutoAction(90), new DriveAutoAction(1), new OuttakeCubeAutoAction()),
+		RIGHT_PLACE_SWITCH("Place Switch From Right", RobotLocation.RIGHT,new DriveAutoAction(14), new TurnAutoAction(-90), new DriveAutoAction(1), new OuttakeCubeAutoAction()), 
+		RIGHT_PLACE_SCALE("Place Scale From Right",RobotLocation.RIGHT, new DriveAutoAction(27), new TurnAutoAction(-90), new DriveAutoAction(1), new OuttakeCubeAutoAction()),
+		CENTER_PLACE_SWITCH_LEFT("Place Left Switch From Center", RobotLocation.CENTER, new DriveAutoAction(4),/*left*/ new TurnAutoAction(-90), new DriveAutoAction(4.5),/*right*/ new TurnAutoAction(6), new OuttakeCubeAutoAction()), 
+		CENTER_PLACE_SWITCH_RIGHT("Place Right Switch From Center", RobotLocation.CENTER, new DriveAutoAction(4),/*right*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*left*/ new TurnAutoAction(6), new OuttakeCubeAutoAction());
+		//#TODO: Fix elevator Args
+		
+		
+>>>>>>> b3ce07e2e13824f51a55db7a2ab30c60e65f0bd6
 		AutoAction[] actions;
 		String key; 
 		RobotLocation roboLoc; 

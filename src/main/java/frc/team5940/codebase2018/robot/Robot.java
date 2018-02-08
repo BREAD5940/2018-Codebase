@@ -13,14 +13,14 @@ import org.team5940.pantry.processing_network.ValueNode;
 import org.team5940.pantry.processing_network.ctre.output.TalonSRXNode;
 import org.team5940.pantry.processing_network.functional.ConstantValueNode;
 import org.team5940.pantry.processing_network.functional.MultiplexerValueNode;
+import org.team5940.pantry.processing_network.wpilib.input.HIDAxisValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode.RobotState;
-import org.team5940.pantry.processing_network.wpilib.input.controller.HIDAxisValueNode;
-import org.team5940.pantry.processing_network.wpilib.input.controller.controller_layouts.XBoxControllerLayout;
-import org.team5940.pantry.processing_network.wpilib.output.pneumatics.DoubleSolenoidNode;
+import org.team5940.pantry.processing_network.wpilib.output.DoubleSolenoidNode;
 import org.team5940.pantry.processing_network.wpilib.systems.MaxSpeedValueNode;
 import org.team5940.pantry.processing_network.wpilib.systems.ShiftingNodeGroup;
 import org.team5940.pantry.processing_network.wpilib.systems.VelocityControlNodeGroup;
+import org.team5940.pantry.processing_network.wpilib.systems.controller_layouts.XBoxControllerLayout;
 import org.team5940.pantry.processing_network.wpilib.systems.encoder_conversion.MeasurementToEncoderValueNode;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
