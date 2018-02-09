@@ -6,6 +6,7 @@ import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.logging.messages.events.WarningEventMessage;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
+import org.team5940.pantry.processing_network.wpilib.input.FMSGameMessageValueNode;
 
 import com.google.gson.JsonArray;
 
@@ -23,8 +24,9 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 	RobotLocation prevRobotLoc = null;
 	ArrayList<AutoPath> autoPaths = new ArrayList<AutoPath>(); 
 	public static final boolean ROBOT_AUTONOMOUS_WORKS = false;  
+	FMSGameMessageValueNode fmsReturn;
 	
-	public AutoPathSelect(Network network, Logger logger, JsonArray label, ValueNode<Enum<? extends AutoPath>>[] sourcesArray, String fmsReturn)
+	public AutoPathSelect(Network network, Logger logger, JsonArray label, ValueNode<Enum<? extends AutoPath>>[] sourcesArray, FMSGameMessageValueNode fmsReturn )
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label, sourcesArray);
 		
@@ -33,7 +35,7 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 		robotLoc.addObject("Left", RobotLocation.LEFT);
 		robotLoc.addObject("Right", RobotLocation.RIGHT);
 		SmartDashboard.putData("Robot Location Data", robotLoc);
-		
+		this.fmsReturn = fmsReturn; 
 		// TODO Auto-generated constructor stub
 	}
 
@@ -148,15 +150,22 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 			}
 		}
 
-		
-		if(robotLoc.getSelected() == RobotLocation.CENTER) {
-			
-			
-		}else if(robotLoc.getSelected() == RobotLocation.LEFT) {
-			
-		}else if(robotLoc.getSelected() == RobotLocation.RIGHT) {
-			
+		AutoPath[] sortedAutoPaths = this.prioritySort(autoPaths);
+		for(AutoPath path: sortedAutoPaths) {
+			if(this.pathWorks("this", path.getFieldRex())) {
+				
+			}
 		}
+		
+//		
+//		if(robotLoc.getSelected() == RobotLocation.CENTER) {
+//			
+//			
+//		}else if(robotLoc.getSelected() == RobotLocation.LEFT) {
+//			
+//		}else if(robotLoc.getSelected() == RobotLocation.RIGHT) {
+//			
+//		}
 
 		prevRobotLoc = this.robotLoc.getSelected();
 		// TODO Auto-generated method stub
