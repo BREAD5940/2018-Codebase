@@ -39,6 +39,7 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 		// TODO Auto-generated constructor stub
 	}
 
+	
 	public enum RobotLocation{
 		LEFT, CENTER, RIGHT; 
 	}
@@ -82,6 +83,10 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 			return actions;
 		}
 		//TODO make the right side auto paths
+	}
+	
+	public FMSGameMessageValueNode getFmsReturn() {
+		return fmsReturn;
 	}
 	
 	public boolean pathWorks(String fms, String path) {
@@ -152,11 +157,12 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 
 		AutoPath[] sortedAutoPaths = this.prioritySort(autoPaths);
 		for(AutoPath path: sortedAutoPaths) {
-			if(this.pathWorks("this", path.getFieldRex())) {
-				
+			if(this.pathWorks(this.getFmsReturn().toString(), path.getFieldRex())) {
+				return path; 
 			}
 		}
-		
+		prevRobotLoc = this.robotLoc.getSelected();
+		return null;
 //		
 //		if(robotLoc.getSelected() == RobotLocation.CENTER) {
 //			
@@ -167,8 +173,8 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 //			
 //		}
 
-		prevRobotLoc = this.robotLoc.getSelected();
+		
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }
