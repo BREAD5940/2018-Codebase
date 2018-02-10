@@ -2,6 +2,7 @@ package frc.team5940.codebase2018.robot.autonomous;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.Preferences;
 import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.logging.messages.events.WarningEventMessage;
 import org.team5940.pantry.processing_network.Network;
@@ -25,7 +26,8 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 	ArrayList<AutoPath> autoPaths = new ArrayList<AutoPath>(); 
 	public static final boolean ROBOT_AUTONOMOUS_WORKS = false;  
 	FMSGameMessageValueNode fmsReturn;
-	
+	Preferences prefs = Preferences.getInstance();
+
 	public AutoPathSelect(Network network, Logger logger, JsonArray label, FMSGameMessageValueNode fmsReturn )
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label);
@@ -107,7 +109,7 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 			
 			for(int j = 0; j < paths.size(); j++) {
 				
-				if(Integer.parseInt(SmartDashboard.getString(paths.get(j).getKey(), "0")) > Integer.parseInt(SmartDashboard.getString(paths.get(largestPriorIndex).getKey(), "0")) ) {
+				if(Integer.parseInt(prefs.getString(paths.get(j).getKey(), "0")) > Integer.parseInt(prefs.getString(paths.get(largestPriorIndex).getKey(), "0")) ) {
 					
 					largestPriorIndex = j; 
 				}
@@ -136,9 +138,9 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 		if(prevRobotLoc != this.robotLoc.getSelected()) {
 			for(AutoPath path : AutoPath.values()) {
 				if(path.getRequiredRobotLocation() == this.robotLoc.getSelected()) {
-					SmartDashboard.putString(path.getKey(), "0"); 
+					prefs.putString(path.getKey(), "0");
 				}else {
-					SmartDashboard.putString(path.getKey(), "Disabled"); 
+					prefs.putString(path.getKey(), "Disabled");
 				}
 			}
 		}
@@ -147,7 +149,7 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 		
 		for(AutoPath path : AutoPath.values()) {
 			try {
-				if(path.getRequiredRobotLocation() == this.robotLoc.getSelected() && Integer.parseInt(SmartDashboard.getString(path.getKey(), "0")) != 0) {
+				if(path.getRequiredRobotLocation() == this.robotLoc.getSelected() && Integer.parseInt(prefs.getString(path.getKey(), "0")) != 0) {
 					autoPaths.add(path); 
 				}
 			}catch (NumberFormatException e) {
