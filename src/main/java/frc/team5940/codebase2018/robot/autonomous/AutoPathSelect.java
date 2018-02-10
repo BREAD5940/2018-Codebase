@@ -26,9 +26,9 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 	public static final boolean ROBOT_AUTONOMOUS_WORKS = false;  
 	FMSGameMessageValueNode fmsReturn;
 	
-	public AutoPathSelect(Network network, Logger logger, JsonArray label, ValueNode<Enum<? extends AutoPath>>[] sourcesArray, FMSGameMessageValueNode fmsReturn )
+	public AutoPathSelect(Network network, Logger logger, JsonArray label, FMSGameMessageValueNode fmsReturn )
 			throws IllegalArgumentException, IllegalStateException {
-		super(network, logger, label, sourcesArray);
+		super(network, logger, label);
 		
 		robotLoc = new SendableChooser<RobotLocation>(); 
 		robotLoc.addDefault("Center", RobotLocation.CENTER);
@@ -53,7 +53,7 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 		RIGHT_PLACE_SCALE("Place Scale From Right","XLX",RobotLocation.RIGHT, new DriveAutoAction(27), new TurnAutoAction(-90), new DriveAutoAction(1), new OuttakeCubeAutoAction()),
 		CENTER_PLACE_SWITCH_LEFT("Place Left Switch From Center","LXX", RobotLocation.CENTER, new DriveAutoAction(4),/*left*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*right*/ new TurnAutoAction(6), new OuttakeCubeAutoAction()), 
 		CENTER_PLACE_SWITCH_RIGHT("Place Right Switch From Center","RXX", RobotLocation.CENTER, new DriveAutoAction(4),/*right*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*left*/ new TurnAutoAction(6), new OuttakeCubeAutoAction());
-		//#TODO: Fix elevator Args
+		//TODO: Fix elevator Args
 		
 		
 
@@ -157,21 +157,13 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 
 		AutoPath[] sortedAutoPaths = this.prioritySort(autoPaths);
 		for(AutoPath path: sortedAutoPaths) {
-			if(this.pathWorks(this.getFmsReturn().toString(), path.getFieldRex())) {
+			if(this.pathWorks(this.getFmsReturn().getValue().toString(), path.getFieldRex())) {
 				return path; 
 			}
 		}
 		prevRobotLoc = this.robotLoc.getSelected();
 		return null;
-//		
-//		if(robotLoc.getSelected() == RobotLocation.CENTER) {
-//			
-//			
-//		}else if(robotLoc.getSelected() == RobotLocation.LEFT) {
-//			
-//		}else if(robotLoc.getSelected() == RobotLocation.RIGHT) {
-//			
-//		}
+
 
 		
 		// TODO Auto-generated method stub
