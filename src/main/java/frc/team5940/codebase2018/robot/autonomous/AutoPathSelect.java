@@ -54,7 +54,8 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 		RIGHT_PLACE_SWITCH("Place Switch From Right","RXX", RobotLocation.RIGHT,new DriveAutoAction(14), new TurnAutoAction(-90), new DriveAutoAction(1), new OuttakeCubeAutoAction()), 
 		RIGHT_PLACE_SCALE("Place Scale From Right","XLX",RobotLocation.RIGHT, new DriveAutoAction(27), new TurnAutoAction(-90), new DriveAutoAction(1), new OuttakeCubeAutoAction()),
 		CENTER_PLACE_SWITCH_LEFT("Place Left Switch From Center","LXX", RobotLocation.CENTER, new DriveAutoAction(4),/*left*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*right*/ new TurnAutoAction(6), new OuttakeCubeAutoAction()), 
-		CENTER_PLACE_SWITCH_RIGHT("Place Right Switch From Center","RXX", RobotLocation.CENTER, new DriveAutoAction(4),/*right*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*left*/ new TurnAutoAction(6), new OuttakeCubeAutoAction());
+		CENTER_PLACE_SWITCH_RIGHT("Place Right Switch From Center","RXX", RobotLocation.CENTER, new DriveAutoAction(4),/*right*/ new TurnAutoAction(90), new DriveAutoAction(4.5),/*left*/ new TurnAutoAction(6), new OuttakeCubeAutoAction()),
+		STATIC_ACTION("Do Nothing","XXX",RobotLocation.LEFT, new DriveAutoAction(0));
 		//TODO: Fix elevator Args
 		
 		
@@ -164,7 +165,7 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 			}
 		}
 		prevRobotLoc = this.robotLoc.getSelected();
-		return null;
+		return AutoPath.STATIC_ACTION;
 
 
 		
