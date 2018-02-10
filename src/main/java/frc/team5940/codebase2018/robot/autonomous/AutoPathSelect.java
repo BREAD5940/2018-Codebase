@@ -28,7 +28,7 @@ public class AutoPathSelect extends ValueNode<Enum<? extends AutoPath>> {
 	FMSGameMessageValueNode fmsReturn;
 	Preferences prefs = Preferences.getInstance();
 
-	public AutoPathSelect(Network network, Logger logger, JsonArray label, FMSGameMessageValueNode fmsReturn )
+	public AutoPathSelect(Network network, Logger logger, String label, FMSGameMessageValueNode fmsReturn )
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label);
 		
