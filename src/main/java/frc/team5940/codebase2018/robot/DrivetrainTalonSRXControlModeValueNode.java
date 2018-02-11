@@ -8,9 +8,9 @@ import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode.R
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-import frc.team5940.codebase2018.robot.autonomous.actions.AutoAction;
-import frc.team5940.codebase2018.robot.autonomous.actions.DriveAutoAction;
-import frc.team5940.codebase2018.robot.autonomous.actions.TurnAutoAction;
+import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
+import frc.team5940.codebase2018.robot.autonomous.auto_actions.DriveAutoAction;
+import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
 
 /**
  * This ValueNode will return the current ControlMode of the drivetrain talons
