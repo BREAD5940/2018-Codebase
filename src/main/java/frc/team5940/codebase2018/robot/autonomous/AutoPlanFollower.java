@@ -6,7 +6,6 @@ import org.team5940.pantry.processing_network.ValueNode;
 
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.EmptyAutonomousAction;
-import frc.team5940.codebase2018.robot.autonomous.auto_paths.AutoPath;
 
 /**
  * This progresses through an array of AutoActions. This will reset its progress
