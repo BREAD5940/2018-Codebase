@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 	TalonSRX slaveLeft = new TalonSRX(RobotConfig.SLAVE_LEFT_TALON_PORT);
 	TalonSRX masterLeft = new TalonSRX(RobotConfig.MASTER_LEFT_TALON_PORT);
 	TalonSRX slaveRight = new TalonSRX(RobotConfig.SLAVE_RIGHT_TALON_PORT);
-	TalonSRX masterRight = new TalonSRX(RobotConfig.MASETER_RIGHT_TALON_PORT);
+	TalonSRX masterRight = new TalonSRX(RobotConfig.MASTER_RIGHT_TALON_PORT);
 
 	Joystick primaryJoystick = new Joystick(0);
 	Joystick secondaryJoystick = new Joystick(1);
@@ -271,12 +271,12 @@ public class Robot extends IterativeRobot {
 				intakeClampNodeGroup.getSolenoidController(), intakeClampShiftingSolenoid);
 
 		// INTAKE TALON SETUP
-		TalonSRX intakeMasterTalon = new TalonSRX(RobotConfig.RIGHT_INTAKE_TALON_DEVICE_NUMBER);
-		TalonSRX intakeSlaveTalon = new TalonSRX(RobotConfig.LEFT_INTAKE_TALON_DEVICE_NUMBER);
+		TalonSRX intakeMasterTalon = new TalonSRX(RobotConfig.RIGHT_INTAKE_TALON_PORT);
+		TalonSRX intakeSlaveTalon = new TalonSRX(RobotConfig.LEFT_INTAKE_TALON_PORT);
 
 		intakeSlaveTalon.setInverted(true);
 
-		intakeSlaveTalon.set(ControlMode.Follower, RobotConfig.RIGHT_INTAKE_TALON_DEVICE_NUMBER);
+		intakeSlaveTalon.set(ControlMode.Follower, RobotConfig.RIGHT_INTAKE_TALON_PORT);
 
 		// INTAKE MOTOR NODE SETUP
 		HIDAxisValueNode cubeIntakeAxis = new HIDAxisValueNode(network, logger, "Cube Intake Axis", secondaryJoystick,
