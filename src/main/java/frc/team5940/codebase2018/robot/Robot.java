@@ -47,17 +47,6 @@ import edu.wpi.first.wpilibj.SPI;
 
 public class Robot extends IterativeRobot {
 
-	TalonSRX slaveLeft = new TalonSRX(RobotConfig.SLAVE_LEFT_TALON_PORT);
-	TalonSRX masterLeft = new TalonSRX(RobotConfig.MASTER_LEFT_TALON_PORT);
-	TalonSRX slaveRight = new TalonSRX(RobotConfig.SLAVE_RIGHT_TALON_PORT);
-	TalonSRX masterRight = new TalonSRX(RobotConfig.MASTER_RIGHT_TALON_PORT);
-
-	Joystick primaryJoystick = new Joystick(0);
-	Joystick secondaryJoystick = new Joystick(1);
-
-	Network network;
-	Logger logger;
-
 	@Override
 	public void disabledInit() {
 	}
@@ -68,12 +57,12 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-
-		// TODO reset all of the sensors.
+		// LOGGER SETUP
+		Logger logger;
 		try {
-			this.logger = new PrintStreamLogger(new PrintStream(new File("/home/lvuser/log.json")));
+			logger = new PrintStreamLogger(new PrintStream(new File("/home/lvuser/log.json")));
 		} catch (FileNotFoundException e) {
-			this.logger = new Logger() {
+			logger = new Logger() {
 				@Override
 				public void log(Message message) {
 
@@ -81,14 +70,24 @@ public class Robot extends IterativeRobot {
 			};
 			e.printStackTrace();
 		}
-		network = new Network(30000, logger);
+
+		// GENERAL SETUP
+		Network network = new Network(30000, logger);
+
+		Joystick primaryJoystick = new Joystick(0);
+		Joystick secondaryJoystick = new Joystick(1);
 
 		RobotStateValueNode robotStateValueNode = new RobotStateValueNode(network, logger, "Robot State", this);
+
+		// DRIVETRAIN TALON SETUP
+		TalonSRX slaveLeft = new TalonSRX(RobotConfig.SLAVE_LEFT_TALON_PORT);
+		TalonSRX masterLeft = new TalonSRX(RobotConfig.MASTER_LEFT_TALON_PORT);
+		TalonSRX slaveRight = new TalonSRX(RobotConfig.SLAVE_RIGHT_TALON_PORT);
+		TalonSRX masterRight = new TalonSRX(RobotConfig.MASTER_RIGHT_TALON_PORT);
 
 		masterRight.setSelectedSensorPosition(0, 0, 0);
 		masterLeft.setSelectedSensorPosition(0, 0, 0);
 
-		// DRIVETRAIN TALON SETUP
 		slaveRight.set(ControlMode.Follower, masterRight.getDeviceID());
 		slaveLeft.set(ControlMode.Follower, masterLeft.getDeviceID());
 
@@ -125,6 +124,24 @@ public class Robot extends IterativeRobot {
 		masterLeft.config_kD(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_D, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
 		masterLeft.config_kF(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_F, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
 
+		// ELEVATOR TALON SETUP
+		TalonSRX masterElevatorTalon = new TalonSRX(RobotConfig.MASTER_ELEVATOR_TALON_PORT);
+		TalonSRX slaveElevatorTalon = new TalonSRX(RobotConfig.SLAVE_ELEVATOR_TALON_PORT);
+
+		slaveElevatorTalon.set(ControlMode.Follower, RobotConfig.MASTER_ELEVATOR_TALON_PORT);
+
+		masterElevatorTalon.config_kP(0, RobotConfig.RAISE_ELEVATOR_TALON_P, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
+		masterElevatorTalon.config_kI(0, RobotConfig.RAISE_ELEVATOR_TALON_I, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
+		masterElevatorTalon.config_kD(0, RobotConfig.RAISE_ELEVATOR_TALON_D, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
+		masterElevatorTalon.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
+
+		masterElevatorTalon.config_kP(0, RobotConfig.LOWER_ELEVATOR_TALON_P, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
+		masterElevatorTalon.config_kI(0, RobotConfig.LOWER_ELEVATOR_TALON_I, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
+		masterElevatorTalon.config_kD(0, RobotConfig.LOWER_ELEVATOR_TALON_D, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
+		masterElevatorTalon.config_kF(0, RobotConfig.LOWER_ELEVATOR_TALON_F, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
+
+		masterElevatorTalon.setSelectedSensorPosition(0, 0, 0);
+
 		// DRIVETRAIN MEASUREMENT NODE SETUP
 		TalonSRXEncoderPositionValueNode rTalonPosition = new TalonSRXEncoderPositionValueNode(network, logger,
 				"Right Talon Encoder Position", masterRight);
@@ -144,6 +161,10 @@ public class Robot extends IterativeRobot {
 		ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 		gyro.reset();
 		GyroAngleValueNode gyroAngleValueNode = new GyroAngleValueNode(network, logger, "Gyro Angle", gyro);
+
+		// ELEVATOR NODE MEASUREMENT SETUP
+		TalonSRXEncoderPositionValueNode elevatorPosition = new TalonSRXEncoderPositionValueNode(network, logger,
+				"Elevator Encoder Position", masterElevatorTalon);
 
 		// AUTO PATH SELECT NODE SETUP
 		FMSGameMessageValueNode gameMessage = new FMSGameMessageValueNode(network, logger, "Game Data");
@@ -202,28 +223,6 @@ public class Robot extends IterativeRobot {
 				rightDriveSpeed, masterRight);
 		new TalonSRXNode(network, logger, "Left Talon", RobotConfig.DRIVETRAIN_TALONS_REQUIRE_UPDATE, controlMode,
 				leftDriveSpeed, masterLeft);
-
-		// ELEVATOR TALON SETUP
-		TalonSRX masterElevatorTalon = new TalonSRX(RobotConfig.MASTER_ELEVATOR_TALON_PORT);
-		TalonSRX slaveElevatorTalon = new TalonSRX(RobotConfig.SLAVE_ELEVATOR_TALON_PORT);
-
-		slaveElevatorTalon.set(ControlMode.Follower, RobotConfig.MASTER_ELEVATOR_TALON_PORT);
-
-		masterElevatorTalon.config_kP(0, RobotConfig.RAISE_ELEVATOR_TALON_P, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kI(0, RobotConfig.RAISE_ELEVATOR_TALON_I, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kD(0, RobotConfig.RAISE_ELEVATOR_TALON_D, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-
-		masterElevatorTalon.config_kP(0, RobotConfig.LOWER_ELEVATOR_TALON_P, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kI(0, RobotConfig.LOWER_ELEVATOR_TALON_I, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kD(0, RobotConfig.LOWER_ELEVATOR_TALON_D, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kF(0, RobotConfig.LOWER_ELEVATOR_TALON_F, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-
-		masterElevatorTalon.setSelectedSensorPosition(0, 0, 0);
-
-		// ELEVATOR NODE READING SETUP
-		TalonSRXEncoderPositionValueNode elevatorPosition = new TalonSRXEncoderPositionValueNode(network, logger,
-				"Elevator Encoder Position", masterElevatorTalon);
 
 		// ELEVATOR NODE SETUP
 		HIDAxisValueNode elevatorAxis = new HIDAxisValueNode(network, logger, "Elvator Axis", secondaryJoystick,
