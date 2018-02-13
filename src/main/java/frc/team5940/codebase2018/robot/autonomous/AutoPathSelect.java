@@ -2,18 +2,18 @@ package frc.team5940.codebase2018.robot.autonomous;
 
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj.Preferences;
 import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.logging.messages.events.WarningEventMessage;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.FMSGameMessageValueNode;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.DriveAutoAction;
-import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.OuttakeCubeAutoAction;
+import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
 
 public class AutoPathSelect extends ValueNode<AutoPath> {
 
@@ -96,11 +96,19 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 	public enum RobotLocation {
 		LEFT, CENTER, RIGHT;
 	}
-
+	/**
+	 * returns the FMS signal 
+	 * @return String fmsReturn
+	 * */
 	public FMSGameMessageValueNode getFmsReturn() {
 		return fmsReturn;
 	}
-
+	/**
+	 * returns a boolean that states whether or not the specified autopath is valid based off of the FMS signal
+	 * @param String fms the string that the fms signal returns
+	 * @param String path the string that defines valid fms values for the specified path
+	 * @return boolean stating if the path works 
+	 * */
 	public boolean pathWorks(String fms, String path) {
 		for (int i = 0; i < fms.length(); i++) {
 			if (fms.charAt(i) != path.charAt(i) && path.charAt(i) != 'X') {
@@ -109,7 +117,12 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		}
 		return true;
 	}
-
+	/**
+	 * standard insertion sort algorithim
+	 * dont even talk to me about efficiency this array is so small the difference is negligable 
+	 * @param ArrayList<AutoPath> paths an unsorted arraylist of the available auto paths 
+	 * @return AutoPath[] an array of AutoPaths that derives its value from the ArrayList paths sorted based on priority
+	 * */
 	public AutoPath[] prioritySort(ArrayList<AutoPath> paths) {
 		AutoPath[] auto = new AutoPath[paths.size()];
 		int largestPriorIndex = 0;
@@ -132,6 +145,9 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		return auto;
 	}
 
+	/**
+	 * This method returns the autopath that is to be used in autonomous based off of FMS value and Priority assigned by driver
+	 * */
 	@Override
 	protected AutoPath updateValue() {
 
