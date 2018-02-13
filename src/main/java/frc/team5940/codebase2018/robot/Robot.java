@@ -23,10 +23,10 @@ import org.team5940.pantry.processing_network.wpilib.input.HIDAxisValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode.RobotState;
 import org.team5940.pantry.processing_network.wpilib.output.DoubleSolenoidNode;
+import org.team5940.pantry.processing_network.wpilib.systems.ArcadeDriveNodeGroup;
 import org.team5940.pantry.processing_network.wpilib.systems.MaxSpeedValueNode;
 import org.team5940.pantry.processing_network.wpilib.systems.ShiftingNodeGroup;
 import org.team5940.pantry.processing_network.wpilib.systems.VelocityControlNodeGroup;
-import org.team5940.pantry.processing_network.wpilib.systems.controller_layouts.XBoxControllerLayout;
 import org.team5940.pantry.processing_network.wpilib.systems.encoder_conversion.EncoderToMeasurementNodeGroup;
 import org.team5940.pantry.processing_network.wpilib.systems.encoder_conversion.MeasurementToEncoderNodeGroup;
 
@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		// GENERAL SETUP
-		Network network = new Network(30000, logger);
+		Network network = new Network(50000, logger);
 
 		Joystick primaryJoystick = new Joystick(0);
 		Joystick secondaryJoystick = new Joystick(1);
@@ -181,8 +181,8 @@ public class Robot extends IterativeRobot {
 				RobotConfig.DRIVETRAIN_SOLENOID_SHIFTING_REVERSE_CHANNEL);
 
 		ShiftingNodeGroup drivetrainShiftingNodeGroup = new ShiftingNodeGroup(network, logger, "Shifting Node Group",
-				primaryJoystick, XBoxControllerLayout.Buttons.RB_BUTTON, XBoxControllerLayout.Buttons.LB_BUTTON,
-				drivetrainShiftingSolenoid, Value.kReverse);
+				primaryJoystick, RobotConfig.SHIFT_UP_BUTTON, RobotConfig.SHIFT_DOWN_BUTTON, drivetrainShiftingSolenoid,
+				Value.kReverse);
 
 		new DoubleSolenoidNode(network, logger, "Drivetrain Shifting", RobotConfig.DRIVETRAIN_SHIFTING_REQUIRE_UPDATE,
 				drivetrainShiftingNodeGroup.getSolenoidController(), drivetrainShiftingSolenoid);
@@ -196,8 +196,8 @@ public class Robot extends IterativeRobot {
 				"Drivetrain Control Mode", robotStateValueNode, planFollower);
 
 		VelocityControlNodeGroup encoderSpeed = new VelocityControlNodeGroup(network, logger, "Drivetrain",
-				primaryJoystick, XBoxControllerLayout.Axis.LEFT_JOYSTICK_Y, XBoxControllerLayout.Axis.RIGHT_JOYSTICK_X,
-				0.01, 0.01, maxSpeed, RobotConfig.WHEEL_DIAMETER, RobotConfig.VELOCITY_PULSES_PER_ROTATION);
+				primaryJoystick, RobotConfig.DRIVETRAIN_FORWARD_AXIS, RobotConfig.DRIVETRAIN_YAW_AXIS, 0.01, 0.01,
+				maxSpeed, RobotConfig.WHEEL_DIAMETER, RobotConfig.VELOCITY_PULSES_PER_ROTATION);
 
 		AutoDrivetrainControllerNodeGroup lAutoDrivetrainNodeGroup = new AutoDrivetrainControllerNodeGroup(network,
 				logger, "Left Auto Drivetrain", true, planFollower, controlMode,
@@ -226,7 +226,7 @@ public class Robot extends IterativeRobot {
 
 		// ELEVATOR NODE SETUP
 		HIDAxisValueNode elevatorAxis = new HIDAxisValueNode(network, logger, "Elvator Axis", secondaryJoystick,
-				XBoxControllerLayout.Axis.LEFT_JOYSTICK_Y);
+				RobotConfig.ELEVATOR_CONTROL_AXIS);
 
 		ElevatorNodeGroup elevatorNodeGroup = new ElevatorNodeGroup(network, logger, "Elevator Node Group",
 				elevatorAxis, RobotConfig.MAX_ELEVATOR_HEIGHT);
@@ -263,35 +263,48 @@ public class Robot extends IterativeRobot {
 				RobotConfig.INTAKE_SOLENOID_FORWARD_CHANNEL, RobotConfig.INTAKE_SOLENOID_REVERSE_CHANNEL);
 
 		ShiftingNodeGroup intakeClampNodeGroup = new ShiftingNodeGroup(network, logger, "Intake Clamp Node Group",
-				secondaryJoystick, XBoxControllerLayout.Buttons.RB_BUTTON, XBoxControllerLayout.Buttons.LB_BUTTON,
+				secondaryJoystick, RobotConfig.INTAKE_CLAMP_BUTTON, RobotConfig.INTAKE_UNCLAMP_BUTTON,
 				intakeClampShiftingSolenoid, Value.kReverse);
 
 		new DoubleSolenoidNode(network, logger, "Intake Clamp Solenoid", RobotConfig.INTAKE_PNEUMATICS_REQUIRE_UPDATE,
 				intakeClampNodeGroup.getSolenoidController(), intakeClampShiftingSolenoid);
 
 		// INTAKE TALON SETUP
-		TalonSRX intakeMasterTalon = new TalonSRX(RobotConfig.RIGHT_INTAKE_TALON_PORT);
-		TalonSRX intakeSlaveTalon = new TalonSRX(RobotConfig.LEFT_INTAKE_TALON_PORT);
+		TalonSRX rightIntakeTalon = new TalonSRX(RobotConfig.RIGHT_INTAKE_TALON_PORT);
+		TalonSRX leftIntakeTalon = new TalonSRX(RobotConfig.LEFT_INTAKE_TALON_PORT);
 
-		intakeSlaveTalon.setInverted(true);
-
-		intakeSlaveTalon.set(ControlMode.Follower, RobotConfig.RIGHT_INTAKE_TALON_PORT);
+		leftIntakeTalon.setInverted(true);
 
 		// INTAKE MOTOR NODE SETUP
-		HIDAxisValueNode cubeIntakeAxis = new HIDAxisValueNode(network, logger, "Cube Intake Axis", secondaryJoystick,
-				XBoxControllerLayout.Axis.RIGHT_JOYSTICK_Y);
+		HIDAxisValueNode cubeIntakeForwardAxis = new HIDAxisValueNode(network, logger, "Cube Intake Axis",
+				secondaryJoystick, RobotConfig.INTAKE_CONTROL_FORWARD_AXIS);
+
+		HIDAxisValueNode cubeIntakeYawAxis = new HIDAxisValueNode(network, logger, "Cube Intake Axis",
+				secondaryJoystick, RobotConfig.INTAKE_CONTROL_YAW_AXIS);
 
 		IntakeAutonomousControllerValueNode autoIntakeController = new IntakeAutonomousControllerValueNode(network,
 				logger, "Intake Auto Controller", planFollower);
 
-		MultiplexerValueNode<? extends Number, RobotState> intakeValueNode = generateAutonMultiplexerValueNode(network,
-				logger, "Intake Auto Multiplexer", robotStateValueNode, autoIntakeController, cubeIntakeAxis);
+		ArcadeDriveNodeGroup intakeArcadeDrive = new ArcadeDriveNodeGroup(network, logger, "Node Group",
+				cubeIntakeForwardAxis, cubeIntakeYawAxis);
+
+		MultiplexerValueNode<? extends Number, RobotState> leftIntakeValueNode = generateAutonMultiplexerValueNode(
+				network, logger, "Left Intake Auto Multiplexer", robotStateValueNode, autoIntakeController,
+				intakeArcadeDrive.getLeftMotorValueNode());
+
+		MultiplexerValueNode<? extends Number, RobotState> rightIntakeValueNode = generateAutonMultiplexerValueNode(
+				network, logger, "Right Intake Auto Multiplexer", robotStateValueNode, autoIntakeController,
+				intakeArcadeDrive.getRightMotorValueNode());
 
 		ConstantValueNode<ControlMode> intakeControlMode = new ConstantValueNode<ControlMode>(network, logger,
 				"Intake Control Mode", ControlMode.PercentOutput);
 
-		new TalonSRXNode(network, logger, "Intake Talon", RobotConfig.INTAKE_TALONS_REQUIRE_UPDATE, intakeControlMode,
-				intakeValueNode, intakeMasterTalon);
+		new TalonSRXNode(network, logger, "Right Intake Talon", RobotConfig.INTAKE_TALONS_REQUIRE_UPDATE,
+				intakeControlMode, rightIntakeValueNode, rightIntakeTalon);
+
+		new TalonSRXNode(network, logger, "Left Intake Talon", RobotConfig.INTAKE_TALONS_REQUIRE_UPDATE,
+				intakeControlMode, leftIntakeValueNode, leftIntakeTalon);
+
 		network.start();
 	}
 

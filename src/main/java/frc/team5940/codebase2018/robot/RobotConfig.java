@@ -1,6 +1,39 @@
 package frc.team5940.codebase2018.robot;
 
+import org.team5940.pantry.processing_network.wpilib.systems.controller_layouts.XBoxControllerLayout;
+
 public interface RobotConfig {
+
+	// JOYSTICK CONFIGURATION
+	public static final int INTAKE_CLAMP_BUTTON = XBoxControllerLayout.Buttons.RB_BUTTON;
+
+	public static final int INTAKE_UNCLAMP_BUTTON = XBoxControllerLayout.Buttons.LB_BUTTON;
+
+	public static final int INTAKE_CONTROL_FORWARD_AXIS = XBoxControllerLayout.Axis.LEFT_JOYSTICK_Y;
+
+	public static final int INTAKE_CONTROL_YAW_AXIS = XBoxControllerLayout.Axis.LEFT_JOYSTICK_X;
+
+	public static final int ELEVATOR_CONTROL_AXIS = XBoxControllerLayout.Axis.RIGHT_JOYSTICK_Y;
+
+	public static final int DRIVETRAIN_YAW_AXIS = XBoxControllerLayout.Axis.RIGHT_JOYSTICK_X;
+
+	public static final int DRIVETRAIN_FORWARD_AXIS = XBoxControllerLayout.Axis.LEFT_JOYSTICK_Y;
+
+	public static final int SHIFT_UP_BUTTON = XBoxControllerLayout.Buttons.RB_BUTTON;
+
+	public static final int SHIFT_DOWN_BUTTON = XBoxControllerLayout.Buttons.LB_BUTTON;
+
+	// TODO
+	public static final int LEFT_RAMP_DROPDOWN_BUTTON = XBoxControllerLayout.Buttons.A_BUTTON;
+
+	// TODO
+	public static final int LEFT_RAMP_RAISE_BUTTON = XBoxControllerLayout.Buttons.X_BUTTON;
+
+	// TODO
+	public static final int RIGHT_RAMP_DROPDOWN_BUTTON = XBoxControllerLayout.Buttons.B_BUTTON;
+
+	// TODO
+	public static final int RIGHT_RAMP_RAISE_BUTTON = XBoxControllerLayout.Buttons.Y_BUTTON;
 
 	// REQUIRES UPDATE
 	public static final boolean INTAKE_TALONS_REQUIRE_UPDATE = true;
