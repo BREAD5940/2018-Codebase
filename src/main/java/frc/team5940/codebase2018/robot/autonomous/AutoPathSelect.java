@@ -180,10 +180,12 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		AutoPath[] sortedAutoPaths = this.prioritySort(autoPaths);
 		for (AutoPath path : sortedAutoPaths) {
 			if (this.pathWorks(this.getFmsReturn().getValue().toString(), path.getFieldRex())) {
+				
 				return path;
 			}
 		}
 		prevRobotLoc = this.robotLoc.getSelected();
+		
 		return this.emptyAction;
 
 	}
