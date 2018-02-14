@@ -36,6 +36,8 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 	 */
 	int currentActionIndex = 0;
 
+	EmptyAutonomousAction emptyAutoAction;
+
 	/**
 	 * Creates an AutoPlanFollower.
 	 * 
@@ -53,6 +55,7 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 		super(network, logger, label, autoPlanValueNode);
 
 		this.autoPlanValueNode = autoPlanValueNode;
+		this.emptyAutoAction = new EmptyAutonomousAction(this.getNetwork(), logger, "Empty Auto Action");
 	}
 
 	@Override
@@ -63,8 +66,7 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 			// Updates the actionArray, resets the current index, and then sets up the first
 			// action.
 			this.currentActionArray = autoPlanValueNode.getValue().getActions();
-			this.currentActionArray = appendAutoAction(
-					new EmptyAutonomousAction(this.getNetwork(), logger, "Empty Auto Action"), this.currentActionArray);
+			this.currentActionArray = appendAutoAction(this.emptyAutoAction);
 
 			this.currentActionIndex = 0;
 		}
@@ -90,7 +92,7 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 		if (this.currentActionIndex >= this.currentActionArray.length) {
 			// This should never happen because an EmptyAutoAction is already appended to
 			// the end earlier but just in case.
-			return new EmptyAutonomousAction(this.getNetwork(), logger, "Empty Action");
+			return this.emptyAutoAction;
 		}
 		return this.currentActionArray[this.currentActionIndex];
 	}
