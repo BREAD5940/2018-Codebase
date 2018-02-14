@@ -86,8 +86,6 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 		this.isLeftTalons = isLeftTalons;
 
 		this.drivetrainFeetValueNode = drivetrainFeetValueNode;
-
-		this.targetAngle = gyroAngleValueNode.getValue().doubleValue();
 	}
 
 	@Override
