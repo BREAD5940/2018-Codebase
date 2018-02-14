@@ -66,7 +66,6 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 			// Updates the actionArray, resets the current index, and then sets up the first
 			// action.
 			this.currentActionArray = autoPlanValueNode.getValue().getActions();
-			this.currentActionArray = appendAutoAction(this.emptyAutoAction);
 
 			this.currentActionIndex = 0;
 		}
@@ -95,14 +94,5 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 			return this.emptyAutoAction;
 		}
 		return this.currentActionArray[this.currentActionIndex];
-	}
-
-	private AutoAction[] appendAutoAction(AutoAction action, AutoAction... actions) {
-		AutoAction[] out = new AutoAction[actions.length + 1];
-		for (int i = 0; i < actions.length; i++) {
-			out[i] = actions[i];
-		}
-		out[out.length - 1] = action;
-		return out;
 	}
 }

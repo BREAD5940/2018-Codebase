@@ -144,6 +144,11 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		}
 		return auto;
 	}
+	
+	@Override
+	public boolean requiresUpdate() {
+		return true;
+	}
 
 	/**
 	 * This method returns the autopath that is to be used in autonomous based off of FMS value and Priority assigned by driver
