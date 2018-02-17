@@ -36,7 +36,12 @@ public class DrivetrainTalonSRXControlModeValueNode extends ValueNode<ControlMod
 	ValueNode<? extends AutoAction> currentActionValueNode;
 
 	/**
-	 * Creates a new TalonSRXModeValueNode.
+	 * The last AutoAction that affected the drivetrain.
+	 */
+	AutoAction lastDriveAutoAction;
+
+	/**
+	 * Creates a new {@link DrivetrainTalonSRXControlModeValueNode}.
 	 * 
 	 * @param network
 	 *            This' Network.
@@ -60,9 +65,16 @@ public class DrivetrainTalonSRXControlModeValueNode extends ValueNode<ControlMod
 	@Override
 	protected ControlMode updateValue() {
 		if (robotState.getValue() == RobotState.AUTONOMOUS) {
-			if (currentActionValueNode.getValue() instanceof DriveAutoAction) {
+			AutoAction currentAction = currentActionValueNode.getValue();
+			if (currentAction instanceof DriveAutoAction) {
+				lastDriveAutoAction = currentAction;
 				return ControlMode.Position;
-			} else if (currentActionValueNode.getValue() instanceof TurnAutoAction) {
+			} else if (currentAction instanceof TurnAutoAction) {
+				lastDriveAutoAction = currentAction;
+				return ControlMode.PercentOutput;
+			} else if (currentAction instanceof DriveAutoAction) {
+				return ControlMode.Position;
+			} else {
 				return ControlMode.PercentOutput;
 			}
 		}

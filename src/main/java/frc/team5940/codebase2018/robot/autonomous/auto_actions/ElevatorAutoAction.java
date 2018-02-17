@@ -5,8 +5,8 @@ import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.RobotConfig;
-import frc.team5940.codebase2018.robot.autonomous.AutoPlanFollower;
 
 /**
  * An {@link AutoAction} that specifies what height the elevator should be set
@@ -26,6 +26,8 @@ public class ElevatorAutoAction extends AutoAction {
 	 * If the robot should wait before executing the next AutoAction.
 	 */
 	boolean wait;
+
+	boolean firstRun;
 
 	/**
 	 * The current height of the elevator.
@@ -69,6 +71,7 @@ public class ElevatorAutoAction extends AutoAction {
 
 	@Override
 	protected void setup() {
+		this.firstRun = true;
 	}
 
 	@Override
@@ -76,8 +79,14 @@ public class ElevatorAutoAction extends AutoAction {
 		if (this.wait) {
 			return withinMargin(elevatorHeightValueNode.getValue().doubleValue(), this.setElevatorHeight.getHeight(),
 					0.1);
+		} else {
+			if (this.firstRun) {
+				this.firstRun = false;
+				return false;
+			} else {
+				return true;
+			}
 		}
-		return true;
 	}
 
 	/**

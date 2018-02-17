@@ -87,5 +87,9 @@ public class AutoPath {
 	public AutoAction[] getActions() {
 		return actions;
 	}
-
+	
+	@Override
+	public String toString() {
+		return this.getKey();
+	}
 }

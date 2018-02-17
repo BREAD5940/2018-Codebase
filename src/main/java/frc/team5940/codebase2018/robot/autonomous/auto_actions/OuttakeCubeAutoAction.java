@@ -20,7 +20,7 @@ public class OuttakeCubeAutoAction extends AutoAction {
 	/**
 	 * The previous time this Node was updated.
 	 */
-	long previousTime;
+	long targetTime;
 
 	/**
 	 * Creates a new {@link OuttakeCubeAutoAction} which completes after three
@@ -40,15 +40,12 @@ public class OuttakeCubeAutoAction extends AutoAction {
 
 	@Override
 	protected void setup() {
-		this.timeLeft = 3;
-		this.previousTime = System.currentTimeMillis();
+		this.targetTime = System.currentTimeMillis() + 3000;
 	}
 
 	@Override
 	protected Boolean checkCompletion() {
-		this.timeLeft = this.timeLeft - ((System.currentTimeMillis() - this.previousTime) / 1000);
-		this.previousTime = System.currentTimeMillis();
-		return this.timeLeft < 0;
+		return System.currentTimeMillis() > this.targetTime;
 	}
 
 }

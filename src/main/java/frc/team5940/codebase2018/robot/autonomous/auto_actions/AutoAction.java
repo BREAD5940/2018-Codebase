@@ -43,7 +43,6 @@ public abstract class AutoAction extends ValueNode<Boolean> {
 		if (isFirstRun) {
 			this.setup();
 			this.isFirstRun = false;
-			return false;
 		}
 		return checkCompletion();
 	}
