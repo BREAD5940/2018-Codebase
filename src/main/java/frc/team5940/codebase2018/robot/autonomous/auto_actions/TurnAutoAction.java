@@ -4,6 +4,8 @@ import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * An {@link AutoAction} for turning some number of pre-defined degrees.
  * 
@@ -46,11 +48,14 @@ public class TurnAutoAction extends AutoAction {
 			ValueNode<? extends Number> robotAngle) throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label, robotAngle);
 		this.robotAngle = robotAngle;
+		this.degrees = degrees;
 	}
 
 	@Override
 	protected void setup() {
 		this.targetAngle = this.robotAngle.getValue().doubleValue() + degrees;
+		SmartDashboard.putNumber("Turn Auto Action Target: ", this.targetAngle);
+		SmartDashboard.putNumber("Setup", System.currentTimeMillis());
 	}
 
 	@Override
@@ -63,7 +68,7 @@ public class TurnAutoAction extends AutoAction {
 	 * 
 	 * @return The angle the robot should turn to in degrees.
 	 */
-	public double getTargetAngle() {
-		return targetAngle;
+	public double getAngle() {
+		return this.degrees;
 	}
 }
