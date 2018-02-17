@@ -178,7 +178,7 @@ public class Robot extends IterativeRobot {
 
 		// ELEVATOR NODE MEASUREMENT SETUP
 		TalonSRXEncoderPositionValueNode elevatorPosition = new TalonSRXEncoderPositionValueNode(network, logger,
-				"Elevator Encoder Position", masterLeft);
+				"Elevator Encoder Position", masterElevatorTalon);
 
 		EncoderToMeasurementNodeGroup elevatorMeasurementNodeGroup = new EncoderToMeasurementNodeGroup(network, logger,
 				"Elevator Measurement Node Group", elevatorPosition, RobotConfig.POSITION_PULSES_PER_ROTATION,
