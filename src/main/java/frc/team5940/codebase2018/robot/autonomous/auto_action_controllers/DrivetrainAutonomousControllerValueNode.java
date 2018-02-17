@@ -4,7 +4,9 @@ import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 import org.team5940.pantry.processing_network.functional.ChangeDetectorValueNode;
+import org.team5940.pantry.processing_network.wpilib.output.NumberSmartDashboardNode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.DriveAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
@@ -84,7 +86,7 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 
 		this.currentActionValueNode = currentActionValueNode;
 		this.isLeftTalons = isLeftTalons;
-
+		this.gyroAngleValueNode = gyroAngleValueNode;
 		this.drivetrainFeetValueNode = drivetrainFeetValueNode;
 	}
 
@@ -95,7 +97,7 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 					+ ((DriveAutoAction) newValue).getFeet();
 			this.isDriving = true;
 		} else if (newValue instanceof TurnAutoAction) {
-			this.targetAngle = ((TurnAutoAction) newValue).getTargetAngle();
+			this.targetAngle = ((TurnAutoAction) newValue).getAngle() + this.gyroAngleValueNode.getValue().doubleValue();
 			this.isDriving = false;
 		}
 	}
@@ -106,11 +108,16 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 			return this.targetDistance;
 		} else {
 			double offset = (targetAngle - this.gyroAngleValueNode.getValue().doubleValue());
+			double speed;
 			if (this.isLeftTalons) {
-				return offset * this.p;
+				speed = offset * this.p;
 			} else {
-				return -offset * this.p;
+				speed = -offset * this.p;
 			}
+			if (speed < -1 || speed > 1) {
+				speed = speed / Math.abs(speed);
+			}
+			return speed;
 		}
 	}
 }
