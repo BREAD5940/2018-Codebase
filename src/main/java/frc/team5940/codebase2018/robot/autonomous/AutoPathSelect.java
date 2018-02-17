@@ -51,15 +51,8 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 
 		// LEFT SWITCH LEFT START
 		totalPossiblePaths.add(new AutoPath("Place Switch From Left", "LXX", RobotLocation.LEFT,
-<<<<<<< HEAD
+
 				new DriveAutoAction(network, logger, "Drive Auto", 14-1.2, distanceMovedValueNode),
-=======
-				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH,
-						false),
-				new DriveAutoAction(network, logger, "Drive Auto", 0.5, distanceMovedValueNode),
-				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SCALE,
-						false),
->>>>>>> 69e1b0af9d7f2b935bda437f312e314111586fd3
 				new TurnAutoAction(network, logger, "Turn Auto", 90, robotAngleValueNode),
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH,
 						true),
