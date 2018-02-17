@@ -55,7 +55,7 @@ public class DrivetrainTalonSRXParameterSlotValueNode extends ValueNode<Integer>
 	protected Integer updateValue() {
 		if (controlModeValueNode.getValue() == ControlMode.Position) {
 			return RobotConfig.LOW_GEAR_POSITION_SLOT_ID;
-		} else if (solenoidStateValueNode.getValue() == Value.kForward) {
+		} else if (solenoidStateValueNode.getValue() == Value.kReverse) {
 			return RobotConfig.HIGH_GEAR_VELOCITY_SLOT_ID;
 		}
 		return RobotConfig.LOW_GEAR_VELOCITY_SLOT_ID;
