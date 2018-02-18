@@ -16,7 +16,18 @@ import frc.team5940.codebase2018.robot.autonomous.auto_actions.ElevatorAutoActio
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.ElevatorAutoAction.ElevatorHeight;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.OuttakeCubeAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
-
+/**
+ * This compares the priority of each autopath, the required FMS value, and the FMS value
+ * in order to return the autopath that the robot will end up doing. 
+ * If no paths work, the robot will simply not move. 
+ * Priority of each path can be set by the user. The path with the highest priority number will attempt to run first
+ * (i.e. path w/ priority of 100 runs before path w/ priority of 10)
+ * Autopath will always work unless the user leaves all priority at 0, then no paths will run. 
+ * 
+ *    
+ * 
+ * @Author Julia Reid 
+ * */
 public class AutoPathSelect extends ValueNode<AutoPath> {
 
 	SendableChooser<RobotLocation> robotLoc;
@@ -30,7 +41,17 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 	public static final boolean ROBOT_AUTONOMOUS_WORKS = false;
 	FMSGameMessageValueNode fmsReturn;
 	Preferences prefs = Preferences.getInstance();
-
+	/**
+	 * This constructor initializes class variables
+	 * 
+	 * @param network	the network that the node belongs to
+	 * @param logger	the logger for the node
+	 * @param label		the label for the node
+ 	 * @param fmsReturn		the value that the fms returns
+ 	 * @param distanceMovedValueNode	the distance that the robot has moved
+ 	 * @param robotAngleValueNode	the angle of the robot 
+ 	 * @param elevatorHeightValueNode	the height of the elevator
+	 * */
 	public AutoPathSelect(Network network, Logger logger, String label, FMSGameMessageValueNode fmsReturn,
 			ValueNode<? extends Number> distanceMovedValueNode, ValueNode<? extends Number> robotAngleValueNode,
 			ValueNode<? extends Number> elevatorHeightValueNode)
