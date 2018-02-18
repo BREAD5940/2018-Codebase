@@ -14,9 +14,9 @@ import org.team5940.pantry.processing_network.ValueNode;
 import org.team5940.pantry.processing_network.ctre.input.TalonSRXEncoderPositionValueNode;
 import org.team5940.pantry.processing_network.ctre.output.TalonSRXNode;
 import org.team5940.pantry.processing_network.ctre.output.TalonSRXParameterSlotNode;
-import org.team5940.pantry.processing_network.functional.BoundingValueNode;
 import org.team5940.pantry.processing_network.functional.ConstantValueNode;
 import org.team5940.pantry.processing_network.functional.MultiplexerValueNode;
+import org.team5940.pantry.processing_network.functional.numeric_adjustment.BoundingValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.FMSGameMessageValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.GyroAngleValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.HIDAxisValueNode;
@@ -132,22 +132,19 @@ public class Robot extends IterativeRobot {
 		masterLeft.config_kF(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_F, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
 
 		// ELEVATOR TALON SETUP
-		TalonSRX masterElevatorTalon = new TalonSRX(RobotConfig.MASTER_ELEVATOR_TALON_PORT);
-		TalonSRX slaveElevatorTalon = new TalonSRX(RobotConfig.SLAVE_ELEVATOR_TALON_PORT);
+		TalonSRX elevatorTalon = new TalonSRX(RobotConfig.MASTER_ELEVATOR_TALON_PORT);
 
-		slaveElevatorTalon.set(ControlMode.Follower, RobotConfig.MASTER_ELEVATOR_TALON_PORT);
+		elevatorTalon.config_kP(0, RobotConfig.RAISE_ELEVATOR_TALON_P, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
+		elevatorTalon.config_kI(0, RobotConfig.RAISE_ELEVATOR_TALON_I, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
+		elevatorTalon.config_kD(0, RobotConfig.RAISE_ELEVATOR_TALON_D, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
+		elevatorTalon.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
 
-		masterElevatorTalon.config_kP(0, RobotConfig.RAISE_ELEVATOR_TALON_P, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kI(0, RobotConfig.RAISE_ELEVATOR_TALON_I, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kD(0, RobotConfig.RAISE_ELEVATOR_TALON_D, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
+		elevatorTalon.config_kP(0, RobotConfig.LOWER_ELEVATOR_TALON_P, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
+		elevatorTalon.config_kI(0, RobotConfig.LOWER_ELEVATOR_TALON_I, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
+		elevatorTalon.config_kD(0, RobotConfig.LOWER_ELEVATOR_TALON_D, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
+		elevatorTalon.config_kF(0, RobotConfig.LOWER_ELEVATOR_TALON_F, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
 
-		masterElevatorTalon.config_kP(0, RobotConfig.LOWER_ELEVATOR_TALON_P, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kI(0, RobotConfig.LOWER_ELEVATOR_TALON_I, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kD(0, RobotConfig.LOWER_ELEVATOR_TALON_D, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-		masterElevatorTalon.config_kF(0, RobotConfig.LOWER_ELEVATOR_TALON_F, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-
-		masterElevatorTalon.setSelectedSensorPosition(0, 0, 0);
+		elevatorTalon.setSelectedSensorPosition(0, 0, 0);
 
 		// DRIVETRAIN MEASUREMENT NODE SETUP
 		TalonSRXEncoderPositionValueNode rTalonPosition = new TalonSRXEncoderPositionValueNode(network, logger,
@@ -178,7 +175,7 @@ public class Robot extends IterativeRobot {
 
 		// ELEVATOR NODE MEASUREMENT SETUP
 		TalonSRXEncoderPositionValueNode elevatorPosition = new TalonSRXEncoderPositionValueNode(network, logger,
-				"Elevator Encoder Position", masterElevatorTalon);
+				"Elevator Encoder Position", elevatorTalon);
 
 		EncoderToMeasurementNodeGroup elevatorMeasurementNodeGroup = new EncoderToMeasurementNodeGroup(network, logger,
 				"Elevator Measurement Node Group", elevatorPosition, RobotConfig.POSITION_PULSES_PER_ROTATION,
@@ -311,7 +308,7 @@ public class Robot extends IterativeRobot {
 				encoderElevatorNodeGroup.getEncoderPulsesValueNode());
 
 		new TalonSRXNode(network, logger, "Elevator Talon", RobotConfig.ELEVATOR_TALON_REQUIRE_UPDATE,
-				elevatorControlMode, encoderElevatorNodeGroup.getEncoderPulsesValueNode(), masterElevatorTalon);
+				elevatorControlMode, encoderElevatorNodeGroup.getEncoderPulsesValueNode(), elevatorTalon);
 
 		ElevatorTalonSRXParameterSlotValueNode elevatorTalonParameterSlotValueNode = new ElevatorTalonSRXParameterSlotValueNode(
 				network, logger, "Elevator Parameter Slot", elevatorPosition,
@@ -322,7 +319,7 @@ public class Robot extends IterativeRobot {
 				elevatorTalonParameterSlotValueNode);
 
 		new TalonSRXParameterSlotNode(network, logger, "Elevator Slot", RobotConfig.ELEVATOR_TALON_REQUIRE_UPDATE,
-				elevatorTalonParameterSlotValueNode, masterElevatorTalon);
+				elevatorTalonParameterSlotValueNode, elevatorTalon);
 
 		// INTAKE CLAMP SETUP
 		DoubleSolenoid intakeClampShiftingSolenoid = new DoubleSolenoid(RobotConfig.SOLENOID_MODULE_NUMBER,
