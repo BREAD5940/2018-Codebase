@@ -5,9 +5,9 @@ import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.NodeGroup;
 import org.team5940.pantry.processing_network.ValueNode;
-import org.team5940.pantry.processing_network.functional.AdditionValueNode;
-import org.team5940.pantry.processing_network.functional.DivisionValueNode;
-import org.team5940.pantry.processing_network.functional.MultiplicationValueNode;
+import org.team5940.pantry.processing_network.functional.basic_arithmetic.AdditionValueNode;
+import org.team5940.pantry.processing_network.functional.basic_arithmetic.DivisionValueNode;
+import org.team5940.pantry.processing_network.functional.basic_arithmetic.MultiplicationValueNode;
 
 /**
  * This {@link NodeGroup} converts the value of a joystick axis or any ValueNode
