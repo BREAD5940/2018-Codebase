@@ -26,7 +26,7 @@ import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
  * 
  *    
  * 
- * @Author Julia Reid 
+ * @author Julia Reid 
  * */
 public class AutoPathSelect extends ValueNode<AutoPath> {
 
@@ -138,12 +138,9 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 	 * returns a boolean that states whether or not the specified autopath is valid
 	 * based off of the FMS signal
 	 * 
-	 * @param String
-	 *            fms the string that the fms signal returns
-	 * @param String
-	 *            path the string that defines valid fms values for the specified
-	 *            path
-	 * @return boolean stating if the path works
+	 * @param   fms the string that the fms signal returns
+	 * @param 	path the string that defines valid fms values for the specified path
+	 * @return 	boolean stating if the path works
 	 */
 	public boolean pathWorks(String fms, String path) {
 		for (int i = 0; i < fms.length(); i++) {
@@ -158,9 +155,8 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 	 * standard insertion sort algorithim dont even talk to me about efficiency this
 	 * array is so small the difference is negligable
 	 * 
-	 * @param ArrayList<AutoPath>
-	 *            paths an unsorted arraylist of the available auto paths
-	 * @return AutoPath[] an array of AutoPaths that derives its value from the
+	 * @param paths		an unsorted arraylist of the available auto paths
+	 * @return auto	 	an array of AutoPaths that derives its value from the
 	 *         ArrayList paths sorted based on priority
 	 */
 	public AutoPath[] prioritySort(ArrayList<AutoPath> paths) {
