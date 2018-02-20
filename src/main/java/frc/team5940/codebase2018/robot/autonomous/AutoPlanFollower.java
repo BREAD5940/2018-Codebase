@@ -7,13 +7,14 @@ import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode.RobotState;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team5940.codebase2018.robot.autonomous.auto_action_controllers.ElevatorAutonomousControllerValueNode;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.EmptyAutonomousAction;
 
 /**
  * This progresses through an array of AutoActions. This will reset its progress
  * if the array changes. This also does not handle ElevatorDependentActions.
- * Should use {@link ElevatorDependentActionStatusCheckerValueNode} to handle
+ * Should use {@link ElevatorAutonomousControllerValueNode} to handle
  * those.
  * 
  * If there is no action left in the AutoPlan than this will return an
@@ -62,6 +63,7 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 	 *            This' Label.
 	 * @param autoPlanValueNode
 	 *            The ValueNode that returns the current auto plan.
+	 * @param robotState the state of the robot
 	 */
 	public AutoPlanFollower(Network network, Logger logger, String label, ValueNode<AutoPath> autoPlanValueNode,
 			RobotStateValueNode robotState) throws IllegalArgumentException, IllegalStateException {
