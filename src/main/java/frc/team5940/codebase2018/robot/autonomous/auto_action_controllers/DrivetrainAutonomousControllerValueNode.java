@@ -59,7 +59,7 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 	/**
 	 * The P value for turning with the drivetrain.
 	 */
-	private final double p = 0.2;
+	private final double p = 0.015;
 
 	/**
 	 * Creates a new {@link DrivetrainAutonomousControllerValueNode}.
@@ -97,7 +97,8 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 					+ ((DriveAutoAction) newValue).getFeet();
 			this.isDriving = true;
 		} else if (newValue instanceof TurnAutoAction) {
-			this.targetAngle = ((TurnAutoAction) newValue).getAngle() + this.gyroAngleValueNode.getValue().doubleValue();
+			this.targetAngle = ((TurnAutoAction) newValue).getAngle()
+					+ this.gyroAngleValueNode.getValue().doubleValue();
 			this.isDriving = false;
 		}
 	}
@@ -107,12 +108,18 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 		if (this.isDriving) {
 			return this.targetDistance;
 		} else {
+			SmartDashboard.putNumber("Target Angle", this.targetAngle);
 			double offset = (targetAngle - this.gyroAngleValueNode.getValue().doubleValue());
 			double speed;
 			if (this.isLeftTalons) {
 				speed = offset * this.p;
 			} else {
 				speed = -offset * this.p;
+			}
+			if (speed < 0) {
+				speed -= 0.07;
+			} else {
+				speed += 0.07;
 			}
 			if (speed < -1 || speed > 1) {
 				speed = speed / Math.abs(speed);

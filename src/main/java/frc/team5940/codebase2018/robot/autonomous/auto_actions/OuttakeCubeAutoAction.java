@@ -40,7 +40,7 @@ public class OuttakeCubeAutoAction extends AutoAction {
 
 	@Override
 	protected void setup() {
-		this.targetTime = System.currentTimeMillis() + 3000;
+		this.targetTime = System.currentTimeMillis() + 1000;
 	}
 
 	@Override

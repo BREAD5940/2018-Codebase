@@ -16,6 +16,9 @@ import org.team5940.pantry.processing_network.ctre.output.TalonSRXNode;
 import org.team5940.pantry.processing_network.ctre.output.TalonSRXParameterSlotNode;
 import org.team5940.pantry.processing_network.functional.ConstantValueNode;
 import org.team5940.pantry.processing_network.functional.MultiplexerValueNode;
+import org.team5940.pantry.processing_network.functional.basic_arithmetic.DivisionValueNode;
+import org.team5940.pantry.processing_network.functional.basic_arithmetic.MultiplicationValueNode;
+import org.team5940.pantry.processing_network.functional.basic_arithmetic.SubtractionValueNode;
 import org.team5940.pantry.processing_network.functional.numeric_adjustment.BoundingValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.FMSGameMessageValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.GyroAngleValueNode;
@@ -50,9 +53,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 
 public class Robot extends IterativeRobot {
-
-	private static final boolean DRIVETRAIN_CONTROLMODE_SMARTDASHBOARD_REQUIRE_UPDATE = true;
-	private static final boolean DRIVETRAIN_MAX_SPEED_SMARTDASHBOARD_REQUIRE_UPDATE = true;
 
 	@Override
 	public void disabledInit() {
@@ -101,49 +101,27 @@ public class Robot extends IterativeRobot {
 		masterLeft.setInverted(true);
 		slaveLeft.setInverted(true);
 
-		masterRight.config_kP(0, RobotConfig.NEW_ROBOT_LOW_GEAR_VELOCITY_P, RobotConfig.LOW_GEAR_VELOCITY_SLOT_ID);
-		masterRight.config_kI(0, RobotConfig.NEW_ROBOT_LOW_GEAR_VELOCITY_I, RobotConfig.LOW_GEAR_VELOCITY_SLOT_ID);
-		masterRight.config_kD(0, RobotConfig.NEW_ROBOT_LOW_GEAR_VELOCITY_D, RobotConfig.LOW_GEAR_VELOCITY_SLOT_ID);
-		masterRight.config_kF(0, RobotConfig.NEW_ROBOT_LOW_GEAR_VELOCITY_F, RobotConfig.LOW_GEAR_VELOCITY_SLOT_ID);
+		masterRight.config_kP(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_P, 0);
+		masterRight.config_kI(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_I, 0);
+		masterRight.config_kD(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_D, 0);
+		masterRight.config_kF(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_F, 0);
 
-		masterLeft.config_kP(0, RobotConfig.NEW_ROBOT_LOW_GEAR_VELOCITY_P, RobotConfig.LOW_GEAR_VELOCITY_SLOT_ID);
-		masterLeft.config_kI(0, RobotConfig.NEW_ROBOT_LOW_GEAR_VELOCITY_I, RobotConfig.LOW_GEAR_VELOCITY_SLOT_ID);
-		masterLeft.config_kD(0, RobotConfig.NEW_ROBOT_LOW_GEAR_VELOCITY_D, RobotConfig.LOW_GEAR_VELOCITY_SLOT_ID);
-		masterLeft.config_kF(0, RobotConfig.NEW_ROBOT_LOW_GEAR_VELOCITY_F, RobotConfig.LOW_GEAR_VELOCITY_SLOT_ID);
-
-		masterRight.config_kP(0, RobotConfig.NEW_ROBOT_HIGH_GEAR_VELOCITY_P, RobotConfig.HIGH_GEAR_VELOCITY_SLOT_ID);
-		masterRight.config_kI(0, RobotConfig.NEW_ROBOT_HIGH_GEAR_VELOCITY_I, RobotConfig.HIGH_GEAR_VELOCITY_SLOT_ID);
-		masterRight.config_kD(0, RobotConfig.NEW_ROBOT_HIGH_GEAR_VELOCITY_D, RobotConfig.HIGH_GEAR_VELOCITY_SLOT_ID);
-		masterRight.config_kF(0, RobotConfig.NEW_ROBOT_HIGH_GEAR_VELOCITY_F, RobotConfig.HIGH_GEAR_VELOCITY_SLOT_ID);
-
-		masterLeft.config_kP(0, RobotConfig.NEW_ROBOT_HIGH_GEAR_VELOCITY_P, RobotConfig.HIGH_GEAR_VELOCITY_SLOT_ID);
-		masterLeft.config_kI(0, RobotConfig.NEW_ROBOT_HIGH_GEAR_VELOCITY_I, RobotConfig.HIGH_GEAR_VELOCITY_SLOT_ID);
-		masterLeft.config_kD(0, RobotConfig.NEW_ROBOT_HIGH_GEAR_VELOCITY_D, RobotConfig.HIGH_GEAR_VELOCITY_SLOT_ID);
-		masterLeft.config_kF(0, RobotConfig.NEW_ROBOT_HIGH_GEAR_VELOCITY_F, RobotConfig.HIGH_GEAR_VELOCITY_SLOT_ID);
-
-		masterRight.config_kP(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_P, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
-		masterRight.config_kI(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_I, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
-		masterRight.config_kD(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_D, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
-		masterRight.config_kF(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_F, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
-
-		masterLeft.config_kP(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_P, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
-		masterLeft.config_kI(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_I, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
-		masterLeft.config_kD(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_D, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
-		masterLeft.config_kF(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_F, RobotConfig.LOW_GEAR_POSITION_SLOT_ID);
+		masterLeft.config_kP(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_P, 0);
+		masterLeft.config_kI(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_I, 0);
+		masterLeft.config_kD(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_D, 0);
+		masterLeft.config_kF(0, RobotConfig.NEW_ROBOT_LOW_GEAR_POSITION_F, 0);
 
 		// ELEVATOR TALON SETUP
 		TalonSRX elevatorTalon = new TalonSRX(RobotConfig.MASTER_ELEVATOR_TALON_PORT);
 
-		elevatorTalon.config_kP(0, RobotConfig.RAISE_ELEVATOR_TALON_P, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-		elevatorTalon.config_kI(0, RobotConfig.RAISE_ELEVATOR_TALON_I, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-		elevatorTalon.config_kD(0, RobotConfig.RAISE_ELEVATOR_TALON_D, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
-		elevatorTalon.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, RobotConfig.RAISE_ELEVATOR_SLOT_ID);
+		elevatorTalon.config_kP(0, RobotConfig.ELEVATOR_TALON_P, 0);
+		elevatorTalon.config_kI(0, RobotConfig.RAISE_ELEVATOR_TALON_I, 0);
+		elevatorTalon.config_kD(0, RobotConfig.RAISE_ELEVATOR_TALON_D, 0);
+		elevatorTalon.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, 0);
 
-		elevatorTalon.config_kP(0, RobotConfig.LOWER_ELEVATOR_TALON_P, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-		elevatorTalon.config_kI(0, RobotConfig.LOWER_ELEVATOR_TALON_I, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-		elevatorTalon.config_kD(0, RobotConfig.LOWER_ELEVATOR_TALON_D, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-		elevatorTalon.config_kF(0, RobotConfig.LOWER_ELEVATOR_TALON_F, RobotConfig.LOWER_ELEVATOR_SLOT_ID);
-
+		elevatorTalon.setSensorPhase(true);
+		elevatorTalon.configVoltageCompSaturation(7, 0);
+		elevatorTalon.enableVoltageCompensation(true);
 		elevatorTalon.setSelectedSensorPosition(0, 0, 0);
 
 		// DRIVETRAIN MEASUREMENT NODE SETUP
@@ -161,9 +139,13 @@ public class Robot extends IterativeRobot {
 				logger, "Encoder to Measurement Node Group", lTalonPosition, RobotConfig.POSITION_PULSES_PER_ROTATION,
 				RobotConfig.WHEEL_DIAMETER);
 
-		new NumberSmartDashboardNode(network, logger, "Encoder Position Dashboard",
-				RobotConfig.RIGHT_ENCODER_POSITION_SMARTDASHBOARD_REQUIRE_UPDATE, "Encoder Position",
+		new NumberSmartDashboardNode(network, logger, "Right Encoder Position Dashboard",
+				RobotConfig.RIGHT_ENCODER_POSITION_SMARTDASHBOARD_REQUIRE_UPDATE, "Right Encoder Position",
 				rTalonEncoderMeasurementNodeGroup.getMeasurementValueNode());
+
+		new NumberSmartDashboardNode(network, logger, "Left Encoder Position Dashboard",
+				RobotConfig.RIGHT_ENCODER_POSITION_SMARTDASHBOARD_REQUIRE_UPDATE, "Left Encoder Position",
+				lTalonEncoderMeasurementNodeGroup.getMeasurementValueNode());
 
 		// ROBOT GYRO NODE SETUP
 		ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
@@ -221,24 +203,35 @@ public class Robot extends IterativeRobot {
 				drivetrainShiftingNodeGroup.getSolenoidController(), drivetrainShiftingSolenoid);
 
 		// DRIVETRAIN NODE SETUP
-		MaxSpeedValueNode maxSpeed = new MaxSpeedValueNode(network, logger,
-				drivetrainShiftingNodeGroup.getSolenoidController(), Value.kReverse,
-				RobotConfig.NEW_ROBOT_LOW_GEAR_MAX_VELOCITY, RobotConfig.NEW_ROBOT_HIGH_GEAR_MAX_VELOCITY);
-
-		new NumberSmartDashboardNode(network, logger, "Max Speed Smartdashboard",
-				DRIVETRAIN_MAX_SPEED_SMARTDASHBOARD_REQUIRE_UPDATE, "Max Speed", maxSpeed);
-
 		DrivetrainTalonSRXControlModeValueNode controlMode = new DrivetrainTalonSRXControlModeValueNode(network, logger,
 				"Drivetrain Control Mode", robotStateValueNode, planFollower);
 
 		new ObjectSmartDashboardNode(network, logger, "Drivetrain Control Mode",
-				DRIVETRAIN_CONTROLMODE_SMARTDASHBOARD_REQUIRE_UPDATE, "Drivetrain ControlMode", controlMode);
+				RobotConfig.DRIVETRAIN_CONTROLMODE_SMARTDASHBOARD_REQUIRE_UPDATE, "Drivetrain ControlMode",
+				controlMode);
 
-		VelocityControlNodeGroup encoderSpeed = new VelocityControlNodeGroup(network, logger, "Drivetrain",
-				primaryJoystick, RobotConfig.DRIVETRAIN_YAW_AXIS, RobotConfig.DRIVETRAIN_FORWARD_AXIS,
-				RobotConfig.DRIVETRAIN_YAW_AXIS_INVERTED, RobotConfig.DRIVETRAIN_FORWARD_AXIS_INVERTED,
-				RobotConfig.DRIVETRAIN_YAW_AXIS_DEADZONE, RobotConfig.DRIVETRAIN_FORWARD_AXIS_DEADZONE, maxSpeed,
-				RobotConfig.WHEEL_DIAMETER, RobotConfig.VELOCITY_PULSES_PER_ROTATION);
+		HIDAxisValueNode forwardAxisValueNode = new HIDAxisValueNode(network, logger, "Forward Drivetrain Axis",
+				primaryJoystick, RobotConfig.DRIVETRAIN_FORWARD_AXIS, RobotConfig.DRIVETRAIN_FORWARD_AXIS_INVERTED);
+		HIDAxisValueNode yawAxisValueNode = new HIDAxisValueNode(network, logger, "Yaw Drivetrain Axis",
+				primaryJoystick, RobotConfig.DRIVETRAIN_YAW_AXIS, RobotConfig.DRIVETRAIN_YAW_AXIS_INVERTED);
+
+		ArcadeDriveNodeGroup arcadeDriveNodeGroup = new ArcadeDriveNodeGroup(network, logger, "Drive Train Arcade",
+				forwardAxisValueNode, yawAxisValueNode);
+
+		DivisionValueNode percentHeight = new DivisionValueNode(network, logger, "Percent Height",
+				elevatorMeasurementNodeGroup.getMeasurementValueNode(), RobotConfig.MAX_ELEVATOR_HEIGHT / 2);
+
+		MultiplicationValueNode inversePercentSpeed = new MultiplicationValueNode(network, logger,
+				"Inverse Percent Speed", percentHeight, 1 - RobotConfig.MAX_ELEVATOR_HEIGHT_MAX_SPEED);
+
+		SubtractionValueNode percentSpeed = new SubtractionValueNode(network, logger, "Percent Speed", 1,
+				inversePercentSpeed);
+
+		MultiplicationValueNode leftAdjustedOutputSpeed = new MultiplicationValueNode(network, logger,
+				"Left Output Speed", percentSpeed, arcadeDriveNodeGroup.getLeftMotorValueNode());
+
+		MultiplicationValueNode rightAdjustedOutputSpeed = new MultiplicationValueNode(network, logger,
+				"Right Output Speed", percentSpeed, arcadeDriveNodeGroup.getRightMotorValueNode());
 
 		AutoDrivetrainControllerNodeGroup lAutoDrivetrainNodeGroup = new AutoDrivetrainControllerNodeGroup(network,
 				logger, "Left Auto Drivetrain", true, planFollower, controlMode,
@@ -249,22 +242,14 @@ public class Robot extends IterativeRobot {
 
 		MultiplexerValueNode<Double, RobotState> leftDriveSpeed = generateAutonMultiplexerValueNode(network, logger,
 				"Left Drivetrain Multiplexer", robotStateValueNode, lAutoDrivetrainNodeGroup.getAutoController(),
-				encoderSpeed.getLeftEncoderValue());
+				leftAdjustedOutputSpeed);
 		MultiplexerValueNode<Double, RobotState> rightDriveSpeed = generateAutonMultiplexerValueNode(network, logger,
 				"Right Drivetrain Multiplexer", robotStateValueNode, rAutoDrivetrainNodeGroup.getAutoController(),
-				encoderSpeed.getRightEncoderValue());
-
-		DrivetrainTalonSRXParameterSlotValueNode talonSlotValueNode = new DrivetrainTalonSRXParameterSlotValueNode(
-				network, logger, "Talon Slot", controlMode, drivetrainShiftingNodeGroup.getSolenoidController());
+				rightAdjustedOutputSpeed);
 
 		new ObjectSmartDashboardNode(network, logger, "Drivetrain Control Mode Smartdashboard",
 				RobotConfig.DRIVETRAIN_CONTROLMODE_SMARTDASHBOARD_REQUIRE_UPDATE, "Drivetrain Control Mode",
 				controlMode);
-
-		new NumberSmartDashboardNode(network, logger, "SmartDashboard Talon Parameter Slot",
-				RobotConfig.DRIVETRAIN_PARAMETER_SLOT_SMARTDASHBOARD_REQUIRE_UPDATE, "Talon Slot", talonSlotValueNode);
-		new TalonSRXParameterSlotNode(network, logger, "Talon Paremeter Node", true, talonSlotValueNode, masterLeft,
-				masterRight);
 
 		new NumberSmartDashboardNode(network, logger, "Left Drivetrain Talon Smartdashboard",
 				RobotConfig.LEFT_DRIVETRAIN_TALONS_SMARTDASHBOARD_REQUIRE_UPDATE, "Left Drivetrain Talons",
@@ -310,17 +295,6 @@ public class Robot extends IterativeRobot {
 		new TalonSRXNode(network, logger, "Elevator Talon", RobotConfig.ELEVATOR_TALON_REQUIRE_UPDATE,
 				elevatorControlMode, encoderElevatorNodeGroup.getEncoderPulsesValueNode(), elevatorTalon);
 
-		ElevatorTalonSRXParameterSlotValueNode elevatorTalonParameterSlotValueNode = new ElevatorTalonSRXParameterSlotValueNode(
-				network, logger, "Elevator Parameter Slot", elevatorPosition,
-				encoderElevatorNodeGroup.getEncoderPulsesValueNode());
-
-		new NumberSmartDashboardNode(network, logger, "Elevator Talon Parameter Slot SmartDashboard",
-				RobotConfig.ELEVATOR_PARAMETER_SLOT_SMARTDASHBOARD_REQUIRE_UPDATE, "Elevator Talon Parameter Slot",
-				elevatorTalonParameterSlotValueNode);
-
-		new TalonSRXParameterSlotNode(network, logger, "Elevator Slot", RobotConfig.ELEVATOR_TALON_REQUIRE_UPDATE,
-				elevatorTalonParameterSlotValueNode, elevatorTalon);
-
 		// INTAKE CLAMP SETUP
 		DoubleSolenoid intakeClampShiftingSolenoid = new DoubleSolenoid(RobotConfig.SOLENOID_MODULE_NUMBER,
 				RobotConfig.INTAKE_SOLENOID_FORWARD_CHANNEL, RobotConfig.INTAKE_SOLENOID_REVERSE_CHANNEL);
@@ -340,6 +314,7 @@ public class Robot extends IterativeRobot {
 		TalonSRX leftIntakeTalon = new TalonSRX(RobotConfig.LEFT_INTAKE_TALON_PORT);
 
 		leftIntakeTalon.setInverted(true);
+		rightIntakeTalon.setInverted(true);
 
 		// INTAKE MOTOR NODE SETUP
 		HIDAxisValueNode cubeIntakeForwardAxis = new HIDAxisValueNode(network, logger, "Cube Intake Axis",

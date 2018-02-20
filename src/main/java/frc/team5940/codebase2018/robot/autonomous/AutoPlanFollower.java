@@ -6,6 +6,7 @@ import org.team5940.pantry.processing_network.ValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode.RobotState;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.EmptyAutonomousAction;
 
@@ -90,6 +91,8 @@ public class AutoPlanFollower extends ValueNode<AutoAction> {
 				this.currentActionIndex++;
 				return getCurrentAction();
 			}
+			
+			SmartDashboard.putNumber("Index", this.currentActionIndex);
 
 			return currentAction;
 		} else {

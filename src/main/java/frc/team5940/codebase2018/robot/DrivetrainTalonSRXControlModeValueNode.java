@@ -72,13 +72,13 @@ public class DrivetrainTalonSRXControlModeValueNode extends ValueNode<ControlMod
 			} else if (currentAction instanceof TurnAutoAction) {
 				lastDriveAutoAction = currentAction;
 				return ControlMode.PercentOutput;
-			} else if (currentAction instanceof DriveAutoAction) {
+			} else if (lastDriveAutoAction instanceof DriveAutoAction) {
 				return ControlMode.Position;
 			} else {
 				return ControlMode.PercentOutput;
 			}
 		}
-		return ControlMode.Velocity;
+		return ControlMode.PercentOutput;
 	}
 
 }
