@@ -112,6 +112,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				/* left */ new TurnAutoAction(network, logger, "Turn Auto", -90, robotAngleValueNode),
 				new DriveAutoAction(network, logger, "Drive Auto", 4.5 - 1.2, distanceMovedValueNode),
 				/* right */ new TurnAutoAction(network, logger, "Turn Auto", 90, robotAngleValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", 3.1 - 1.2, distanceMovedValueNode ),
 				new OuttakeCubeAutoAction(network, logger, "Outtake")));
 
 		// RIGHT SWITCH CENTER START
@@ -120,6 +121,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				/* right */ new TurnAutoAction(network, logger, "Turn Auto", 90, robotAngleValueNode),
 				new DriveAutoAction(network, logger, "Drive Auto", 4.5 - 1.2, distanceMovedValueNode),
 				/* left */ new TurnAutoAction(network, logger, "Turn Auto", -90, robotAngleValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", 3.1 - 1.2, distanceMovedValueNode ),
 				new OuttakeCubeAutoAction(network, logger, "Outtake")));
 
 		// EMPTY ACTION
