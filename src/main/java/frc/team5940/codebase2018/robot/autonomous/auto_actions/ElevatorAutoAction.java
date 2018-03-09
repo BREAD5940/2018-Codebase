@@ -47,7 +47,7 @@ public class ElevatorAutoAction extends AutoAction {
 		}
 
 		public double getHeight() {
-			return height / 2;
+			return height;
 		}
 	}
 
@@ -58,10 +58,14 @@ public class ElevatorAutoAction extends AutoAction {
 	 *            The requested elevator height.
 	 * @param wait
 	 *            If the robot should wait before executing the next action.
-	 * @param network 	the {@link Network} for this code
-	 * @param logger	the logger ofr ElevatorAutoAction
-	 * @param label		the label for the ElevatorAutoAction
-	 * @param elevatorHeightValueNode	the height of the elevator
+	 * @param network
+	 *            the {@link Network} for this code
+	 * @param logger
+	 *            the logger ofr ElevatorAutoAction
+	 * @param label
+	 *            the label for the ElevatorAutoAction
+	 * @param elevatorHeightValueNode
+	 *            the height of the elevator
 	 */
 	public ElevatorAutoAction(Network network, Logger logger, String label,
 			ValueNode<? extends Number> elevatorHeightValueNode, ElevatorHeight setElevatorHeight, boolean wait)
