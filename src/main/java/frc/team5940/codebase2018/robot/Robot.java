@@ -13,26 +13,23 @@ import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 import org.team5940.pantry.processing_network.ctre.input.TalonSRXEncoderPositionValueNode;
 import org.team5940.pantry.processing_network.ctre.output.TalonSRXNode;
-import org.team5940.pantry.processing_network.ctre.output.TalonSRXParameterSlotNode;
+import org.team5940.pantry.processing_network.functional.AndValueNode;
 import org.team5940.pantry.processing_network.functional.ConstantValueNode;
 import org.team5940.pantry.processing_network.functional.MultiplexerValueNode;
-import org.team5940.pantry.processing_network.functional.basic_arithmetic.DivisionValueNode;
 import org.team5940.pantry.processing_network.functional.basic_arithmetic.MultiplicationValueNode;
-import org.team5940.pantry.processing_network.functional.basic_arithmetic.SubtractionValueNode;
 import org.team5940.pantry.processing_network.functional.numeric_adjustment.BoundingValueNode;
+import org.team5940.pantry.processing_network.wpilib.input.DigitalInputValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.FMSGameMessageValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.GyroAngleValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.HIDAxisValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode.RobotState;
+import org.team5940.pantry.processing_network.wpilib.output.BooleanSmartDashboardNode;
 import org.team5940.pantry.processing_network.wpilib.output.DoubleSolenoidNode;
 import org.team5940.pantry.processing_network.wpilib.output.ObjectSmartDashboardNode;
 import org.team5940.pantry.processing_network.wpilib.output.NumberSmartDashboardNode;
 import org.team5940.pantry.processing_network.wpilib.systems.ArcadeDriveNodeGroup;
-import org.team5940.pantry.processing_network.wpilib.systems.DigitalInputSmartDashboardNodeGroup;
-import org.team5940.pantry.processing_network.wpilib.systems.MaxSpeedValueNode;
 import org.team5940.pantry.processing_network.wpilib.systems.ShiftingNodeGroup;
-import org.team5940.pantry.processing_network.wpilib.systems.VelocityControlNodeGroup;
 import org.team5940.pantry.processing_network.wpilib.systems.encoder_conversion.EncoderToMeasurementNodeGroup;
 import org.team5940.pantry.processing_network.wpilib.systems.encoder_conversion.MeasurementToEncoderNodeGroup;
 
@@ -120,7 +117,7 @@ public class Robot extends IterativeRobot {
 		elevatorTalon.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, 0);
 
 		elevatorTalon.setSensorPhase(true);
-		elevatorTalon.configVoltageCompSaturation(7, 0);
+		elevatorTalon.configVoltageCompSaturation(10, 0);
 		elevatorTalon.enableVoltageCompensation(true);
 		elevatorTalon.setSelectedSensorPosition(0, 0, 0);
 
@@ -163,19 +160,17 @@ public class Robot extends IterativeRobot {
 				"Elevator Measurement Node Group", elevatorPosition, RobotConfig.POSITION_PULSES_PER_ROTATION,
 				RobotConfig.ELEVATOR_CONTROL_SHAFT_DIAMETER);
 
+		MultiplicationValueNode elevatorHeightValueNode = new MultiplicationValueNode(network, logger,
+				"Elevator Actual Height", elevatorMeasurementNodeGroup.getMeasurementValueNode(), 2);
+
 		new NumberSmartDashboardNode(network, logger, "Elevator Height Dashboard",
 				RobotConfig.ELEVATOR_CURRENT_HEIGHT_SMARTDASHBOARD_REQUIRE_UPDATE, "Elevator Height", elevatorPosition);
-
-		// CUBE INTAKE SENSOR
-		new DigitalInputSmartDashboardNodeGroup(network, logger, "Digital Input",
-				new DigitalInput(RobotConfig.INTAKE_SENSOR_DIGITAL_INPUT_PORT),
-				RobotConfig.CUBE_SENSOR_SMARTDASHBOARD_REQUIRE_UPDATE, "Cube Intaked");
 
 		// AUTO PATH SELECT NODE SETUP
 		FMSGameMessageValueNode gameMessage = new FMSGameMessageValueNode(network, logger, "Game Data");
 		AutoPathSelect autoPathSelectValueNode = new AutoPathSelect(network, logger, "Auto Path Selector", gameMessage,
 				rTalonEncoderMeasurementNodeGroup.getMeasurementValueNode(), gyroAngleValueNode,
-				elevatorMeasurementNodeGroup.getMeasurementValueNode());
+				elevatorHeightValueNode);
 
 		new ObjectSmartDashboardNode(network, logger, "Auto Path Dashboard",
 				RobotConfig.AUTO_PATH_SMARTDASHBOARD_REQUIRE_UPDATE, "Auto Path", autoPathSelectValueNode);
@@ -218,20 +213,15 @@ public class Robot extends IterativeRobot {
 		ArcadeDriveNodeGroup arcadeDriveNodeGroup = new ArcadeDriveNodeGroup(network, logger, "Drive Train Arcade",
 				forwardAxisValueNode, yawAxisValueNode);
 
-		DivisionValueNode percentHeight = new DivisionValueNode(network, logger, "Percent Height",
-				elevatorMeasurementNodeGroup.getMeasurementValueNode(), RobotConfig.MAX_ELEVATOR_HEIGHT / 2);
+		RobotSpeedElevatorHeightScalingValueNode percentSpeed = new RobotSpeedElevatorHeightScalingValueNode(network,
+				logger, "Robot Percent", RobotConfig.INITIAL_SPEED_SCALING_PERCENT_HEIGHT,
+				RobotConfig.MAX_ELEVATOR_HEIGHT_MAX_SPEED, elevatorHeightValueNode);
 
-		MultiplicationValueNode inversePercentSpeed = new MultiplicationValueNode(network, logger,
-				"Inverse Percent Speed", percentHeight, 1 - RobotConfig.MAX_ELEVATOR_HEIGHT_MAX_SPEED);
+		MultiplicationValueNode leftSpeed = new MultiplicationValueNode(network, logger, "Left Output Speed",
+				percentSpeed, arcadeDriveNodeGroup.getLeftMotorValueNode());
 
-		SubtractionValueNode percentSpeed = new SubtractionValueNode(network, logger, "Percent Speed", 1,
-				inversePercentSpeed);
-
-		MultiplicationValueNode leftAdjustedOutputSpeed = new MultiplicationValueNode(network, logger,
-				"Left Output Speed", percentSpeed, arcadeDriveNodeGroup.getLeftMotorValueNode());
-
-		MultiplicationValueNode rightAdjustedOutputSpeed = new MultiplicationValueNode(network, logger,
-				"Right Output Speed", percentSpeed, arcadeDriveNodeGroup.getRightMotorValueNode());
+		MultiplicationValueNode rightSpeed = new MultiplicationValueNode(network, logger, "Right Output Speed",
+				percentSpeed, arcadeDriveNodeGroup.getRightMotorValueNode());
 
 		AutoDrivetrainControllerNodeGroup lAutoDrivetrainNodeGroup = new AutoDrivetrainControllerNodeGroup(network,
 				logger, "Left Auto Drivetrain", true, planFollower, controlMode,
@@ -242,10 +232,10 @@ public class Robot extends IterativeRobot {
 
 		MultiplexerValueNode<Double, RobotState> leftDriveSpeed = generateAutonMultiplexerValueNode(network, logger,
 				"Left Drivetrain Multiplexer", robotStateValueNode, lAutoDrivetrainNodeGroup.getAutoController(),
-				leftAdjustedOutputSpeed);
+				leftSpeed);
 		MultiplexerValueNode<Double, RobotState> rightDriveSpeed = generateAutonMultiplexerValueNode(network, logger,
 				"Right Drivetrain Multiplexer", robotStateValueNode, rAutoDrivetrainNodeGroup.getAutoController(),
-				rightAdjustedOutputSpeed);
+				rightSpeed);
 
 		new ObjectSmartDashboardNode(network, logger, "Drivetrain Control Mode Smartdashboard",
 				RobotConfig.DRIVETRAIN_CONTROLMODE_SMARTDASHBOARD_REQUIRE_UPDATE, "Drivetrain Control Mode",
@@ -316,6 +306,20 @@ public class Robot extends IterativeRobot {
 		leftIntakeTalon.setInverted(true);
 		rightIntakeTalon.setInverted(true);
 
+		// CUBE INTAKE SENSOR
+		DigitalInputValueNode leftDigitalInputValueNode = new DigitalInputValueNode(network, logger, "Digital Input",
+				new DigitalInput(RobotConfig.RIGHT_INTAKE_SENSOR_DIGITAL_INPUT_PORT),
+				RobotConfig.INTAKE_SENSORS_INVERTED);
+		DigitalInputValueNode rightDigitalInputValueNode = new DigitalInputValueNode(network, logger, "Digital Input",
+				new DigitalInput(RobotConfig.LEFT_INTAKE_SENSOR_DIGITAL_INPUT_PORT),
+				RobotConfig.INTAKE_SENSORS_INVERTED);
+
+		AndValueNode cubeIntakedValueNode = new AndValueNode(network, logger, "Cube Intook Value Node",
+				leftDigitalInputValueNode, rightDigitalInputValueNode);
+
+		new BooleanSmartDashboardNode(network, logger, "Cube Sensed Smartdahsboard",
+				RobotConfig.CUBE_INTAKED_SMARTDASHBOARD_REQUIRE_UPDATE, "Cube Intaked", cubeIntakedValueNode);
+
 		// INTAKE MOTOR NODE SETUP
 		HIDAxisValueNode cubeIntakeForwardAxis = new HIDAxisValueNode(network, logger, "Cube Intake Axis",
 				secondaryJoystick, RobotConfig.INTAKE_CONTROL_FORWARD_AXIS,
@@ -341,18 +345,23 @@ public class Robot extends IterativeRobot {
 		ConstantValueNode<ControlMode> intakeControlMode = new ConstantValueNode<ControlMode>(network, logger,
 				"Intake Control Mode", ControlMode.PercentOutput);
 
+		IntakeValueNode leftIntakeSpeed = new IntakeValueNode(network, logger, "Left Intake Speed",
+				cubeIntakedValueNode, leftIntakeValueNode);
+
+		IntakeValueNode rightIntakeSpeed = new IntakeValueNode(network, logger, "Right Intake Speed",
+				cubeIntakedValueNode, rightIntakeValueNode);
+
 		new NumberSmartDashboardNode(network, logger, "Left Intake Talon Smartdashboard",
-				RobotConfig.LEFT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE, "Left Intake Talon", leftIntakeValueNode);
+				RobotConfig.LEFT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE, "Left Intake Talon", leftIntakeSpeed);
 
 		new NumberSmartDashboardNode(network, logger, "Right Intake Talon Smartdashboard",
-				RobotConfig.RIGHT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE, "Right Intake Talon",
-				rightIntakeValueNode);
+				RobotConfig.RIGHT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE, "Right Intake Talon", rightIntakeSpeed);
 
 		new TalonSRXNode(network, logger, "Right Intake Talon", RobotConfig.INTAKE_TALONS_REQUIRE_UPDATE,
-				intakeControlMode, rightIntakeValueNode, rightIntakeTalon);
+				intakeControlMode, rightIntakeSpeed, rightIntakeTalon);
 
 		new TalonSRXNode(network, logger, "Left Intake Talon", RobotConfig.INTAKE_TALONS_REQUIRE_UPDATE,
-				intakeControlMode, leftIntakeValueNode, leftIntakeTalon);
+				intakeControlMode, leftIntakeSpeed, leftIntakeTalon);
 
 		network.start();
 	}
