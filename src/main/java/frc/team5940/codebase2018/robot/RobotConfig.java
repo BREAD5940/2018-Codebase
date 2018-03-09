@@ -1,6 +1,5 @@
 package frc.team5940.codebase2018.robot;
 
-import org.team5940.pantry.processing_network.wpilib.systems.controller_layouts.LogitechJoystickControllerLayout;
 import org.team5940.pantry.processing_network.wpilib.systems.controller_layouts.XBoxControllerLayout;
 
 public interface RobotConfig {
@@ -8,52 +7,50 @@ public interface RobotConfig {
 	public static final boolean TESTING_MODE = false;
 
 	// JOYSTICK CONFIGURATION
-	public static final int INTAKE_CLAMP_BUTTON = 3;
+	public static final int INTAKE_CLAMP_BUTTON = 1;
 
-	public static final int INTAKE_UNCLAMP_BUTTON = 4;
+	public static final int INTAKE_UNCLAMP_BUTTON = 2;
 
 	public static final int INTAKE_CONTROL_FORWARD_AXIS = 1;
 
-	public static final int INTAKE_CONTROL_YAW_AXIS = 2;
+	public static final int INTAKE_CONTROL_YAW_AXIS = 0;
 
-	public static final int ELEVATOR_CONTROL_AXIS = 0;
+	public static final int ELEVATOR_CONTROL_AXIS = 2;
 
 	public static final int DRIVETRAIN_YAW_AXIS = XBoxControllerLayout.Axis.RIGHT_JOYSTICK_X;
 
 	public static final int DRIVETRAIN_FORWARD_AXIS = XBoxControllerLayout.Axis.LEFT_JOYSTICK_Y;
 
-	public static final double DRIVETRAIN_YAW_AXIS_DEADZONE = 0.05;
+	public static final double DRIVETRAIN_YAW_AXIS_DEADZONE = 0;
 
-	public static final double DRIVETRAIN_FORWARD_AXIS_DEADZONE = 0.05;
+	public static final double DRIVETRAIN_FORWARD_AXIS_DEADZONE = 0;
 
 	public static final int SHIFT_UP_BUTTON = XBoxControllerLayout.Buttons.RB_BUTTON;
 
 	public static final int SHIFT_DOWN_BUTTON = XBoxControllerLayout.Buttons.LB_BUTTON;
 
-	// TODO
-	public static final int LEFT_RAMP_DROPDOWN_BUTTON = XBoxControllerLayout.Buttons.A_BUTTON;
-
-	// TODO
-	public static final int LEFT_RAMP_RAISE_BUTTON = XBoxControllerLayout.Buttons.X_BUTTON;
-
-	// TODO
-	public static final int RIGHT_RAMP_DROPDOWN_BUTTON = XBoxControllerLayout.Buttons.B_BUTTON;
-
-	// TODO
-	public static final int RIGHT_RAMP_RAISE_BUTTON = XBoxControllerLayout.Buttons.Y_BUTTON;
-
 	// AXIS INVERSION
-	boolean DRIVETRAIN_FORWARD_AXIS_INVERTED = false;
+	public static final boolean DRIVETRAIN_FORWARD_AXIS_INVERTED = true;
 
-	boolean DRIVETRAIN_YAW_AXIS_INVERTED = false;
+	public static final boolean DRIVETRAIN_YAW_AXIS_INVERTED = false;
 
-	boolean CUBE_INTAKE_YAW_AXIS_INVERTED = false;
+	public static final boolean CUBE_INTAKE_YAW_AXIS_INVERTED = false;
 
-	boolean CUBE_INTAKE_FORWARD_AXIS_INVERTED = true;
+	public static final boolean CUBE_INTAKE_FORWARD_AXIS_INVERTED = true;
 
-	boolean ELEVATOR_AXIS_INVERTED = true;
+	public static final boolean ELEVATOR_AXIS_INVERTED = true;
 
-	double MAX_ELEVATOR_HEIGHT_MAX_SPEED = 0.25;
+	// ELEVATOR SPEED SCALING
+	public static final double MAX_ELEVATOR_HEIGHT_MAX_SPEED = 0.25;
+
+	public static final double INITIAL_SPEED_SCALING_PERCENT_HEIGHT = 0.5;
+
+	// INTAKE SENSORS
+	public static final boolean INTAKE_SENSORS_INVERTED = true;
+
+	public static final int RIGHT_INTAKE_SENSOR_DIGITAL_INPUT_PORT = 0;
+
+	public static final int LEFT_INTAKE_SENSOR_DIGITAL_INPUT_PORT = 1;
 
 	// I did something odd below so people don't accidently change the wrong value.
 	// This should work.
@@ -71,16 +68,13 @@ public interface RobotConfig {
 	// I did something odd below so people don't accidently change the wrong value.
 	// This should work.
 	// REQUIRES UPDATE
-	public static final boolean LEFT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
+	public static final boolean LEFT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : false;
 
-	public static final boolean RIGHT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
+	public static final boolean RIGHT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : false;
 
 	public static final boolean INTAKE_PNEUMATICS_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
 
 	public static final boolean ELEVATOR_TALON_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
-
-	public static final boolean ELEVATOR_PARAMETER_SLOT_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE
-			: true;
 
 	public static final boolean LEFT_DRIVETRAIN_TALONS_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE
 			: true;
@@ -88,27 +82,24 @@ public interface RobotConfig {
 	public static final boolean RIGHT_DRIVETRAIN_TALONS_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE
 			: true;
 
-	public static final boolean DRIVETRAIN_SHIFTING_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
-
-	public static final boolean DRIVETRAIN_PARAMETER_SLOT_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE
-			: true;
+	public static final boolean DRIVETRAIN_SHIFTING_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : false;
 
 	public static final boolean DRIVETRAIN_CONTROLMODE_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE
-			: true;
+			: false;
 
 	public static final boolean RIGHT_ENCODER_POSITION_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE
-			: true;
+			: false;
 
 	public static final boolean ELEVATOR_CURRENT_HEIGHT_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE
 			: true;
-
-	public static final boolean CUBE_SENSOR_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
 
 	public static final boolean AUTO_PATH_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
 
 	public static final boolean CURRENT_ACTION_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : false;
 
-	public static final boolean ROBOT_ANGLE_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
+	public static final boolean ROBOT_ANGLE_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : false;
+
+	public static final boolean CUBE_INTAKED_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
 
 	// TALON PORTS
 	public static final int SLAVE_LEFT_TALON_PORT = 1;
@@ -188,7 +179,4 @@ public interface RobotConfig {
 	public static final float CIABATTA_LOW_GEAR_VELOCITY_D = 40f;
 
 	public static final float CIABATTA_LOW_GEAR_VELOCITY_F = 0.15f;
-
-	// TODO
-	public static final int INTAKE_SENSOR_DIGITAL_INPUT_PORT = 0;
 }
