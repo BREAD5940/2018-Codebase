@@ -4,7 +4,6 @@ import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 import org.team5940.pantry.processing_network.functional.comparison.ChangeDetectorValueNode;
-import org.team5940.pantry.processing_network.wpilib.output.NumberSmartDashboardNode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
