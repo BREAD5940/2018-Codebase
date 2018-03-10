@@ -158,7 +158,7 @@ public class Robot extends IterativeRobot {
 
 		EncoderToMeasurementNodeGroup elevatorMeasurementNodeGroup = new EncoderToMeasurementNodeGroup(network, logger,
 				"Elevator Measurement Node Group", elevatorPosition, RobotConfig.POSITION_PULSES_PER_ROTATION,
-				RobotConfig.ELEVATOR_CONTROL_SHAFT_DIAMETER);
+				RobotConfig.ELEVATOR_SPROCKET_DIAMETER);
 
 		MultiplicationValueNode elevatorHeightValueNode = new MultiplicationValueNode(network, logger,
 				"Elevator Actual Height", elevatorMeasurementNodeGroup.getMeasurementValueNode(), 2);
@@ -272,7 +272,7 @@ public class Robot extends IterativeRobot {
 				elevatorValueNode, 0, RobotConfig.MAX_ELEVATOR_HEIGHT);
 
 		MeasurementToEncoderNodeGroup encoderElevatorNodeGroup = new MeasurementToEncoderNodeGroup(network, logger,
-				"Elevator Measurement Node Group", boundElevatorValueNode, RobotConfig.ELEVATOR_CONTROL_SHAFT_DIAMETER,
+				"Elevator Measurement Node Group", boundElevatorValueNode, RobotConfig.ELEVATOR_SPROCKET_DIAMETER,
 				RobotConfig.POSITION_PULSES_PER_ROTATION);
 
 		ConstantValueNode<ControlMode> elevatorControlMode = new ConstantValueNode<ControlMode>(network, logger,

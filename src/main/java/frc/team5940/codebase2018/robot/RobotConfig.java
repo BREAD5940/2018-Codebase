@@ -119,7 +119,7 @@ public interface RobotConfig {
 	// ELEVATOR
 	public static final double MAX_ELEVATOR_HEIGHT = 84.5 / 12;
 
-	public static final double ELEVATOR_CONTROL_SHAFT_DIAMETER = 1.273f / 12;
+	public static final double ELEVATOR_SPROCKET_DIAMETER = 1.273f / 12;
 
 	// ELEVATOR PID
 	public static final double ELEVATOR_TALON_P = 1.7;
