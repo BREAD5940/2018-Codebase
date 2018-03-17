@@ -41,9 +41,9 @@ public interface RobotConfig {
 	public static final boolean ELEVATOR_AXIS_INVERTED = true;
 
 	// ELEVATOR SPEED SCALING
-	public static final double MAX_ELEVATOR_HEIGHT_MAX_SPEED = 0.25;
+	public static final double MAX_ELEVATOR_HEIGHT_MAX_SPEED = 0.32;
 
-	public static final double INITIAL_SPEED_SCALING_PERCENT_HEIGHT = 0.5;
+	public static final double INITIAL_SPEED_SCALING_PERCENT_HEIGHT = 0.33;
 
 	// INTAKE SENSORS
 	public static final boolean INTAKE_SENSORS_INVERTED = true;
@@ -88,16 +88,16 @@ public interface RobotConfig {
 			: false;
 
 	public static final boolean RIGHT_ENCODER_POSITION_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE
-			: false;
+			: true;
 
 	public static final boolean ELEVATOR_CURRENT_HEIGHT_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE
 			: true;
 
 	public static final boolean AUTO_PATH_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
 
-	public static final boolean CURRENT_ACTION_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : false;
+	public static final boolean CURRENT_ACTION_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
 
-	public static final boolean ROBOT_ANGLE_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : false;
+	public static final boolean ROBOT_ANGLE_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
 
 	public static final boolean CUBE_INTAKED_SMARTDASHBOARD_REQUIRE_UPDATE = TESTING_MODE ? TESTING_MODE : true;
 

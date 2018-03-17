@@ -8,10 +8,12 @@ import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.NodeGroup;
 import org.team5940.pantry.processing_network.ValueNode;
 import org.team5940.pantry.processing_network.functional.MultiplexerValueNode;
+import org.team5940.pantry.processing_network.wpilib.output.NumberSmartDashboardNode;
 import org.team5940.pantry.processing_network.wpilib.systems.encoder_conversion.MeasurementToEncoderNodeGroup;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.RobotConfig;
 import frc.team5940.codebase2018.robot.autonomous.auto_action_controllers.DrivetrainAutonomousControllerValueNode;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
@@ -70,9 +72,13 @@ public class AutoDrivetrainControllerNodeGroup extends NodeGroup {
 		Map<ControlMode, ValueNode<? extends Double>> drivetrainAutoMap = new HashMap<>();
 		drivetrainAutoMap.put(ControlMode.Position, autoMeasurementToEncoderNodeGroup.getEncoderPulsesValueNode());
 		drivetrainAutoMap.put(ControlMode.PercentOutput, driveAutoController);
+		
 
 		this.autoController = new MultiplexerValueNode<Double, ControlMode>(network, logger, "Auto Drive Speed",
 				controlMode, drivetrainAutoMap, 0d);
+		
+		// TODO
+		new NumberSmartDashboardNode(network, logger, "Label", true, "Set Talon Position/Speed", this.autoController);
 	}
 
 	/**

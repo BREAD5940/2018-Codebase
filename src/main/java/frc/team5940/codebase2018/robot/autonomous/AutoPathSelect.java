@@ -30,7 +30,6 @@ import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
  * 
  * @author Julia Reid
  */
-// comment
 public class AutoPathSelect extends ValueNode<AutoPath> {
 
 	SendableChooser<RobotLocation> robotLoc;
@@ -72,7 +71,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 
 		robotLoc = new SendableChooser<RobotLocation>();
 		robotLoc.addObject("Far Left", RobotLocation.FAR_LEFT);
-		robotLoc.addObject("Right", RobotLocation.LEFT);
+		robotLoc.addObject("Left", RobotLocation.LEFT);
 		robotLoc.addDefault("Center", RobotLocation.CENTER);
 		robotLoc.addObject("Right", RobotLocation.RIGHT);
 		robotLoc.addObject("Far Right", RobotLocation.FAR_RIGHT);
@@ -80,20 +79,20 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		this.fmsReturn = fmsReturn;
 
 		// AUTO LINE
-		totalPossiblePaths.add(new AutoPath("Auto Line", "XXX", RobotLocation.FAR_LEFT,
-				new DriveAutoAction(network, logger, "Drive Auto", 6, distanceMovedValueNode)));
+		totalPossiblePaths.add(new AutoPath("Auto Line Far Left", "XXX", RobotLocation.FAR_LEFT,
+				new DriveAutoAction(network, logger, "Drive Auto", 10, distanceMovedValueNode)));
 
-		totalPossiblePaths.add(new AutoPath("Auto Line", "XXX", RobotLocation.FAR_RIGHT,
-				new DriveAutoAction(network, logger, "Drive Auto", 6, distanceMovedValueNode)));
+		totalPossiblePaths.add(new AutoPath("Auto Line Far Right", "XXX", RobotLocation.FAR_RIGHT,
+				new DriveAutoAction(network, logger, "Drive Auto", 10, distanceMovedValueNode)));
 
-		totalPossiblePaths.add(new AutoPath("Auto Line", "XXX", RobotLocation.CENTER,
-				new DriveAutoAction(network, logger, "Drive Auto", 6, distanceMovedValueNode)));
+		totalPossiblePaths.add(new AutoPath("Auto Line Center", "XXX", RobotLocation.CENTER,
+				new DriveAutoAction(network, logger, "Drive Auto", 10, distanceMovedValueNode)));
 
-		totalPossiblePaths.add(new AutoPath("Auto Line", "XXX", RobotLocation.LEFT,
-				new DriveAutoAction(network, logger, "Drive Auto", 6, distanceMovedValueNode)));
+		totalPossiblePaths.add(new AutoPath("Auto Line Left", "XXX", RobotLocation.LEFT,
+				new DriveAutoAction(network, logger, "Drive Auto", 10, distanceMovedValueNode)));
 
-		totalPossiblePaths.add(new AutoPath("Auto Line", "XXX", RobotLocation.RIGHT,
-				new DriveAutoAction(network, logger, "Drive Auto", 6, distanceMovedValueNode)));
+		totalPossiblePaths.add(new AutoPath("Auto Line Right", "XXX", RobotLocation.RIGHT,
+				new DriveAutoAction(network, logger, "Drive Auto", 10, distanceMovedValueNode)));
 
 		// LEFT SWITCH FAR_LEFT START
 		totalPossiblePaths.add(new AutoPath("Place Switch From Left", "LXX", RobotLocation.FAR_LEFT,

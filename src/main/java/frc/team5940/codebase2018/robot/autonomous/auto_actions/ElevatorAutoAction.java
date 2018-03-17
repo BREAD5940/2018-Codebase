@@ -47,7 +47,7 @@ public class ElevatorAutoAction extends AutoAction {
 		}
 
 		public double getHeight() {
-			return height;
+			return height / 2;
 		}
 	}
 

@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.AutoDrivetrainControllerNodeGroup;
 import frc.team5940.codebase2018.robot.autonomous.AutoPathSelect;
 import frc.team5940.codebase2018.robot.autonomous.AutoPlanFollower;
@@ -61,19 +62,27 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
+		
+		SmartDashboard.putBoolean("New Code", true);
+		
 		// LOGGER SETUP
-		Logger logger;
-		try {
-			logger = new PrintStreamLogger(new PrintStream(new File("/home/lvuser/log.json")));
-		} catch (FileNotFoundException e) {
-			logger = new Logger() {
-				@Override
-				public void log(Message message) {
+		Logger logger = new Logger() {
+			@Override
+			public void log(Message message) {
 
-				}
-			};
-			e.printStackTrace();
-		}
+			}
+		};
+//		try {
+//			logger = new PrintStreamLogger(new PrintStream(new File("/home/lvuser/log.json")));
+//		} catch (FileNotFoundException e) {
+//			logger = new Logger() {
+//				@Override
+//				public void log(Message message) {
+//
+//				}
+//			};
+//			e.printStackTrace();
+//		}
 
 		// GENERAL SETUP
 		Network network = new Network(50000, logger);
@@ -82,7 +91,9 @@ public class Robot extends IterativeRobot {
 		Joystick secondaryJoystick = new Joystick(1);
 
 		RobotStateValueNode robotStateValueNode = new RobotStateValueNode(network, logger, "Robot State", this);
-
+		
+		new ObjectSmartDashboardNode(network, logger, "State", true, "Robot State", robotStateValueNode);
+		
 		// DRIVETRAIN TALON SETUP
 		TalonSRX slaveLeft = new TalonSRX(RobotConfig.SLAVE_LEFT_TALON_PORT);
 		TalonSRX masterLeft = new TalonSRX(RobotConfig.MASTER_LEFT_TALON_PORT);
@@ -216,6 +227,8 @@ public class Robot extends IterativeRobot {
 		RobotSpeedElevatorHeightScalingValueNode percentSpeed = new RobotSpeedElevatorHeightScalingValueNode(network,
 				logger, "Robot Percent", RobotConfig.INITIAL_SPEED_SCALING_PERCENT_HEIGHT,
 				RobotConfig.MAX_ELEVATOR_HEIGHT_MAX_SPEED, elevatorHeightValueNode);
+		
+		new NumberSmartDashboardNode(network, logger, "Percent Speed", true, "Percent Speed", percentSpeed);
 
 		MultiplicationValueNode leftSpeed = new MultiplicationValueNode(network, logger, "Left Output Speed",
 				percentSpeed, arcadeDriveNodeGroup.getLeftMotorValueNode());
@@ -345,23 +358,23 @@ public class Robot extends IterativeRobot {
 		ConstantValueNode<ControlMode> intakeControlMode = new ConstantValueNode<ControlMode>(network, logger,
 				"Intake Control Mode", ControlMode.PercentOutput);
 
-		IntakeValueNode leftIntakeSpeed = new IntakeValueNode(network, logger, "Left Intake Speed",
-				cubeIntakedValueNode, leftIntakeValueNode);
-
-		IntakeValueNode rightIntakeSpeed = new IntakeValueNode(network, logger, "Right Intake Speed",
-				cubeIntakedValueNode, rightIntakeValueNode);
+//		IntakeValueNode leftIntakeSpeed = new IntakeValueNode(network, logger, "Left Intake Speed",
+//				cubeIntakedValueNode, leftIntakeValueNode);
+//
+//		IntakeValueNode rightIntakeSpeed = new IntakeValueNode(network, logger, "Right Intake Speed",
+//				cubeIntakedValueNode, rightIntakeValueNode);
 
 		new NumberSmartDashboardNode(network, logger, "Left Intake Talon Smartdashboard",
-				RobotConfig.LEFT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE, "Left Intake Talon", leftIntakeSpeed);
+				RobotConfig.LEFT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE, "Left Intake Talon", leftIntakeValueNode);
 
 		new NumberSmartDashboardNode(network, logger, "Right Intake Talon Smartdashboard",
-				RobotConfig.RIGHT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE, "Right Intake Talon", rightIntakeSpeed);
+				RobotConfig.RIGHT_INTAKE_TALON_SMARTDASHBOARD_REQUIRE_UPDATE, "Right Intake Talon", rightIntakeValueNode);
 
 		new TalonSRXNode(network, logger, "Right Intake Talon", RobotConfig.INTAKE_TALONS_REQUIRE_UPDATE,
-				intakeControlMode, rightIntakeSpeed, rightIntakeTalon);
+				intakeControlMode, rightIntakeValueNode, rightIntakeTalon);
 
 		new TalonSRXNode(network, logger, "Left Intake Talon", RobotConfig.INTAKE_TALONS_REQUIRE_UPDATE,
-				intakeControlMode, leftIntakeSpeed, leftIntakeTalon);
+				intakeControlMode, leftIntakeValueNode, leftIntakeTalon);
 
 		network.start();
 	}

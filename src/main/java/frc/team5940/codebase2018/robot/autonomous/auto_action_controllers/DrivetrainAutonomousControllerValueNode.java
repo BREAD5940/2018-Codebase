@@ -4,6 +4,7 @@ import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 import org.team5940.pantry.processing_network.functional.comparison.ChangeDetectorValueNode;
+import org.team5940.pantry.processing_network.wpilib.output.NumberSmartDashboardNode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
@@ -87,6 +88,9 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 		this.isLeftTalons = isLeftTalons;
 		this.gyroAngleValueNode = gyroAngleValueNode;
 		this.drivetrainFeetValueNode = drivetrainFeetValueNode;
+		
+		// TODO
+		new NumberSmartDashboardNode(network, logger, "Drivetrain Feet", true, "Drivetrain Current Feet", drivetrainFeetValueNode);
 	}
 
 	@Override
@@ -111,15 +115,25 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 			double offset = (targetAngle - this.gyroAngleValueNode.getValue().doubleValue());
 			double speed;
 			if (this.isLeftTalons) {
-				speed = offset * this.p;
+				if (offset > 0) {
+					speed = 0.2;
+				} else {
+					speed = -0.2;
+				}
+//				speed = offset * this.p;
 			} else {
-				speed = -offset * this.p;
+				if (offset < 0) {
+					speed = 0.2;
+				} else {
+					speed = -0.2;
+				}
+//				speed = -offset * this.p;
 			}
-			if (speed < 0) {
-				speed -= 0.07;
-			} else {
-				speed += 0.07;
-			}
+//			if (speed < 0) {
+//				speed -= 0.07;
+//			} else {
+//				speed += 0.07;
+//			}
 			if (speed < -1 || speed > 1) {
 				speed = speed / Math.abs(speed);
 			}
