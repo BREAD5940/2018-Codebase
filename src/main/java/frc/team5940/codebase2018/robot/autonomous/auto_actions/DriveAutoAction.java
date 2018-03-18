@@ -55,7 +55,7 @@ public class DriveAutoAction extends AutoAction {
 
 	@Override
 	protected Boolean checkCompletion() {
-		return withinMargin(this.distanceMoved.getValue().doubleValue(), this.targetDistance, 0.05);
+		return withinMargin(this.distanceMoved.getValue().doubleValue(), this.targetDistance, 0.1);
 	}
 
 	/**

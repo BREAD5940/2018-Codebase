@@ -59,7 +59,7 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 	/**
 	 * The P value for turning with the drivetrain.
 	 */
-	private final double p = 0.015;
+	private final double p = 0.008;
 
 	/**
 	 * Creates a new {@link DrivetrainAutonomousControllerValueNode}.
@@ -115,25 +115,25 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 			double offset = (targetAngle - this.gyroAngleValueNode.getValue().doubleValue());
 			double speed;
 			if (this.isLeftTalons) {
-				if (offset > 0) {
-					speed = 0.2;
-				} else {
-					speed = -0.2;
-				}
-//				speed = offset * this.p;
+//				if (offset > 0) {
+//					speed = 0.35;
+//				} else {
+//					speed = -0.35;
+//				}
+				speed = offset * this.p;
 			} else {
-				if (offset < 0) {
-					speed = 0.2;
-				} else {
-					speed = -0.2;
-				}
-//				speed = -offset * this.p;
+//				if (offset < 0) {
+//					speed = 0.35;
+//				} else {
+//					speed = -0.35;
+//				}
+				speed = -offset * this.p;
 			}
-//			if (speed < 0) {
-//				speed -= 0.07;
-//			} else {
-//				speed += 0.07;
-//			}
+			if (speed < 0) {
+				speed -= 0.25;
+			} else {
+				speed += 0.25;
+			}
 			if (speed < -1 || speed > 1) {
 				speed = speed / Math.abs(speed);
 			}

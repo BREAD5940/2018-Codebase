@@ -1,13 +1,9 @@
 package frc.team5940.codebase2018.robot;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.team5940.pantry.logging.loggers.Logger;
-import org.team5940.pantry.logging.loggers.PrintStreamLogger;
 import org.team5940.pantry.logging.messages.Message;
 import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
@@ -37,10 +33,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.AutoDrivetrainControllerNodeGroup;
 import frc.team5940.codebase2018.robot.autonomous.AutoPathSelect;
 import frc.team5940.codebase2018.robot.autonomous.AutoPlanFollower;
@@ -63,7 +59,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		
-		SmartDashboard.putBoolean("New Code", true);
+		CameraServer.getInstance().startAutomaticCapture();
 		
 		// LOGGER SETUP
 		Logger logger = new Logger() {

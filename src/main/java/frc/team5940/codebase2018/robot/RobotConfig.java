@@ -43,7 +43,7 @@ public interface RobotConfig {
 	// ELEVATOR SPEED SCALING
 	public static final double MAX_ELEVATOR_HEIGHT_MAX_SPEED = 0.32;
 
-	public static final double INITIAL_SPEED_SCALING_PERCENT_HEIGHT = 0.33;
+	public static final double INITIAL_SPEED_SCALING_PERCENT_HEIGHT = 0.36;
 
 	// INTAKE SENSORS
 	public static final boolean INTAKE_SENSORS_INVERTED = true;

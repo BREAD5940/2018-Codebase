@@ -14,7 +14,7 @@ import frc.team5940.codebase2018.robot.autonomous.auto_actions.OuttakeCubeAutoAc
  * @author Michael Bentley
  *
  */
-public class IntakeAutonomousControllerValueNode extends ValueNode<Integer> {
+public class IntakeAutonomousControllerValueNode extends ValueNode<Double> {
 
 	/**
 	 * The current AutoAction in the auto plan.
@@ -41,11 +41,11 @@ public class IntakeAutonomousControllerValueNode extends ValueNode<Integer> {
 	}
 
 	@Override
-	protected Integer updateValue() {
+	protected Double updateValue() {
 		if (this.autoActionValueNode.getValue() instanceof OuttakeCubeAutoAction) {
-			return 1;
+			return 0.5;
 		}
-		return 0;
+		return 0d;
 	}
 
 }
