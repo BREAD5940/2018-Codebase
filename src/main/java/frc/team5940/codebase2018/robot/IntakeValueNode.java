@@ -16,11 +16,6 @@ import org.team5940.pantry.processing_network.ValueNode;
 public class IntakeValueNode extends ValueNode<Double> {
 
 	/**
-	 * If there is a cube already intaked.
-	 */
-	ValueNode<? extends Boolean> cubeIntakedValueNode;
-
-	/**
 	 * The set speed of the intake.
 	 */
 	ValueNode<? extends Number> setSpeed;
@@ -39,18 +34,16 @@ public class IntakeValueNode extends ValueNode<Double> {
 	 * @param setSpeedValueNode
 	 *            The set speed of the intake.
 	 */
-	public IntakeValueNode(Network network, Logger logger, String label,
-			ValueNode<? extends Boolean> cubeIntakedValueNode, ValueNode<? extends Number> setSpeedValueNode)
+	public IntakeValueNode(Network network, Logger logger, String label, ValueNode<? extends Number> setSpeedValueNode)
 			throws IllegalArgumentException, IllegalStateException {
-		super(network, logger, label, cubeIntakedValueNode, setSpeedValueNode);
-		this.cubeIntakedValueNode = cubeIntakedValueNode;
+		super(network, logger, label, setSpeedValueNode);
 		this.setSpeed = setSpeedValueNode;
 	}
 
 	@Override
 	protected Double updateValue() {
-		if (this.setSpeed.getValue().doubleValue() < 0 && this.cubeIntakedValueNode.getValue()) {
-			return 0d;
+		if (this.setSpeed.getValue().doubleValue() < 0) {
+			return this.setSpeed.getValue().doubleValue() * 0.45;
 		}
 		return this.setSpeed.getValue().doubleValue();
 	}

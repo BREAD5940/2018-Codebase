@@ -157,7 +157,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new DriveAutoAction(network, logger, "Drive Auto", 70 / 12, distanceMovedValueNode),
 				new TurnAutoAction(network, logger, "Turn Auto", 90, robotAngleValueNode),
 				new DriveAutoAction(network, logger, "Drive Auto", 7.5 - (4.25 / 12), distanceMovedValueNode),
-				new TurnAutoAction(network, logger, "Turn Auto", -90, robotAngleValueNode),
+				new TurnAutoAction(network, logger, "Turn Auto", -9, robotAngleValueNode),
 				new DriveAutoAction(network, logger, "Drive Auto", (70 / 12) - (37.5 / 12), distanceMovedValueNode),
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
@@ -166,7 +166,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		totalPossiblePaths.add(new AutoPath("Direct Right Switch", "RXX", RobotLocation.RIGHT,
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH,
 						false),
-				new DriveAutoAction(network, logger, "Drive Auto", ((140 - 37.5) / 12) - 0.33, distanceMovedValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", ((140 - 37.5) / 12) - 0.28, distanceMovedValueNode),
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
 
@@ -174,10 +174,9 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		totalPossiblePaths.add(new AutoPath("Direct Left Switch", "LXX", RobotLocation.LEFT,
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH,
 						false),
-				new DriveAutoAction(network, logger, "Drive Auto", ((140 - 37.5) / 12) - 0.33, distanceMovedValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", ((140 - 37.5) / 12) - 0.28, distanceMovedValueNode),
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
-		
 
 		// EMPTY ACTION
 		this.emptyAction = new AutoPath("Do Nothing", "XXX", RobotLocation.FAR_LEFT);

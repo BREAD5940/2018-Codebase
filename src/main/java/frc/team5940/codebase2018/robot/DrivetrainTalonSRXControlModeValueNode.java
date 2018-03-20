@@ -64,20 +64,6 @@ public class DrivetrainTalonSRXControlModeValueNode extends ValueNode<ControlMod
 
 	@Override
 	protected ControlMode updateValue() {
-		if (robotState.getValue() == RobotState.AUTONOMOUS) {
-			AutoAction currentAction = currentActionValueNode.getValue();
-			if (currentAction instanceof DriveAutoAction) {
-				lastDriveAutoAction = currentAction;
-				return ControlMode.Position;
-			} else if (currentAction instanceof TurnAutoAction) {
-				lastDriveAutoAction = currentAction;
-				return ControlMode.PercentOutput;
-			} else if (lastDriveAutoAction instanceof DriveAutoAction) {
-				return ControlMode.Position;
-			} else {
-				return ControlMode.PercentOutput;
-			}
-		}
 		return ControlMode.PercentOutput;
 	}
 

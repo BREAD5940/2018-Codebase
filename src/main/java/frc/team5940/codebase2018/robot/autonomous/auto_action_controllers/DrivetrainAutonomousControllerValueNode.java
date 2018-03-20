@@ -59,7 +59,12 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 	/**
 	 * The P value for turning with the drivetrain.
 	 */
-	private final double p = 0.008;
+	private final double turnP = 0.008;
+
+	/**
+	 * The P value for moving forward with the drivetrain.
+	 */
+	private final double forwardP = 0.2;
 
 	/**
 	 * Creates a new {@link DrivetrainAutonomousControllerValueNode}.
@@ -88,9 +93,10 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 		this.isLeftTalons = isLeftTalons;
 		this.gyroAngleValueNode = gyroAngleValueNode;
 		this.drivetrainFeetValueNode = drivetrainFeetValueNode;
-		
+
 		// TODO
-		new NumberSmartDashboardNode(network, logger, "Drivetrain Feet", true, "Drivetrain Current Feet", drivetrainFeetValueNode);
+		new NumberSmartDashboardNode(network, logger, "Drivetrain Feet", true, "Drivetrain Current Feet",
+				drivetrainFeetValueNode);
 	}
 
 	@Override
@@ -109,30 +115,35 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 	@Override
 	protected Double updateValue() {
 		if (this.isDriving) {
-			return this.targetDistance;
+			double offset = (this.targetDistance - this.drivetrainFeetValueNode.getValue().doubleValue());
+			double speed;
+			if (this.isLeftTalons) {
+				speed = offset * this.forwardP;
+			} else {
+				speed = offset * this.forwardP;
+			}
+			if (speed < 0) {
+				speed -= 0.1;
+			} else {
+				speed += 0.1;
+			}
+			if (speed < -0.7 || speed > 0.7) {
+				speed = (speed / Math.abs(speed)) * 0.6;
+			}
+			return speed;
 		} else {
 			SmartDashboard.putNumber("Target Angle", this.targetAngle);
 			double offset = (targetAngle - this.gyroAngleValueNode.getValue().doubleValue());
 			double speed;
 			if (this.isLeftTalons) {
-//				if (offset > 0) {
-//					speed = 0.35;
-//				} else {
-//					speed = -0.35;
-//				}
-				speed = offset * this.p;
+				speed = offset * this.turnP;
 			} else {
-//				if (offset < 0) {
-//					speed = 0.35;
-//				} else {
-//					speed = -0.35;
-//				}
-				speed = -offset * this.p;
+				speed = -offset * this.turnP;
 			}
 			if (speed < 0) {
-				speed -= 0.25;
+				speed -= 0.3;
 			} else {
-				speed += 0.25;
+				speed += 0.3;
 			}
 			if (speed < -1 || speed > 1) {
 				speed = speed / Math.abs(speed);

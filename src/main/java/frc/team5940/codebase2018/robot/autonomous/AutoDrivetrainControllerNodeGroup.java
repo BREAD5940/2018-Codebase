@@ -34,7 +34,7 @@ public class AutoDrivetrainControllerNodeGroup extends NodeGroup {
 	/**
 	 * The current value the motors should be set to for auto.
 	 */
-	MultiplexerValueNode<Double, ControlMode> autoController;
+	DrivetrainAutonomousControllerValueNode driveAutoController;
 
 	/**
 	 * Creates a new {@link AutoDrivetrainControllerNodeGroup}
@@ -61,24 +61,9 @@ public class AutoDrivetrainControllerNodeGroup extends NodeGroup {
 			ValueNode<? extends Double> talonPositionValueNode, ValueNode<? extends Double> gyroAngleValueNode) {
 		super(network, logger, label);
 
-		DrivetrainAutonomousControllerValueNode driveAutoController = new DrivetrainAutonomousControllerValueNode(
+		this.driveAutoController = new DrivetrainAutonomousControllerValueNode(
 				network, logger, "Left Drive Auto Controller", isLeftTalons, planFollower, talonPositionValueNode,
 				gyroAngleValueNode);
-
-		MeasurementToEncoderNodeGroup autoMeasurementToEncoderNodeGroup = new MeasurementToEncoderNodeGroup(network,
-				logger, "Left Auto Measurement To Encoder", driveAutoController, RobotConfig.WHEEL_DIAMETER,
-				RobotConfig.POSITION_PULSES_PER_ROTATION);
-
-		Map<ControlMode, ValueNode<? extends Double>> drivetrainAutoMap = new HashMap<>();
-		drivetrainAutoMap.put(ControlMode.Position, autoMeasurementToEncoderNodeGroup.getEncoderPulsesValueNode());
-		drivetrainAutoMap.put(ControlMode.PercentOutput, driveAutoController);
-		
-
-		this.autoController = new MultiplexerValueNode<Double, ControlMode>(network, logger, "Auto Drive Speed",
-				controlMode, drivetrainAutoMap, 0d);
-		
-		// TODO
-		new NumberSmartDashboardNode(network, logger, "Label", true, "Set Talon Position/Speed", this.autoController);
 	}
 
 	/**
@@ -86,7 +71,7 @@ public class AutoDrivetrainControllerNodeGroup extends NodeGroup {
 	 * 
 	 * @return The ValueNode that determines the auto speed of the robot.
 	 */
-	public MultiplexerValueNode<Double, ControlMode> getAutoController() {
-		return autoController;
+	public DrivetrainAutonomousControllerValueNode getAutoController() {
+		return this.driveAutoController;
 	}
 }
