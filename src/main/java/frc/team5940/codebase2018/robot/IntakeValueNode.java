@@ -21,6 +21,11 @@ public class IntakeValueNode extends ValueNode<Double> {
 	ValueNode<? extends Number> setSpeed;
 
 	/**
+	 * The set speed of the intake.
+	 */
+	ValueNode<? extends Boolean> slowOuttakeButton;
+
+	/**
 	 * Creates a new {@link IntakeValueNode}
 	 * 
 	 * @param network
@@ -29,21 +34,23 @@ public class IntakeValueNode extends ValueNode<Double> {
 	 *            This' Logger.
 	 * @param label
 	 *            This' Label.
-	 * @param cubeIntakedValueNode
-	 *            If a cube is currently intaked.
 	 * @param setSpeedValueNode
 	 *            The set speed of the intake.
 	 */
-	public IntakeValueNode(Network network, Logger logger, String label, ValueNode<? extends Number> setSpeedValueNode)
+	public IntakeValueNode(Network network, Logger logger, String label, ValueNode<? extends Number> setSpeedValueNode, ValueNode<? extends Boolean> slowOuttakeButton)
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label, setSpeedValueNode);
 		this.setSpeed = setSpeedValueNode;
+		this.slowOuttakeButton = slowOuttakeButton;
 	}
 
 	@Override
 	protected Double updateValue() {
+		if (slowOuttakeButton.getValue()) {
+			return 0.3;
+		}
 		if (this.setSpeed.getValue().doubleValue() < 0) {
-			return this.setSpeed.getValue().doubleValue() * 0.45;
+			return this.setSpeed.getValue().doubleValue() * 0.5;
 		}
 		return this.setSpeed.getValue().doubleValue();
 	}

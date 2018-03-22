@@ -18,11 +18,7 @@ import org.team5940.pantry.processing_network.functional.ConstantValueNode;
 import org.team5940.pantry.processing_network.functional.MultiplexerValueNode;
 import org.team5940.pantry.processing_network.functional.basic_arithmetic.MultiplicationValueNode;
 import org.team5940.pantry.processing_network.functional.numeric_adjustment.BoundingValueNode;
-import org.team5940.pantry.processing_network.wpilib.input.DigitalInputValueNode;
-import org.team5940.pantry.processing_network.wpilib.input.FMSGameMessageValueNode;
-import org.team5940.pantry.processing_network.wpilib.input.GyroAngleValueNode;
-import org.team5940.pantry.processing_network.wpilib.input.HIDAxisValueNode;
-import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode;
+import org.team5940.pantry.processing_network.wpilib.input.*;
 import org.team5940.pantry.processing_network.wpilib.input.RobotStateValueNode.RobotState;
 import org.team5940.pantry.processing_network.wpilib.output.BooleanSmartDashboardNode;
 import org.team5940.pantry.processing_network.wpilib.output.DoubleSolenoidNode;
@@ -129,7 +125,7 @@ public class Robot extends IterativeRobot {
 		elevatorTalon.config_kF(0, RobotConfig.RAISE_ELEVATOR_TALON_F, 0);
 
 		elevatorTalon.setSensorPhase(true);
-		elevatorTalon.configVoltageCompSaturation(10, 0);
+		elevatorTalon.configVoltageCompSaturation(11, 0);
 		elevatorTalon.enableVoltageCompensation(true);
 		elevatorTalon.setSelectedSensorPosition(0, 0, 0);
 
@@ -345,10 +341,12 @@ public class Robot extends IterativeRobot {
 		ArcadeDriveNodeGroup intakeArcadeDrive = new ArcadeDriveNodeGroup(network, logger, "Node Group",
 				cubeIntakeForwardAxis, cubeIntakeYawAxis);
 
+		HIDButtonValueNode slowOuttakeButtonValueNode = new HIDButtonValueNode(network, logger, "Slow Outtake", secondaryJoystick, RobotConfig.SLOW_OUTTAKE_BUTTON);
+
 		IntakeValueNode leftIntakeOperatorSpeed = new IntakeValueNode(network, logger, "Left Operator Intake",
-				intakeArcadeDrive.getLeftMotorValueNode());
+				intakeArcadeDrive.getLeftMotorValueNode(), slowOuttakeButtonValueNode);
 		IntakeValueNode rightIntakeOperatorSpeed = new IntakeValueNode(network, logger, "Right Operator Intake",
-				intakeArcadeDrive.getRightMotorValueNode());
+				intakeArcadeDrive.getRightMotorValueNode(), slowOuttakeButtonValueNode);
 
 		IntakeAutonomousControllerValueNode autoIntakeController = new IntakeAutonomousControllerValueNode(network,
 				logger, "Intake Auto Controller", planFollower);

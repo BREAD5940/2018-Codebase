@@ -9,6 +9,9 @@ public interface RobotConfig {
 	// JOYSTICK CONFIGURATION
 	public static final int INTAKE_CLAMP_BUTTON = 1;
 
+	// TODO
+	public static final int SLOW_OUTTAKE_BUTTON = 0;
+
 	public static final int INTAKE_UNCLAMP_BUTTON = 2;
 
 	public static final int INTAKE_CONTROL_FORWARD_AXIS = 1;
