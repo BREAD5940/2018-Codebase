@@ -178,8 +178,14 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
 
+		
+		//TEST ACTION 
+				//this.totalPossiblePaths.add(new AutoPath());
+				
 		// EMPTY ACTION
 		this.emptyAction = new AutoPath("Do Nothing", "XXX", RobotLocation.FAR_LEFT);
+		
+		
 	}
 
 	public enum RobotLocation {
