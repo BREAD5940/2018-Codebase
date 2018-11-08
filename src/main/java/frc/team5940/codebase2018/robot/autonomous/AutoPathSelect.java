@@ -207,8 +207,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new TurnAutoAction(network, logger, "Turn 43", 43, robotAngleValueNode),
 				new DriveAutoAction(network, logger, "Drive Auto", 9.3, distanceMovedValueNode),
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
-				new DriveAutoAction(network, logger, "Drive Auto", 2, distanceMovedValueNode)
-				));
+				new DriveAutoAction(network, logger, "Drive Auto", 2, distanceMovedValueNode)));
 	
 		//TEST ACTION 
 				this.totalPossiblePaths.add(new AutoPath("Turn 90 to 45 test", "XXX", RobotLocation.CENTER,
