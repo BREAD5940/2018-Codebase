@@ -44,14 +44,16 @@ public class IntakeValueNode extends ValueNode<Double> {
 		this.slowOuttakeButton = slowOuttakeButton;
 	}
 
+	
+
 	@Override
 	protected Double updateValue() {
-		if (slowOuttakeButton.getValue()) {
-			return 0.3;
-		}
-		if (this.setSpeed.getValue().doubleValue() < 0) {
-			return this.setSpeed.getValue().doubleValue() * 0.5;
-		}
+//		if (slowOuttakeButton.getValue()) {
+//			return 0.3;
+//		}
+//		if (this.setSpeed.getValue().doubleValue() < 0) {
+//			return this.setSpeed.getValue().doubleValue() * 0.5;
+//		}
 		return this.setSpeed.getValue().doubleValue();
 	}
 

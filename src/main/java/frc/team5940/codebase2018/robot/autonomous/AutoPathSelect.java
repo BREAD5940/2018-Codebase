@@ -114,7 +114,6 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new DriveAutoAction(network, logger, "Drive Auto", 27 - 1.2, distanceMovedValueNode),
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SCALE, false),
 				new TurnAutoAction(network, logger, "Turn Auto", 90, robotAngleValueNode),
-				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SCALE, true),
 				new DriveAutoAction(network, logger, "Drive Auto", 17 / 12, distanceMovedValueNode),
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
@@ -134,7 +133,6 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new DriveAutoAction(network, logger, "Drive Auto", 27 - 1.2, distanceMovedValueNode),
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SCALE, false),
 				new TurnAutoAction(network, logger, "Turn Auto", -90, robotAngleValueNode),
-				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SCALE, true),
 				new DriveAutoAction(network, logger, "Drive Auto", (17 / 12) - 0.33, distanceMovedValueNode),
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
@@ -149,6 +147,20 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new DriveAutoAction(network, logger, "Drive Auto", (104 / 12) - (38d / 12), distanceMovedValueNode),
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
+		
+		
+		// LEFT SWITCH 2 CUBE CENTER START
+		totalPossiblePaths.add(new AutoPath("Place Left Switch From Center", "LXX", RobotLocation.CENTER,
+				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH, false),
+				new DriveAutoAction(network, logger, "Drive Auto", 40d / 12, distanceMovedValueNode),
+				new TurnAutoAction(network, logger, "Turn Auto", -90, robotAngleValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", 4.5 + (4.25 / 12), distanceMovedValueNode),
+				new TurnAutoAction(network, logger, "Turn Auto", 95, robotAngleValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", (104 / 12) - (38d / 12), distanceMovedValueNode),
+				new OuttakeCubeAutoAction(network, logger, "Outtake"),
+				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
+
+		
 
 		// RIGHT SWITCH CENTER START
 		totalPossiblePaths.add(new AutoPath("Place Right Switch From Center", "RXX", RobotLocation.CENTER,
@@ -180,7 +192,13 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 
 		
 		//TEST ACTION 
-				//this.totalPossiblePaths.add(new AutoPath());
+				this.totalPossiblePaths.add(new AutoPath("Turn 90 to 45 test", "XXX", RobotLocation.CENTER,
+						new TurnAutoAction(network, logger, "Turn 90", 90, robotAngleValueNode),
+						new TurnAutoAction(network, logger, "Turn back 45", -45, robotAngleValueNode)));
+				
+				this.totalPossiblePaths.add(new AutoPath("Move backwards", "XXX", RobotLocation.CENTER,
+						new TurnAutoAction(network, logger, "Move back 2 ft", -2, distanceMovedValueNode)));
+				
 				
 		// EMPTY ACTION
 		this.emptyAction = new AutoPath("Do Nothing", "XXX", RobotLocation.FAR_LEFT);
