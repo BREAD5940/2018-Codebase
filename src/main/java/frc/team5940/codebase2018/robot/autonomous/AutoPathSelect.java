@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.DriveAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.ElevatorAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.ElevatorAutoAction.ElevatorHeight;
+import frc.team5940.codebase2018.robot.autonomous.auto_actions.IntakeCubeAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.OuttakeCubeAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
 
@@ -109,12 +110,13 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
 
 		// LEFT SCALE FAR_LEFT START
+		//TODO test this because it should work 
 		totalPossiblePaths.add(new AutoPath("Place Scale From Left", "XLX", RobotLocation.FAR_LEFT,
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH, false),
 				new DriveAutoAction(network, logger, "Drive Auto", 27 - 1.2, distanceMovedValueNode),
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SCALE, false),
 				new TurnAutoAction(network, logger, "Turn Auto", 90, robotAngleValueNode),
-				new DriveAutoAction(network, logger, "Drive Auto", 17 / 12, distanceMovedValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", (17 / 12)-0.33, distanceMovedValueNode),
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
 
@@ -190,7 +192,24 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new OuttakeCubeAutoAction(network, logger, "Outtake"),
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
 
-		
+		//TWO CUBE AUTO BECAUSE LMAO 
+		totalPossiblePaths.add(new AutoPath("Two Cube Switch Center Right", "RXX", RobotLocation.CENTER,
+				new TurnAutoAction(network, logger, "Turn 30", 30, robotAngleValueNode),
+				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH,
+						false),
+				new DriveAutoAction(network, logger, "Drive Auto", 13.3, distanceMovedValueNode),
+				new OuttakeCubeAutoAction(network, logger, "Outtake"),
+				new TurnAutoAction(network, logger, "Turn 13", 13, robotAngleValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", -9.3, distanceMovedValueNode),
+				new TurnAutoAction(network, logger, "Turn -43", -43, robotAngleValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", 3.2, distanceMovedValueNode),
+				new IntakeCubeAutoAction(network, logger, "Outtake"),
+				new TurnAutoAction(network, logger, "Turn 43", 43, robotAngleValueNode),
+				new DriveAutoAction(network, logger, "Drive Auto", 9.3, distanceMovedValueNode),
+				new OuttakeCubeAutoAction(network, logger, "Outtake"),
+				new DriveAutoAction(network, logger, "Drive Auto", 2, distanceMovedValueNode)
+				));
+	
 		//TEST ACTION 
 				this.totalPossiblePaths.add(new AutoPath("Turn 90 to 45 test", "XXX", RobotLocation.CENTER,
 						new TurnAutoAction(network, logger, "Turn 90", 90, robotAngleValueNode),
