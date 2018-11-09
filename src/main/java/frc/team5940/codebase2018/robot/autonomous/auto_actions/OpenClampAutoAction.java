@@ -6,6 +6,7 @@ import org.team5940.pantry.processing_network.ValueNode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 public class OpenClampAutoAction extends AutoAction {
 
 	
@@ -33,7 +34,7 @@ public class OpenClampAutoAction extends AutoAction {
 
 	@Override
 	protected void setup() {
-		
+	
 		//TODO check if this whol thing even works because I feel like it doesn't
 		
 	}
