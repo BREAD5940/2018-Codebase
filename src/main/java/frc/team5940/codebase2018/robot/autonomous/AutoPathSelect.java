@@ -216,7 +216,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				//Intake cube
 				
 				new DriveAutoAction(network, logger, "Drive Auto", 1.2, distanceMovedValueNode),//drive forward
-				new IntakeCubeAutoAction(network, logger, "Intake",2000),//intake cube
+				new IntakeCubeAutoAction(network, logger, "Intake", 2000),//intake cube
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode),//drive back
 
 
