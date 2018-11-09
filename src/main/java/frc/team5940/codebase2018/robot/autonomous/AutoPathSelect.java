@@ -193,6 +193,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode)));
 
 		//TWO CUBE AUTO RIGHT BECAUSE LMAO 
+		//This should be working now --Matthew Morley
 		totalPossiblePaths.add(new AutoPath("Two Cube Switch Center Right", "RXX", RobotLocation.CENTER,
 				
 				new DriveAutoAction(network, logger, "Drive Auto", 1, distanceMovedValueNode),//drive forward to not hit the wall
@@ -228,8 +229,9 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		
 
 
-		//TWO CUBE AUTO LEFT
-				totalPossiblePaths.add(new AutoPath("Two Cube Switch Center LEFT", "LXX", RobotLocation.CENTER,
+		//TWO CUBE AUTO LEFT BECAUSE  Y E S
+		//TODO verify distances, angles --Matthew Morley
+		totalPossiblePaths.add(new AutoPath("Two Cube Switch Center LEFT", "LXX", RobotLocation.CENTER,
 
         			//drive forward 1 to clear wall
 				new DriveAutoAction(network, logger, "drive", 1, distanceMovedValueNode),
@@ -268,8 +270,27 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				//elevator down
 				new ElevatorAutoAction(network, logger, "elevator", elevatorHeightValueNode, ElevatorHeight.DOWN, false)));
 
-			
-	
+		totalPossiblePaths.add(new AutoPath("One Cube Switch Center Right FAST PATH", "RXX", RobotLocation.CENTER,
+				
+				new DriveAutoAction(network, logger, "Drive Auto", 1, distanceMovedValueNode),//drive forward to not hit the wall
+				new TurnAutoAction(network, logger, "Turn 30", 12, robotAngleValueNode),  //turn to face switch
+				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH,
+						false),
+				new DriveAutoAction(network, logger, "Drive Auto", 7.8, distanceMovedValueNode),//drive forward to switch
+				new OuttakeCubeAutoAction(network, logger, "Outtake")));//outtake			
+
+		totalPossiblePaths.add(new AutoPath("One Cube Switch Center Left FAST PATH", "LXX", RobotLocation.CENTER,
+			//drive forward 1 to clear wall
+			new DriveAutoAction(network, logger, "drive", 1, distanceMovedValueNode),
+			//turn -32 deg to face switch
+			new TurnAutoAction(network, logger, "turn", -32, robotAngleValueNode),
+			//elevator up
+			new ElevatorAutoAction(network, logger, "elevator", elevatorHeightValueNode, ElevatorHeight.SWITCH, false), 
+			//go forward 9.4 ft to reach switch
+			new DriveAutoAction(network, logger, "drive", 9.4, distanceMovedValueNode),
+			//outtake cube
+			new OuttakeCubeAutoAction(network, logger, "Outtake")));
+
 		//TEST ACTION 
 				this.totalPossiblePaths.add(new AutoPath("Turn 90 to 45 test", "XXX", RobotLocation.CENTER,
 						new TurnAutoAction(network, logger, "Turn 90", 90, robotAngleValueNode),
