@@ -8,18 +8,47 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
 
+/**
+ * This will return if the soleniod for the clamp should be 
+ * open or closed. 
+ * 
+ * @author Julia Reid 
+ *
+ */
 public class ClampAutonomousControllerValueNode extends ValueNode<DoubleSolenoid.Value>{
 
+	/**
+	 * The current AutoAction in the auto plan.
+	 */
+	ValueNode<? extends AutoAction> autoActionValueNode;
+	
+	/**
+	 * Creates a new {@link ClampAutonomousControllerValueNode}
+	 * 
+	 * @param network
+	 *            This' Network.
+	 * @param logger
+	 *            This' Logger.
+	 * @param label
+	 *            This' Label.
+	 * @param currentActionValueNode
+	 *            The current AutoActio of robots plan 
+	 */
 	public ClampAutonomousControllerValueNode(Network network, Logger logger, String label, ValueNode<? extends AutoAction> autoActionValueNode)
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label, autoActionValueNode);
-		// TODO Auto-generated constructor stub
+		this.autoActionValueNode = autoActionValueNode; 
 	}
 
 	@Override
 	protected Value updateValue() {
-		// TODO Auto-generated method stub
-		return null;
+		if(this.autoActionValueNode.getValue() instanceof) {
+			return true; 
+		}else if(this.autoActionValueNode.getValue() instanceof) {
+			return false; 
+		} else {
+			return true;
+		}
 	}
 
 }
