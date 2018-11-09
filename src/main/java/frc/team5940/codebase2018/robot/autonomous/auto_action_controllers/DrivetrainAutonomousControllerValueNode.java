@@ -128,8 +128,8 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 			} else {
 				speed += 0.1;
 			}
-			if (speed < -0.7 || speed > 0.7) {
-				speed = (speed / Math.abs(speed)) * 0.6;
+			if (speed < -0.7 || speed > 1) {
+				speed = (speed / Math.abs(speed)) * 0.9;
 			}
 			return speed;
 		} else {

@@ -39,7 +39,7 @@ public class IntakeCubeAutoAction extends AutoAction{
 
 	@Override
 	protected void setup() {
-		this.targetTime = System.currentTimeMillis() + 1000;
+		this.targetTime = System.currentTimeMillis() + 700;
 	}
 
 	@Override

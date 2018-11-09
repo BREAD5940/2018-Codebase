@@ -60,7 +60,7 @@ public class TurnAutoAction extends AutoAction {
 
 	@Override
 	protected Boolean checkCompletion() {
-		return withinMargin(this.robotAngle.getValue().doubleValue(), this.targetAngle, 5);
+		return withinMargin(this.robotAngle.getValue().doubleValue(), this.targetAngle, 3);
 	}
 
 	/**
