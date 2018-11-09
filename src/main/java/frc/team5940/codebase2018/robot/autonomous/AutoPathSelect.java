@@ -215,7 +215,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				//Intake cube
 				
 				new DriveAutoAction(network, logger, "Drive Auto", 1.2, distanceMovedValueNode),//drive forward
-				new IntakeCubeAutoAction(network, logger, "Intake"),//intake cube
+				new IntakeCubeAutoAction(network, logger, "Intake", 700),//intake cube
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode),//drive back
 
 
@@ -254,7 +254,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				//go forward 0.9 ft to grab cube
 				new DriveAutoAction(network, logger, "drive", 0.9, distanceMovedValueNode),
 				//intake cube
-				new IntakeCubeAutoAction(network, logger, "Outtake"),
+				new IntakeCubeAutoAction(network, logger, "Intake", 700),
 				//backup 0.9 ft to clear pyramid
 				new DriveAutoAction(network, logger, "drive", -0.9, distanceMovedValueNode),
 				//turn -49 deg to face switch
