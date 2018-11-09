@@ -15,6 +15,7 @@ import frc.team5940.codebase2018.robot.autonomous.auto_actions.DriveAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.ElevatorAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.ElevatorAutoAction.ElevatorHeight;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.IntakeCubeAutoAction;
+import frc.team5940.codebase2018.robot.autonomous.auto_actions.OpenClampAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.OuttakeCubeAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
 
@@ -303,7 +304,11 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new TurnAutoAction(network, logger, "Turn back 45", -45, robotAngleValueNode)));
 				
 		this.totalPossiblePaths.add(new AutoPath("Move backwards", "XXX", RobotLocation.CENTER,
-				new TurnAutoAction(network, logger, "Move back 2 ft", -2, distanceMovedValueNode)));				
+				new TurnAutoAction(network, logger, "Move back 2 ft", -2, distanceMovedValueNode)));		
+		
+		this.totalPossiblePaths.add(new AutoPath("Test Clamp", "XXX", RobotLocation.CENTER,
+				new OpenClampAutoAction(network, logger, "open clamp" )));
+
 				
 		// EMPTY ACTION
 		this.emptyAction = new AutoPath("Do Nothing", "XXX", RobotLocation.FAR_LEFT);

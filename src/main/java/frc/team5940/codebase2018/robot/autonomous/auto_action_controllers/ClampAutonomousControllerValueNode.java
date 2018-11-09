@@ -48,11 +48,11 @@ public class ClampAutonomousControllerValueNode extends ValueNode<DoubleSolenoid
 	protected Value updateValue() {
 		
 		if(autoActionValueNode.getValue() instanceof OpenClampAutoAction) {
-			return DoubleSolenoid.Value.kForward; 
-		}else if(autoActionValueNode.getValue() instanceof OpenClampAutoAction) {
+			return DoubleSolenoid.Value.kReverse; 
+		}/*else if(autoActionValueNode.getValue() instanceof OpenClampAutoAction) {
 			return Value.kReverse; 
-		} else {
-			return DoubleSolenoid.Value.kForward;
+		}*/ else {
+			return Value.kForward;
 		}
 	}
 

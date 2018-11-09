@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OpenClampAutoAction extends AutoAction {
 
-	
+	long targetTime = 100; 
 	/**
 	 * Creates a new {@link OpenClampAutoAction} which opens clamp.
 	 * 
@@ -25,9 +25,9 @@ public class OpenClampAutoAction extends AutoAction {
 	 *            The ValueNode that returns the current angle of the robot in
 	 *            degrees.
 	 */
-	public OpenClampAutoAction(Network network, Logger logger, String label, ValueNode<?>[] sourcesArray)
+	public OpenClampAutoAction(Network network, Logger logger, String label)
 			throws IllegalArgumentException, IllegalStateException {
-		super(network, logger, label, sourcesArray);
+		super(network, logger, label);
 		
 		
 	}
@@ -36,12 +36,14 @@ public class OpenClampAutoAction extends AutoAction {
 	protected void setup() {
 	
 		//TODO check if this whol thing even works because I feel like it doesn't
+		targetTime += System.currentTimeMillis();
 		
 	}
 
 	@Override
 	protected Boolean checkCompletion() {
-		return true;
+
+		return System.currentTimeMillis() > this.targetTime;
 	}
 
 
