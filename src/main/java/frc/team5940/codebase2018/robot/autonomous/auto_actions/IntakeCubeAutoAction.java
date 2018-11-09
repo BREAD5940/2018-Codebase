@@ -53,6 +53,6 @@ public class IntakeCubeAutoAction extends AutoAction{
 
 	@Override
 	protected Boolean checkCompletion() {
-		return System.currentTimeMillis() > this.targetTime;
+		return System.currentTimeMillis() > this.targetTime/2;
 	}
 }
