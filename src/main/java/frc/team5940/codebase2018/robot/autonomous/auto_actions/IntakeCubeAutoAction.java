@@ -54,12 +54,12 @@ public class IntakeCubeAutoAction extends AutoAction{
 
 	@Override
 	protected Boolean checkCompletion() {
-		//return System.currentTimeMillis() > this.targetTime;
-		if (this.firstRun) {
-			this.firstRun = false;
-			return false;
-		} else {
-			return true;
-		}
+		return System.currentTimeMillis() > this.targetTime;
+//		if (this.firstRun) {
+//			this.firstRun = false;
+//			return false;
+//		} else {
+//			return true;
+//		}
 	}
 }

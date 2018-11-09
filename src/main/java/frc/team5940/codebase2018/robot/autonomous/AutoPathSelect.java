@@ -207,7 +207,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				//pyramid code
 				
 				//new DriveAutoAction(network, logger, "Drive Auto", -0.5 , distanceMovedValueNode),//move back to get clear of switch
-				new TurnAutoAction(network, logger, "Turn 13", 11, robotAngleValueNode),//turn back to pyramid, used to be 38 until line 203 was commented out 
+				new TurnAutoAction(network, logger, "Turn 13", 8, robotAngleValueNode),//turn back to pyramid, used to be 38 until line 203 was commented out 
 				new DriveAutoAction(network, logger, "Drive Auto", -6 , distanceMovedValueNode),//move back to pyramid
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.DOWN,//move elevator down
 						false),
