@@ -297,8 +297,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new TurnAutoAction(network, logger, "Turn back 45", -45, robotAngleValueNode)));
 				
 		this.totalPossiblePaths.add(new AutoPath("Move backwards", "XXX", RobotLocation.CENTER,
-				new TurnAutoAction(network, logger, "Move back 2 ft", -2, distanceMovedValueNode)));
-				
+				new TurnAutoAction(network, logger, "Move back 2 ft", -2, distanceMovedValueNode)));				
 				
 		// EMPTY ACTION
 		this.emptyAction = new AutoPath("Do Nothing", "XXX", RobotLocation.FAR_LEFT);
