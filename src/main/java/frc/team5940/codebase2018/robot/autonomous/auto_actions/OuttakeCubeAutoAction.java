@@ -25,7 +25,7 @@ public class OuttakeCubeAutoAction extends AutoAction {
 	/**
 	 * The runtime to outtake the cube for.
 	 */
-	long targetruntime;
+	long targetRunTime;
 
 
 	/**
@@ -41,14 +41,15 @@ public class OuttakeCubeAutoAction extends AutoAction {
 	 * @param targetruntime
 	 *            This' runtime
 	 */
-	public OuttakeCubeAutoAction(Network network, Logger logger, String label)
+	public OuttakeCubeAutoAction(Network network, Logger logger, String label, long targetRunTime)
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label);
+		this.targetRunTime = targetRunTime; 
 	}
 
 	@Override
 	protected void setup() {
-		this.targetTime = System.currentTimeMillis() + targetruntime;
+		this.targetTime = System.currentTimeMillis() + targetRunTime;
 	}
 
 	@Override
