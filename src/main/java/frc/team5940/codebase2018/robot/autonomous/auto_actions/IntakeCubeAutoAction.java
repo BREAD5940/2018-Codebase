@@ -20,7 +20,12 @@ public class IntakeCubeAutoAction extends AutoAction{
 	 * The previous time this Node was updated.
 	 */
 	long targetTime;
-
+	
+	/**
+	 * The runtime to outtake the cube for.
+	 */
+	long targetRunTime;
+	
 	/**
 	 * Creates a new {@link IntakeCubeAutoAction} which completes after three
 	 * seconds.
@@ -31,15 +36,19 @@ public class IntakeCubeAutoAction extends AutoAction{
 	 *            This' Logger.
 	 * @param label
 	 *            This' Label
+	 * @param targetruntime
+	 *            This' timeToIntakeFor
+	 * 
 	 */
-	public IntakeCubeAutoAction(Network network, Logger logger, String label)
+	public IntakeCubeAutoAction(Network network, Logger logger, String label, long targetRunTime)
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label);
+	this.targetRunTime = targetRunTime; 
 	}
 
 	@Override
 	protected void setup() {
-		this.targetTime = System.currentTimeMillis() + 700;
+		this.targetTime = System.currentTimeMillis() + targetRunTime;
 	}
 
 	@Override
