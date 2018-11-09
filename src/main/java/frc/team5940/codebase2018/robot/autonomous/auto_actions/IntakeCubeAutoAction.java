@@ -25,7 +25,7 @@ public class IntakeCubeAutoAction extends AutoAction{
 	 * The runtime to outtake the cube for.
 	 */
 	long targetRunTime;
-	
+	boolean firstRun; 
 	/**
 	 * Creates a new {@link IntakeCubeAutoAction} which completes after three
 	 * seconds.
@@ -49,10 +49,17 @@ public class IntakeCubeAutoAction extends AutoAction{
 	@Override
 	protected void setup() {
 		this.targetTime = System.currentTimeMillis() + targetRunTime;
+		this.firstRun = true; 
 	}
 
 	@Override
 	protected Boolean checkCompletion() {
-		return System.currentTimeMillis() > this.targetTime/2;
+		//return System.currentTimeMillis() > this.targetTime;
+		if (this.firstRun) {
+			this.firstRun = false;
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
