@@ -226,40 +226,49 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new DriveAutoAction(network, logger, "Drive Auto", 5.5, distanceMovedValueNode),//drive to switch
 				new OuttakeCubeAutoAction(network, logger, "Outtake")));//outtake
 		
+
+
 		//TWO CUBE AUTO LEFT
 				totalPossiblePaths.add(new AutoPath("Two Cube Switch Center LEFT", "LXX", RobotLocation.CENTER,
-						
-						new DriveAutoAction(network, logger, "Drive Auto", 1, distanceMovedValueNode),//drive forward to not hit the wall
-						new TurnAutoAction(network, logger, "Turn 12", 12, robotAngleValueNode),  //turn to face switch
-						new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH,
-								false),
-						new DriveAutoAction(network, logger, "Drive Auto", 7.8, distanceMovedValueNode),//drive forward to switch
-						new OuttakeCubeAutoAction(network, logger, "Outtake"),//outtake
-						
-						//pyramid code
-						
-						//new DriveAutoAction(network, logger, "Drive Auto", -0.5 , distanceMovedValueNode),//move back to get clear of switch
-						new TurnAutoAction(network, logger, "Turn 11", 11, robotAngleValueNode),//turn back to pyramid, used to be 38 until line 203 was commented out 
-						new DriveAutoAction(network, logger, "Drive Auto", -6 , distanceMovedValueNode),//move back to pyramid
-						new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.DOWN,//move elevator down
-								false),
-						new TurnAutoAction(network, logger, "Turn -40", -40, robotAngleValueNode),//straighten out
-						
-						//Intake cube
-						
-						new DriveAutoAction(network, logger, "Drive Auto", 1.2, distanceMovedValueNode),//drive forward
-						new IntakeCubeAutoAction(network, logger, "Intake"),//intake cube
-						new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode),//drive back
 
+        			//drive forward 1 to clear wall
+				new DriveAutoAction(network, logger, "drive", 1, distanceMovedValueNode),
+				//turn -32 deg to face switch
+				new TurnAutoAction(network, logger, "turn", -32, robotAngleValueNode),
+				//elevator up
+				new ElevatorAutoAction(network, logger, "elevator", elevatorHeightValueNode, ElevatorHeight.SWITCH, false), 
+				//go forward 9.4 ft to reach switch
+				new DriveAutoAction(network, logger, "drive", 9.4, distanceMovedValueNode),
+				//outtake cube
+				new OuttakeCubeAutoAction(network, logger, "Outtake"),
+				//turn -16 deg to back up to pyramid
+				new TurnAutoAction(network, logger, "turn", -16, robotAngleValueNode),
+				//elevator down
+				new ElevatorAutoAction(network, logger, "elevator", elevatorHeightValueNode, ElevatorHeight.DOWN, false),
+				//back up 6.2 ft to pyramid
+				new DriveAutoAction(network, logger, "drive", 6.2, distanceMovedValueNode),
+				//turn 48 deg to straight
+				new TurnAutoAction(network, logger, "turn", 48, robotAngleValueNode),
+				//go forward 0.9 ft to grab cube
+				new DriveAutoAction(network, logger, "drive", 0.9, distanceMovedValueNode),
+				//intake cube
+				new IntakeCubeAutoAction(network, logger, "Outtake"),
+				//backup 0.9 ft to clear pyramid
+				new DriveAutoAction(network, logger, "drive", -0.9, distanceMovedValueNode),
+				//turn -49 deg to face switch
+				new TurnAutoAction(network, logger, "turn", -49, robotAngleValueNode),
+				//elevator up
+				new ElevatorAutoAction(network, logger, "elevator", elevatorHeightValueNode, ElevatorHeight.SWITCH, false),
+				//go forward 6 ft to reach switch
+				new DriveAutoAction(network, logger, "drive", 6, distanceMovedValueNode),
+				//outtake cube
+				new OuttakeCubeAutoAction(network, logger, "Outtake"),
+				//back up 1 ft to clear switch
+				new DriveAutoAction(network, logger, "drive", -1, distanceMovedValueNode),
+				//elevator down
+				new ElevatorAutoAction(network, logger, "elevator", elevatorHeightValueNode, ElevatorHeight.DOWN, false)));
 
-						//return to switch
-						
-						new TurnAutoAction(network, logger, "Turn 43", 25, robotAngleValueNode),//turn to face switch
-						new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH,
-								false),
-						new DriveAutoAction(network, logger, "Drive Auto", 5.5, distanceMovedValueNode),//drive to switch
-						new OuttakeCubeAutoAction(network, logger, "Outtake")));//outtake
-		
+			
 	
 		//TEST ACTION 
 				this.totalPossiblePaths.add(new AutoPath("Turn 90 to 45 test", "XXX", RobotLocation.CENTER,
