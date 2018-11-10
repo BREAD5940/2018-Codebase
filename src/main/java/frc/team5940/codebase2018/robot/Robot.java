@@ -196,7 +196,7 @@ public class Robot extends IterativeRobot {
 				RobotConfig.DRIVETRAIN_SOLENOID_SHIFTING_REVERSE_CHANNEL);
 
 		ShiftingNodeGroup drivetrainShiftingNodeGroup = new ShiftingNodeGroup(network, logger, "Shifting Node Group",
-				primaryJoystick, RobotConfig.SHIFT_UP_BUTTON, RobotConfig.SHIFT_DOWN_BUTTON, Value.kReverse);
+				primaryJoystick, RobotConfig.SHIFT_UP_BUTTON, RobotConfig.SHIFT_DOWN_BUTTON, Value.kForward);
 
 		new ObjectSmartDashboardNode(network, logger, "Piston State Smart Dashboard",
 				RobotConfig.DRIVETRAIN_SHIFTING_SMARTDASHBOARD_REQUIRE_UPDATE, "Piston State",
