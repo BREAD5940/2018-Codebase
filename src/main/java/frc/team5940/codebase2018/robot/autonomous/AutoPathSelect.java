@@ -198,7 +198,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		totalPossiblePaths.add(new AutoPath("Two Cube Switch Center Right", "RXX", RobotLocation.CENTER,
 				
 				new DriveAutoAction(network, logger, "Drive Auto", 1, distanceMovedValueNode),//drive forward to not hit the wall
-				new TurnAutoAction(network, logger, "Turn 30", 12, robotAngleValueNode),  //turn to face switch
+				new TurnAutoAction(network, logger, "Turn 30", 30, robotAngleValueNode),  //turn to face switch
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.SWITCH,
 						false),
 				new DriveAutoAction(network, logger, "Drive Auto", 7.8, distanceMovedValueNode),//drive forward to switch
@@ -303,12 +303,14 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 		this.totalPossiblePaths.add(new AutoPath("Turn 90 to 45 test", "XXX", RobotLocation.CENTER,
 				new TurnAutoAction(network, logger, "Turn 90", 90, robotAngleValueNode),
 				new TurnAutoAction(network, logger, "Turn back 45", -45, robotAngleValueNode)));
-				
-		this.totalPossiblePaths.add(new AutoPath("Move backwards", "XXX", RobotLocation.CENTER,
-				new TurnAutoAction(network, logger, "Move back 2 ft", -2, distanceMovedValueNode)));		
-		
-		this.totalPossiblePaths.add(new AutoPath("Test Clamp", "XXX", RobotLocation.CENTER,
-				new OpenClampAutoAction(network, logger, "open clamp" )));
+//				
+//		this.totalPossiblePaths.add(new AutoPath("Move backwards", "XXX", RobotLocation.CENTER,
+//				new TurnAutoAction(network, logger, "Move back 2 ft", -2, distanceMovedValueNode)));		
+//		
+//		this.totalPossiblePaths.add(new AutoPath("Test Intake Drive", "XXX", RobotLocation.CENTER,
+//				new DriveAutoAction(network, logger, "drive", 8.4, distanceMovedValueNode),
+//				new IntakeCubeAutoAction(network, logger, "Intake", 5000),
+//				new DriveAutoAction(network, logger, "drive", 8.4, distanceMovedValueNode)));
 
 				
 		// EMPTY ACTION
