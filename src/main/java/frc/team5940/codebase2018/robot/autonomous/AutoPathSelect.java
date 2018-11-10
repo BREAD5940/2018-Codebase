@@ -216,7 +216,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				//Intake cube
 				
 				new DriveAutoAction(network, logger, "Drive Auto", 1.2, distanceMovedValueNode),//drive forward
-				new IntakeCubeAutoAction(network, logger, "Intake", 2000),//intake cube
+				new IntakeCubeAutoAction(network, logger, "Intake", 700),//intake cube
 				new DriveAutoAction(network, logger, "Drive Auto", -1.5, distanceMovedValueNode),//drive back
 
 
@@ -275,7 +275,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new DriveAutoAction(network, logger, "drive", -1, distanceMovedValueNode),
 				//elevator down
 				new ElevatorAutoAction(network, logger, "elevator", elevatorHeightValueNode, ElevatorHeight.DOWN, false)));
-
+		//ONE CUBE SWITCH CENTER RIGHT
 		totalPossiblePaths.add(new AutoPath("One Cube Switch Center Right FAST PATH", "RXX", RobotLocation.CENTER,
 				
 				new DriveAutoAction(network, logger, "Drive Auto", 1, distanceMovedValueNode),//drive forward to not hit the wall
@@ -284,7 +284,8 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 						false),
 				new DriveAutoAction(network, logger, "Drive Auto", 7.8, distanceMovedValueNode),//drive forward to switch
 				new OuttakeCubeAutoAction(network, logger, "Outtake", 1000)));//outtake			
-
+		
+		//ONE CUBE SWITCH CENTER LEFT
 		totalPossiblePaths.add(new AutoPath("One Cube Switch Center Left FAST PATH", "LXX", RobotLocation.CENTER,
 		new DriveAutoAction(network, logger, "drive", 1, distanceMovedValueNode),
 		//turn -32 deg to face switch
