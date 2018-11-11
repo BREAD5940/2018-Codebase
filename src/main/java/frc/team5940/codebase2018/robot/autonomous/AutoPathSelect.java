@@ -15,7 +15,6 @@ import frc.team5940.codebase2018.robot.autonomous.auto_actions.DriveAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.ElevatorAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.ElevatorAutoAction.ElevatorHeight;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.IntakeCubeAutoAction;
-import frc.team5940.codebase2018.robot.autonomous.auto_actions.OpenClampAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.OuttakeCubeAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.TurnAutoAction;
 

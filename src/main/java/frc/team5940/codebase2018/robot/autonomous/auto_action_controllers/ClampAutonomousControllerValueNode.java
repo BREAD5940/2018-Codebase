@@ -7,7 +7,7 @@ import frc.team5940.codebase2018.robot.autonomous.auto_actions.ClampAutoAction;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
-import frc.team5940.codebase2018.robot.autonomous.auto_actions.OpenClampAutoAction;
+
 
 
 /**
@@ -52,6 +52,6 @@ public class ClampAutonomousControllerValueNode extends ValueNode<DoubleSolenoid
 			this.solenoidValue = ((ClampAutoAction) this.autoActionValueNode.getValue()).getSolenoidValue();
 		}
 		return this.solenoidValue;
-		}
+	}
 
 }
