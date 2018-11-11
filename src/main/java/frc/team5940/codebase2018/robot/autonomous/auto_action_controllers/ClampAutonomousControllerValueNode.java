@@ -8,6 +8,8 @@ import org.team5940.pantry.processing_network.ValueNode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
+import frc.team5940.codebase2018.robot.autonomous.auto_actions.OpenClampAutoAction;
+
 
 public class ClampAutonomousControllerValueNode extends ValueNode<DoubleSolenoid.Value> {
 
@@ -20,14 +22,17 @@ public class ClampAutonomousControllerValueNode extends ValueNode<DoubleSolenoid
 		super(network, logger, label, autoActionValueNode);
 
 		this.autoActionValueNode = autoActionValueNode;
+
 	}
 
 	@Override
 	protected Value updateValue() {
+
 		if (this.autoActionValueNode.getValue() instanceof ClampAutoAction) {
 			this.solenoidValue = ((ClampAutoAction) this.autoActionValueNode.getValue()).getSolenoidValue();
 		}
 		return this.solenoidValue;
+
 	}
 
 }

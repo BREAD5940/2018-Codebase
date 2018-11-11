@@ -4,16 +4,15 @@ import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.processing_network.Network;
 
 /**
- * This action causes the robot to outtake the cube. Currentley outtakes the
- * cube for three seconds but this will be updated.
+ * This action causes the robot to Intake the cube. 
+ * As of now it intakes for three seconds just like the outtake.
  * 
- * @author Michael Bentley
+ * @author Julia Reid
  *
  */
-public class OuttakeCubeAutoAction extends AutoAction {
-
+public class IntakeCubeAutoAction extends AutoAction{
 	/**
-	 * The time left to outtake the cube.
+	 * The time left to intake the cube.
 	 */
 	double timeLeft;
 
@@ -21,15 +20,14 @@ public class OuttakeCubeAutoAction extends AutoAction {
 	 * The previous time this Node was updated.
 	 */
 	long targetTime;
-
+	
 	/**
 	 * The runtime to outtake the cube for.
 	 */
 	long targetRunTime;
-
-
+ 
 	/**
-	 * Creates a new {@link OuttakeCubeAutoAction} which completes after three
+	 * Creates a new {@link IntakeCubeAutoAction} which completes after three
 	 * seconds.
 	 * 
 	 * @param network
@@ -39,12 +37,13 @@ public class OuttakeCubeAutoAction extends AutoAction {
 	 * @param label
 	 *            This' Label
 	 * @param targetruntime
-	 *            This' runtime
+	 *            This' timeToIntakeFor
+	 * 
 	 */
-	public OuttakeCubeAutoAction(Network network, Logger logger, String label, long targetRunTime)
+	public IntakeCubeAutoAction(Network network, Logger logger, String label, long targetRunTime)
 			throws IllegalArgumentException, IllegalStateException {
 		super(network, logger, label);
-		this.targetRunTime = targetRunTime; 
+	this.targetRunTime = targetRunTime; 
 	}
 
 	@Override
@@ -55,6 +54,6 @@ public class OuttakeCubeAutoAction extends AutoAction {
 	@Override
 	protected Boolean checkCompletion() {
 		return System.currentTimeMillis() > this.targetTime;
-	}
 
+	}
 }
