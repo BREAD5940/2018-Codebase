@@ -60,12 +60,12 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 	 * The P value for turning with the drivetrain.
 	 */
 	//private final double turnP = 0.008;
-	private final double turnP = 0.009;
+	private final double turnP = 0.016;
 
 	/**
 	 * The P value for moving forward with the drivetrain.
 	 */
-	private final double forwardP = 0.2;
+	private final double forwardP = 0.18;
 
 	/**
 	 * Creates a new {@link DrivetrainAutonomousControllerValueNode}.
@@ -128,8 +128,8 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 			} else {
 				speed += 0.1;
 			}
-			if (speed < -0.7 || speed > 0.8) {
-				speed = (speed / Math.abs(speed)) * 0.7;
+			if (speed < -0.7 || speed > 0.7) {
+				speed = (speed / Math.abs(speed)) * 0.6;
 			}
 			return speed;
 		} else {

@@ -217,10 +217,10 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				
 				//Intake cube
 				new ClampAutoAction(network, logger, "clamp", Value.kForward),
-				new DriveAutoAction(network, logger, "Drive Auto", 1.9, distanceMovedValueNode),//drive forward
+				new DriveAutoAction(network, logger, "Drive Auto", 2.4, distanceMovedValueNode),//drive forward
 				new ClampAutoAction(network, logger, "clamp", Value.kReverse),
 				new IntakeCubeAutoAction(network, logger, "Intake", 400),//intake cube
-				new DriveAutoAction(network, logger, "Drive Auto", -1.9, distanceMovedValueNode),//drive back
+				new DriveAutoAction(network, logger, "Drive Auto", -2.4, distanceMovedValueNode),//drive back
 
 
 				//return to switch
@@ -246,29 +246,30 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				new DriveAutoAction(network, logger, "drive", 0.5, distanceMovedValueNode),
 				//turn -32 deg to face switch
 				new TurnAutoAction(network, logger, "turn", -21, robotAngleValueNode),
-
 				//go forward 9.4 ft to reach switch
-				new DriveAutoAction(network, logger, "drive", 7.8, distanceMovedValueNode),
+				new DriveAutoAction(network, logger, "drive", 7.5, distanceMovedValueNode),
 				//outtake cube
 				new OuttakeCubeAutoAction(network, logger, "Outtake", 1000),
+				
+				
 				//turn -16 deg to back up to pyramid
-				new TurnAutoAction(network, logger, "turn", -5, robotAngleValueNode),
+				new TurnAutoAction(network, logger, "turn", -10, robotAngleValueNode),
 				//back up 6.2 ft to pyramid
-				new DriveAutoAction(network, logger, "drive", -6.3, distanceMovedValueNode),
+				new DriveAutoAction(network, logger, "drive", -5.6, distanceMovedValueNode),
 				//elevator down
 				new ElevatorAutoAction(network, logger, "elevator", elevatorHeightValueNode, ElevatorHeight.DOWN, false),
 				//turn 48 deg to straight
 				new TurnAutoAction(network, logger, "turn", 30, robotAngleValueNode),
 				//open clamp
 				new ClampAutoAction(network, logger, "clamp", Value.kForward),
-				//go forward 0.9 ft to grab cube1
-				new DriveAutoAction(network, logger, "drive", 2.4, distanceMovedValueNode),
+				//go forward 0.9 ft to grab cube
+				new DriveAutoAction(network, logger, "drive", 2.7, distanceMovedValueNode),
 				//close clamp
 				new ClampAutoAction(network, logger, "clamp", Value.kReverse),
 				//intake cube
 				new IntakeCubeAutoAction(network, logger, "Intake", 700),
 				//backup 0.9 ft to clear pyramid
-				new DriveAutoAction(network, logger, "drive", -2.4, distanceMovedValueNode),
+				new DriveAutoAction(network, logger, "drive", -2.7, distanceMovedValueNode),
 				//turn -49 deg to face switch
 				new TurnAutoAction(network, logger, "turn", -25, robotAngleValueNode),
 				//elevator up
