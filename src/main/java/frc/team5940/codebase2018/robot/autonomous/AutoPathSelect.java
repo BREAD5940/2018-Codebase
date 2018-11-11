@@ -263,19 +263,21 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				//open clamp
 				new ClampAutoAction(network, logger, "clamp", Value.kForward),
 				//go forward 0.9 ft to grab cube
-				new DriveAutoAction(network, logger, "drive", 2.7, distanceMovedValueNode),
+				new DriveAutoAction(network, logger, "drive", 3, distanceMovedValueNode),
 				//close clamp
 				new ClampAutoAction(network, logger, "clamp", Value.kReverse),
 				//intake cube
 				new IntakeCubeAutoAction(network, logger, "Intake", 700),
 				//backup 0.9 ft to clear pyramid
-				new DriveAutoAction(network, logger, "drive", -2.7, distanceMovedValueNode),
+				new DriveAutoAction(network, logger, "drive", -3, distanceMovedValueNode),
+				
+				
 				//turn -49 deg to face switch
-				new TurnAutoAction(network, logger, "turn", -25, robotAngleValueNode),
+				new TurnAutoAction(network, logger, "turn", -20, robotAngleValueNode),
 				//elevator up
 				new ElevatorAutoAction(network, logger, "elevator", elevatorHeightValueNode, ElevatorHeight.SWITCH, false),
 				//go forward 6 ft to reach switch
-				new DriveAutoAction(network, logger, "drive", 6.2, distanceMovedValueNode),
+				new DriveAutoAction(network, logger, "drive", 6.4, distanceMovedValueNode),
 				//outtake cube
 				new OuttakeCubeAutoAction(network, logger, "Outtake", 1000),
 				//back up 1 ft to clear switch
