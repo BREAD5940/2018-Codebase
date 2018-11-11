@@ -20,9 +20,11 @@ public class ClampAutoAction extends AutoAction {
 		super(network, logger, label);
 		this.solenoidValue = solenoidValue;
 	}
+	
  	public DoubleSolenoid.Value getSolenoidValue() {
 		return solenoidValue;
 	}
+ 	
  	@Override
 	protected void setup() {
 		this.firstRun = true;
