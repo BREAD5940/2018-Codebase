@@ -60,12 +60,12 @@ public class DrivetrainAutonomousControllerValueNode extends ChangeDetectorValue
 	 * The P value for turning with the drivetrain.
 	 */
 	//private final double turnP = 0.008;
-	private final double turnP = 0.016;
+	private final double turnP = 0.018;
 
 	/**
 	 * The P value for moving forward with the drivetrain.
 	 */
-	private final double forwardP = 0.18;
+	private final double forwardP = 0.16;
 
 	/**
 	 * Creates a new {@link DrivetrainAutonomousControllerValueNode}.
