@@ -371,7 +371,7 @@ public class Robot extends IterativeRobot {
 		IntakeAutonomousControllerValueNode autoIntakeController = new IntakeAutonomousControllerValueNode(network,
 				logger, "Intake Auto Controller", planFollower);
 
-		MultiplexerValueNode<? extends Number, RobotState> leftIntakeValueNode = generateAutonMultiplexerValueNode(
+		MultiplexerValueNode<? extends Number, RobotState> leftIntakeValueNode = generateAutonMultiplexerValueNode(network, logger, "Left Intake Auto Multiplexer", robotStateValueNode, autoIntakeController,
 				leftIntakeOperatorSpeed);
 
 		MultiplexerValueNode<? extends Number, RobotState> rightIntakeValueNode = generateAutonMultiplexerValueNode(
