@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import frc.team5940.codebase2018.robot.autonomous.auto_action_controllers.ClampAutonomousControllerValueNode;
 import org.team5940.pantry.logging.loggers.Logger;
 import org.team5940.pantry.logging.loggers.PrintStreamLogger;
 import org.team5940.pantry.logging.messages.Message;
@@ -302,12 +303,19 @@ public class Robot extends IterativeRobot {
 		ShiftingNodeGroup intakeClampNodeGroup = new ShiftingNodeGroup(network, logger, "Intake Clamp Node Group",
 				secondaryJoystick, RobotConfig.INTAKE_CLAMP_BUTTON, RobotConfig.INTAKE_UNCLAMP_BUTTON, Value.kReverse);
 
+		ClampAutonomousControllerValueNode clampAutonController = new ClampAutonomousControllerValueNode(network,
+						logger, "Clamp Auto Controller", planFollower);
+
+		MultiplexerValueNode<? extends DoubleSolenoid.Value, RobotState> intakeClampController = generateAutonMultiplexerValueNode(
+						network, logger, "Clamp Auto Multiplexer", robotStateValueNode, clampAutonController,
+						intakeClampNodeGroup.getSolenoidController());
+
 		new ObjectSmartDashboardNode(network, logger, "Intake Clamp State Smartdashboard",
 				RobotConfig.INTAKE_PNEUMATICS_SMARTDASHBOARD_REQUIRE_UPDATE, "Intake Clamp Piston State",
-				intakeClampNodeGroup.getSolenoidController());
+						intakeClampController);
 
 		new DoubleSolenoidNode(network, logger, "Intake Clamp Solenoid", RobotConfig.INTAKE_PNEUMATICS_REQUIRE_UPDATE,
-				intakeClampNodeGroup.getSolenoidController(), intakeClampShiftingSolenoid);
+						intakeClampController, intakeClampShiftingSolenoid);
 
 		// INTAKE TALON SETUP
 		TalonSRX rightIntakeTalon = new TalonSRX(RobotConfig.RIGHT_INTAKE_TALON_PORT);
