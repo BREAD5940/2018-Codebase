@@ -46,6 +46,7 @@ import frc.team5940.codebase2018.robot.autonomous.auto_action_controllers.ClampA
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Robot extends IterativeRobot {
 
@@ -196,8 +197,20 @@ public class Robot extends IterativeRobot {
 				RobotConfig.DRIVETRAIN_SOLENOID_SHIFTING_FORWARD_CHANNEL,
 				RobotConfig.DRIVETRAIN_SOLENOID_SHIFTING_REVERSE_CHANNEL);
 
+		//Choosing Starting Gear Test Hope this doesn't breakkk 
+		/*Will Create a Smort dashboard sendable chooser which will user will be able to 
+		 * set in order to choose if the robot should start in low or high AF gear 
+		 * */
+		//TODO test this because its low key sketchy 
+		SendableChooser startingGear = new SendableChooser(); 
+		startingGear.addDefault("High Gear", Value.kForward); 
+		startingGear.addObject("Low Gear", Value.kReverse);
+		//new starting value is the last one in ShidtingNodeGroup param
 		ShiftingNodeGroup drivetrainShiftingNodeGroup = new ShiftingNodeGroup(network, logger, "Shifting Node Group",
-				primaryJoystick, RobotConfig.SHIFT_UP_BUTTON, RobotConfig.SHIFT_DOWN_BUTTON, Value.kForward);
+				primaryJoystick, RobotConfig.SHIFT_UP_BUTTON, RobotConfig.SHIFT_DOWN_BUTTON, (DoubleSolenoid.Value) startingGear.getSelected());
+		//This is just the one that isn't selected w/ a sendable chooser
+//		ShiftingNodeGroup drivetrainShiftingNodeGroup = new ShiftingNodeGroup(network, logger, "Shifting Node Group",
+//				primaryJoystick, RobotConfig.SHIFT_UP_BUTTON, RobotConfig.SHIFT_DOWN_BUTTON, Value.kForward);
 
 		new ObjectSmartDashboardNode(network, logger, "Piston State Smart Dashboard",
 				RobotConfig.DRIVETRAIN_SHIFTING_SMARTDASHBOARD_REQUIRE_UPDATE, "Piston State",
@@ -359,7 +372,6 @@ public class Robot extends IterativeRobot {
 				logger, "Intake Auto Controller", planFollower);
 
 		MultiplexerValueNode<? extends Number, RobotState> leftIntakeValueNode = generateAutonMultiplexerValueNode(
-				network, logger, "Left Intake Auto Multiplexer", robotStateValueNode, autoIntakeController,
 				leftIntakeOperatorSpeed);
 
 		MultiplexerValueNode<? extends Number, RobotState> rightIntakeValueNode = generateAutonMultiplexerValueNode(
