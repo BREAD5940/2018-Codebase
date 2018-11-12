@@ -28,9 +28,9 @@ public class AutoPathValueNode extends ValueNode<Paths> {
 		MOVE_FORWARD, TURN_LEFT, DELIVER_CUBE;
 	}
 
-	public AutoPathValueNode(Network network, Logger logger, ValueNode<Paths>[] sourcesArray)
+	public AutoPathValueNode(Network network, Logger logger, String label, ValueNode<Paths>[] sourcesArray)
 			throws IllegalArgumentException, IllegalStateException {
-		super(network, logger, sourcesArray);
+		super(network, logger, label, sourcesArray);
 		
 		
 	}

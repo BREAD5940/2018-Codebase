@@ -5,6 +5,7 @@ import org.team5940.pantry.processing_network.Network;
 import org.team5940.pantry.processing_network.ValueNode;
 
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.AutoAction;
+import frc.team5940.codebase2018.robot.autonomous.auto_actions.IntakeCubeAutoAction;
 import frc.team5940.codebase2018.robot.autonomous.auto_actions.OuttakeCubeAutoAction;
 
 /**
@@ -44,6 +45,8 @@ public class IntakeAutonomousControllerValueNode extends ValueNode<Double> {
 	protected Double updateValue() {
 		if (this.autoActionValueNode.getValue() instanceof OuttakeCubeAutoAction) {
 			return 0.5;
+		} else if(this.autoActionValueNode.getValue() instanceof IntakeCubeAutoAction) {
+			return -0.5;
 		}
 		return 0d;
 	}
