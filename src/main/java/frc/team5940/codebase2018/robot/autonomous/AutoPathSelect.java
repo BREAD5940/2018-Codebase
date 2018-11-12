@@ -201,7 +201,7 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 						false),				
 				new DriveAutoAction(network, logger, "Drive Auto", 1, distanceMovedValueNode),//drive forward to not hit the wall
 				new TurnAutoAction(network, logger, "Turn 30", 25, robotAngleValueNode),  //turn to face switch
-				new DriveAutoAction(network, logger, "Drive Auto", 8, distanceMovedValueNode),//drive forward to switch
+				new DriveAutoAction(network, logger, "Drive Auto", 7.2, distanceMovedValueNode),//drive forward to switch
 //				new TurnAutoAction(network, logger, "Turn 30", -5, robotAngleValueNode),  //turn to face switch
 				new OuttakeCubeAutoAction(network, logger, "Outtake", 1000),//outtake
 		
@@ -209,18 +209,19 @@ public class AutoPathSelect extends ValueNode<AutoPath> {
 				//pyramid code
 				
 				//new DriveAutoAction(network, logger, "Drive Auto", -0.5 , distanceMovedValueNode),//move back to get clear of switch
-				new TurnAutoAction(network, logger, "Turn 13", 11-5, robotAngleValueNode),//turn back to pyramid, used to be 38 until line 203 was commented out 
 				new DriveAutoAction(network, logger, "Drive Auto", -6.45 , distanceMovedValueNode),//move back to pyramid
+				new TurnAutoAction(network, logger, "Turn 13", 11, robotAngleValueNode),//turn back to pyramid, used to be 38 until line 203 was commented out 
+				new DriveAutoAction(network, logger, "Drive Auto", -6 , distanceMovedValueNode),//move back to pyramid
 				new ElevatorAutoAction(network, logger, "Elevator Auto", elevatorHeightValueNode, ElevatorHeight.DOWN,//move elevator down
 						false),
-				new TurnAutoAction(network, logger, "Turn -43", -40, robotAngleValueNode),//straighten out
+				new TurnAutoAction(network, logger, "Turn -43", -35, robotAngleValueNode),//straighten out
 				
 				//Intake cube
 				new ClampAutoAction(network, logger, "clamp", Value.kForward),
-				new DriveAutoAction(network, logger, "Drive Auto", 2.4, distanceMovedValueNode),//drive forward
+				new DriveAutoAction(network, logger, "Drive Auto", 2.6, distanceMovedValueNode),//drive forward
 				new ClampAutoAction(network, logger, "clamp", Value.kReverse),
 				new IntakeCubeAutoAction(network, logger, "Intake", 400),//intake cube
-				new DriveAutoAction(network, logger, "Drive Auto", -2.4, distanceMovedValueNode),//drive back
+				new DriveAutoAction(network, logger, "Drive Auto", -2.6, distanceMovedValueNode),//drive back
 
 
 				//return to switch
